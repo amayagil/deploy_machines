@@ -55,7 +55,7 @@ Create a key pair with the same name of the VM you are to instanciate prior to a
 Do not forget to set your `collections/requirements.yml` file under your working directory. This file contains the path to the collections so they can be used.
 
 ```yaml
-$ cat collections/requirements.yml                                                                                              16:36:56
+$ cat collections/requirements.yml
 collections:
   - name: amazon.aws
     version: 3.2.0
@@ -84,7 +84,7 @@ In both cases, it is recommended to add it as extra vars in the template in the 
 This is an example of a playbook to deploy a RHEL machine on an AWS instance:
 
 ```yaml
-$ cat deploy_aws.yml                                                                                                            16:36:56
+$ cat deploy_aws.yml
 ---
 - name: Deploy EC2 instance
   hosts: all
