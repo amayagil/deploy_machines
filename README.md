@@ -44,6 +44,19 @@ Check the [defaults/main.yml](./defaults/main.yml) for details on variables used
 
 # AWS Considerations
 
+## Key pair
+
 Create a key pair with the same name of the VM you are to instanciate prior to anything, or it won't work.
 
-![Red Hat Ansible Automation](https://github.com/amayagil/deploy_machines/blob/main/images/key_pair.png?raw=true)
+![AWS key pair](https://github.com/amayagil/deploy_machines/blob/main/images/key_pair.png?raw=true)
+
+## Environment variables
+### Create instance
+The needed variables to create an instance in AWS using Ansible SSA collection are:
+![Destroy AWS instance vars](https://github.com/amayagil/deploy_machines/blob/main/images/create_AWS_vm.png?raw=true)
+
+### Destroy instance
+The needed variables to destroy an instance in AWS using Ansible SSA collection are:
+![Destroy AWS instance vars](https://github.com/amayagil/deploy_machines/blob/main/images/destroy_AWS_vm.png?raw=true)
+
+In both cases, it is recommended to add it as extra vars in the template in the controller.
