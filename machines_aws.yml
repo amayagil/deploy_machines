@@ -9,6 +9,7 @@
         type: ec2
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
+      tags: deploy
 
     - name: Destroy AWS instance
       vars:
@@ -17,3 +18,4 @@
         instance_name: rhel-demo-1
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
+      tags: destroy
