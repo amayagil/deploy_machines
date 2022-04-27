@@ -1,0 +1,19 @@
+---
+- name: Deploy EC2 instance
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Deploy AWS instance
+      vars:
+        type: ec2
+      ansible.builtin.include_role:
+        name: ansible_ssa.general.instance
+
+    - name: Destroy AWS instance
+      vars:
+        type: ec2
+        remove: yes
+        instance_name: rhel-demo-1
+      ansible.builtin.include_role:
+        name: ansible_ssa.general.instance
