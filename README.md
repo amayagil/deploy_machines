@@ -46,4 +46,5 @@ Check the [defaults/main.yml](./defaults/main.yml) for details on variables used
 
 Create a key pair with the same name of the VM you are to instanciate prior to anything, or it won't work.
 
-image::images/key_pair.png[Import key pair AWS]
+image::../images/key_pair.png[Import key pair AWS]
+image::https://github.com/amayagil/deploy_machines/blob/main/images/key_pair.png
