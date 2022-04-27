@@ -51,6 +51,26 @@ Create a key pair with the same name of the VM you are to instanciate prior to a
 ![AWS key pair](https://github.com/amayagil/deploy_machines/blob/main/images/key_pair.png?raw=true)
 
 ## Environment variables
+### Requirements
+Do not forget to set your `collections/requirements.yml` file under your working directory. This file contains the path to the collections so they can be used.
+
+[source,bash]
+----
+$ cat collections/requirements.yml                                                                                              16:36:56
+collections:
+  - name: amazon.aws
+    version: 3.2.0
+    source: https://galaxy.ansible.com/
+
+  - name: community.aws
+    version: 3.2.1
+    source: https://galaxy.ansible.com/
+
+  - name: ansible_ssa.general
+    version: 3.2.88
+    source: https://ahub/api/galaxy/content/published/
+----
+
 ### Create instance
 The needed variables to create an instance in AWS using Ansible SSA collection are:
 ![Destroy AWS instance vars](https://github.com/amayagil/deploy_machines/blob/main/images/create_AWS_vm.png?raw=true)
@@ -60,3 +80,22 @@ The needed variables to destroy an instance in AWS using Ansible SSA collection 
 ![Destroy AWS instance vars](https://github.com/amayagil/deploy_machines/blob/main/images/destroy_AWS_vm.png?raw=true)
 
 In both cases, it is recommended to add it as extra vars in the template in the controller.
+
+### Calling the role with a playbook
+This is an example of a playbook to deploy a RHEL machine on an AWS instance:
+
+[source,bash]
+----
+$ cat deploy_aws.yml                                                                                                            16:36:56
+---
+- name: Deploy EC2 instance
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Deploy AWS instance
+      vars:
+        type: ec2
+      ansible.builtin.include_role:
+        name: ansible_ssa.general.instance
+----
