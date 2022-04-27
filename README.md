@@ -54,8 +54,7 @@ Create a key pair with the same name of the VM you are to instanciate prior to a
 ### Requirements
 Do not forget to set your `collections/requirements.yml` file under your working directory. This file contains the path to the collections so they can be used.
 
-[source,bash]
-----
+```yaml
 $ cat collections/requirements.yml                                                                                              16:36:56
 collections:
   - name: amazon.aws
@@ -69,7 +68,7 @@ collections:
   - name: ansible_ssa.general
     version: 3.2.88
     source: https://ahub/api/galaxy/content/published/
-----
+```
 
 ### Create instance
 The needed variables to create an instance in AWS using Ansible SSA collection are:
@@ -84,8 +83,7 @@ In both cases, it is recommended to add it as extra vars in the template in the 
 ### Calling the role with a playbook
 This is an example of a playbook to deploy a RHEL machine on an AWS instance:
 
-[source,bash]
-----
+```yaml
 $ cat deploy_aws.yml                                                                                                            16:36:56
 ---
 - name: Deploy EC2 instance
@@ -98,4 +96,4 @@ $ cat deploy_aws.yml                                                            
         type: ec2
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
-----
+```
