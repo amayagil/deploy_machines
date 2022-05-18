@@ -7,6 +7,8 @@
     - name: Deploy AWS instance
       vars:
         type: ec2
+      debug:
+        msg: hola
       #ansible.builtin.include_role:
         #name: ansible_ssa.general.instance
 
