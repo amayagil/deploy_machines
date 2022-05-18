@@ -9,3 +9,8 @@
         type: ec2
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
+
+    - name: ver parámetros
+      debug:
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
+      loop: "{{ lookup('file', 'locations.yml') | from_yaml }}"
