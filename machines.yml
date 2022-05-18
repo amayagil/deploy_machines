@@ -14,3 +14,4 @@
   ec2_os_type: windows
   instance_name: win-demo1
   instance_flavor: t3.large
+  windows_admin_password: redhat
