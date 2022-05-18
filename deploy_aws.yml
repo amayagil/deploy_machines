@@ -3,16 +3,21 @@
   hosts: all
   gather_facts: false
 
+  # Cada loop itera sobre todas las localizaciones.
+  # El filtro file devuelve los contenidos del fichero locations.yml
+  # El filtro from_yaml convierte de yaml a un objeto iterable
+  
   tasks:
     - name: Deploy AWS instance
       vars:
-        type: ec2
-      debug:
-        msg: hola
-      #ansible.builtin.include_role:
-        #name: ansible_ssa.general.instance
-
-    - name: ver parámetros
-      debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
+        type: "{{ item.type}}"
+        ec2_os_type: "{{ item.ec2_os_type}}"
+        name: "{{ item.name }}"
+      ansible.builtin.include_role:
+        name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+
+    # - name: ver parámetros
+    #   debug:
+    #     msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
+    #   loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
