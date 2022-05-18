@@ -10,6 +10,7 @@
   tasks:
     - name: Deploy AWS instance
       vars:
+        ec2_key_pair: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyZFrPemBWyuo2GnSdgaE7rDHOgk8AlRUv8NZkwP1hNeUyyyKF23cVyIs3bTyNj++50XwazfV7BjYFyZt8rAeepEQfPz2QRC76UyN3ZoaT7IxNvKEhvPU3wsZwZZ7n6HtB+Nk2y9oZK2F2zJdgvG1i4c7XPro6rioXJVvhgm28On1h/rA79Ln470FoOS4gpeXZw+vQt/7bPxRPGuSN8mK0wwKR2AUQZJoSENlXI2+B9dTUG2OA7h+ptdOJzsuY5kZfnmEHSc5vtwyiI0NdAVOxmvY/75uxsej2/ZplmlkLvbiORUsomLip78IoTwQV7IUq6TSw7q7vu4qmEnIKW0SqK/Zg2j+qw0tr572ylcX4ouCbuK4YQpeEqidrU2kSVrnhL3IoKM1gtGu9cYxZ8ab1ZcBZwvG1prS9jcXI1Y/9zh9/BEiIwqXV7dIN2qCeIaTZoWGpEFuFN73KQ79zY+M+xPK8MT+xJ6Ph81/HJUAsoX0GKqv3OMhOZUYV3q+iqOemPlAlu8CloA56SeKNbDWd7pS9HkV1vt6x+AUMf4PhxHYwgF7c+h0B4PyPQJL3lw6axB7k1p4b/EGggyTttK9SV1oROfUX4o8yQGED8c4/1TYAsLsBFxLdEIsT4wpif428HHNoVI3SBRy2NgpJYZUSuvGGRqJ/2E/YoIMrNd80Vw== amaya@redhat.com"
         type: "{{ item.type}}"
         ec2_os_type: "{{ item.ec2_os_type}}"
         instance_name: "{{ item.name }}"
