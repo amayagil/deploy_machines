@@ -15,4 +15,4 @@
     - name: ver parámetros
       debug:
         msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
-      loop: "{{ lookup('file', 'locations.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
