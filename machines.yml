@@ -1,0 +1,16 @@
+---
+- name: rhel-demo1
+  type: ec2
+  ec2_os_type: linux
+  instance_name: rhel-demo-1
+  instance_flavor: m4.large
+- name: rhel-demo2
+  type: ec2
+  ec2_os_type: linux
+  instance_name: rhel-demo-1
+  instance_flavor: m4.large
+- name: win-demo1
+  type: ec2
+  ec2_os_type: windows
+  instance_name: rhel-demo-1
+  instance_flavor: m4.large
