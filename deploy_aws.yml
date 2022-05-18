@@ -13,6 +13,7 @@
         type: "{{ item.type}}"
         ec2_os_type: "{{ item.ec2_os_type}}"
         instance_name: "{{ item.name }}"
+        instance_flavor: "{{ item.instance_flavor }}"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
