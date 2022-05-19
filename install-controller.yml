@@ -1,0 +1,9 @@
+---
+- name: Install Automation Controller
+  hosts: rhel-demo1
+  gather_facts: false
+  
+  tasks:
+    - name: Install an Automation Controller
+      ansible.builtin.include_role:
+        name: ansible.ssa.general.controller_setup
