@@ -13,4 +13,4 @@
         controller_ah_instance_name: "rhel-demo1"
 
       ansible.builtin.include_role:
-        name: ansible.ssa.general.controller_setup
+        name: ansible_ssa.general.controller_setup
