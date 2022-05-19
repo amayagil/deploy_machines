@@ -7,7 +7,7 @@
 
   pre_tasks:
     - name: install python3-dnf
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: python3-dnf
         state: present
 
