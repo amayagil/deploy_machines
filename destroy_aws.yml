@@ -6,7 +6,10 @@
   tasks:
     - name: Deploy AWS instance
       vars:
-        type: ec2
+        type: "{{ item.type}}"
+        instance_name: "{{ item.name }}"
+        windows_admin_password: "{{ item.windows_admin_password }}"
         remove: yes
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
