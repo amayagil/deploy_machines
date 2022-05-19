@@ -6,8 +6,10 @@
   tasks:
     - name: Deploy AWS instance
       vars:
+        ec2_region: "eu-central-1"
         type: "{{ item.type}}"
         instance_name: "{{ item.name }}"
+        ec2_os_type: "{{ item.ec2_os_type}}"
         windows_admin_password: "{{ item.windows_admin_password }}"
         remove: yes
       ansible.builtin.include_role:
