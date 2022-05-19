@@ -2,11 +2,18 @@
 - name: Install Automation Controller
   hosts: all
   gather_facts: false
-  
+  vars:
+    instance_name: "rhel-demo1"
+
+  pre_tasks:
+    - name: install python3-dnf
+      ansible.builtin.yum:
+        name: python3-dnf
+        state: present
+
   tasks:
     - name: Install an Automation Controller
       vars:
-        instance_name: "rhel-demo1"
         controller_admin_password: "redhat"
         controller_pg_password: "redhat"
         controller_ah_enable: true

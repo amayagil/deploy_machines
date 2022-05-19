@@ -3,12 +3,6 @@
   hosts: all
   gather_facts: false
 
-  pre_tasks:
-    - name: install python3-dnf
-      ansible.builtin.yum:
-        name: python3-dnf
-        state: present
-
   tasks:
     - name: Deploy AWS instance
       vars:
