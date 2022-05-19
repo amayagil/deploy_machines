@@ -1,9 +1,16 @@
 ---
 - name: Install Automation Controller
-  hosts: rhel-demo1
+  hosts: all
   gather_facts: false
   
   tasks:
     - name: Install an Automation Controller
+      vars:
+        instance_name: rhel-demo1
+        controller_admin_password: "redhat"
+        controller_pg_password: "redhat"
+        controller_ah_enable: true
+        controller_ah_instance_name: rhel-demo1
+
       ansible.builtin.include_role:
         name: ansible.ssa.general.controller_setup
