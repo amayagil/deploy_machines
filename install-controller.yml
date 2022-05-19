@@ -6,7 +6,7 @@
   tasks:
     - name: Install an Automation Controller
       vars:
-        instance_name: rhel-demo1
+        instance_name: "rhel-demo1"
         controller_admin_password: "redhat"
         controller_pg_password: "redhat"
         controller_ah_enable: true
