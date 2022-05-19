@@ -10,3 +10,8 @@ collections:
   - name: ansible_ssa.general
     version: 3.2.88
     source: https://ahub/api/galaxy/content/published/
+  
+  - name: community.general
+    version: 4.8.0
+    source: https://galaxy.ansible.com/
+
