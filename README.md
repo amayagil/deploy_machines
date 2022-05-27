@@ -97,3 +97,26 @@ $ cat deploy_aws.yml
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
 ```
+
+## Install an Automation Controller
+The very same ```name: ansible_ssa.general.instance``` installs and configures an Automation Controller on a given host, we simply need to set the correct variables and configure the machine credentials for the newly deployed hosts on AWS.
+
+### Credentials
+The credentials we now need to add to our template are both the AWS access credentials and the one needed to log in the new instances deployed. Even if we have the key uploaded to EC2, we still need the machine credential to be added to the template in our Automation Controller.
+
+Machine credentials have to be defined in this fashion:
+![Machine Credentials AWS](https://github.com/amayagil/deploy_machines/blob/main/images/machine_ec2_creds.png?raw=true)
+
+It is important to note here, that user must be set to ```ec2-user``` and ```Privilege Escalation Method```must be set to ```true```.
+
+Template must be configured on the following fashion:
+![Install AC AWS](https://github.com/amayagil/deploy_machines/blob/main/images/install_ac_template.png?raw=true)
+
+It is important to note here that credentials being used are both the AWS credentials and the machine ones. Also, do not forget to set the following variables accordingly for registration into RHSM:
+```
+rhsm_username
+rhsm_password
+rhsm_pool_id
+```
+
+
