@@ -2,6 +2,7 @@
 - name: Install Automation Controller
   hosts: all
   gather_facts: true
+  become: true
   vars:
     instance_name: "rhel-demo1"
 
