@@ -6,9 +6,11 @@
     instance_name: "rhel-demo1"
 
   pre_tasks:
-    - name: ver hostname
-      debug:
-        msg: "ansible_hostname:  {{ ansible_hostname }}"
+    - name: What is my inventory_hostname
+      debug: var={{inventory_hostname}}
+
+    - name: What is my ansible_hostname
+      debug: var={{ansible_hostname}}
       
     - name: install python3-dnf
       ansible.builtin.dnf:
