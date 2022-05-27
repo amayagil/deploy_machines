@@ -6,9 +6,9 @@
     instance_name: "rhel-demo1"
 
   pre_tasks:
-    - name: install python2-dnf
+    - name: install python3-dnf
       ansible.builtin.dnf:
-        name: python2-dnf
+        name: python3-dnf
         state: present
 
   tasks:
