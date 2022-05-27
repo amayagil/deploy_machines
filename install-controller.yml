@@ -6,6 +6,9 @@
     instance_name: "rhel-demo1"
 
   pre_tasks:
+    - debug: ver hostname
+      msg: "ansible_hostname:  {{ ansible_hostname }}"
+      
     - name: install python3-dnf
       ansible.builtin.dnf:
         name: python3-dnf
