@@ -7,10 +7,12 @@
 
   pre_tasks:
     - name: What is my inventory_hostname
-      debug: var={{ inventory_hostname }}
+      debug: 
+        msg: "inventory_hostname: {{ inventory_hostname }}"
 
     - name: What is my ansible_hostname
-      debug: var={{ ansible_hostname }}
+      debug: 
+        msg:" ansible_hostname: {{ ansible_hostname }}"
       
     - name: install python3-dnf
       ansible.builtin.dnf:
