@@ -18,6 +18,9 @@
         controller_pg_password: "redhat"
         controller_ah_enable: true
         controller_ah_instance_name: "rhel-demo1"
+        username: "amaya.gil"
+        password: "ba58o35s"
+
 
       ansible.builtin.include_role:
         name: ansible_ssa.general.controller_setup
