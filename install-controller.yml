@@ -17,8 +17,9 @@
     - name: Copy tarball to host
       ansible.builtin.copy:
         src: /tmp/ansible-automation-platform-setup-2.1.1-1.tar.gz
-        dest: /root/
+        dest: /tmp/ansible-automation-platform-setup-2.1.1-1.tar.gz
         remote_src: no
+      delegate_to: localhost
  
     - name: copy tarball to host
       ansible.builtin.unarchive:
