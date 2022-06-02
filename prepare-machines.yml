@@ -15,13 +15,10 @@
         msg: "ansible_hostname: {{ ansible_hostname }}"
 
   tasks:
-    - name: Install an Automation Controller
-      vars:
-        controller_admin_password: "redhat"
-        controller_pg_password: "redhat"
-        controller_ah_enable: true
-        controller_ah_instance_name: "rhel-demo1"
-
+    - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
-        - name: rhsm-registration
-        - name: insights-client-role
+        name: rhsm-registration
+      
+    - name: Prepare machines with Insights Registration
+      ansible.builtin.include_role:
+        name: insights-client-role
