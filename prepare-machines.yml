@@ -21,4 +21,4 @@
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
-        name: insights-client-role
+        name: insights-registration
