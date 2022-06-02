@@ -1,0 +1,7 @@
+---
+# defaults file for ac-install
+offline_token: ""
+rhsm_user: ""
+rhsm_password: ""
+rhsm_pool_id: ""
+controller_version: ""
