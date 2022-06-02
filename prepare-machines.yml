@@ -1,0 +1,27 @@
+---
+- name: Prepare machines for use with Red Hat
+  hosts: all
+  gather_facts: true
+  vars:
+    instance_name: "rhel-demo1"
+
+  pre_tasks:
+    - name: What is my inventory_hostname
+      debug: 
+        msg: "inventory_hostname: {{ inventory_hostname }}"
+
+    - name: What is my ansible_hostname
+      debug: 
+        msg: "ansible_hostname: {{ ansible_hostname }}"
+
+  tasks:
+    - name: Install an Automation Controller
+      vars:
+        controller_admin_password: "redhat"
+        controller_pg_password: "redhat"
+        controller_ah_enable: true
+        controller_ah_instance_name: "rhel-demo1"
+
+      ansible.builtin.include_role:
+        - name: rhsm-registration
+        - name: insights-client-role
