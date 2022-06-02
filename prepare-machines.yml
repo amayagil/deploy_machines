@@ -14,11 +14,17 @@
       debug: 
         msg: "ansible_hostname: {{ ansible_hostname }}"
 
+    - name: insights vars
+      debug: 
+        msg: "rhsm_username: {{ rhsm_username }} rhsm_password: {{ rhsm_password }} auto_config: {{ auto_config }} authmethod: {{ authmethod }} insights_display_name: {{ insights_display_name }} insights_proxy: {{ insights_proxy }}"
+
   tasks:
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
         name: rhsm-registration
+      when: ansible_os_family == 'RedHat'
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
         name: insights-registration
+      when: ansible_os_family == 'RedHat'
