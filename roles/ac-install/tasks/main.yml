@@ -5,7 +5,8 @@
     - name: offline_token
       prompt: What is your Offline Token? (Check README)
       unsafe: yes
-      private: yes    
+      private: yes 
+      register: offline_token | default (omit)
         
   tasks:
     - name: Retrieve an access token
@@ -51,16 +52,19 @@
       prompt: What is your RHSM Username (RHNID)?
       unsafe: yes
       private: no
+      register: rhsm_user | default (omit)
 
     - name: rhsm_password
       prompt: What is your RHSM Password?
       unsafe: yes
       private: yes
+      register: rhsm_password | default (omit)
 
     - name: rhsm_pool_id
       prompt: What is the pool-id for your subscription (check README)?
       unsafe: yes
       private: no
+      register: rhsm_pool_id | default (omit)
 
   tasks:
     - name: Register system with Red Hat Subscription Manager
