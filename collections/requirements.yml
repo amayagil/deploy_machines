@@ -18,7 +18,4 @@ collections:
   - name: community.crypto
     version: 2.3.1
     source: https://galaxy.ansible.com/
-    
-  - name: redhatinsights.insights-client
-    version: 1.2.0
-    source: https://galaxy.ansible.com/
+
