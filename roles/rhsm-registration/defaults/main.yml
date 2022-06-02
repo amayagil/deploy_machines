@@ -1,2 +1,5 @@
 ---
 # defaults file for rhsm-registration
+rhsm_user: ""
+rhsm_password: ""
+rhsm_pool_id: ""
