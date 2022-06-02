@@ -26,5 +26,5 @@
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
-        name: insights-registration
+        name: insights-client-role
       when: ansible_os_family == 'RedHat'
