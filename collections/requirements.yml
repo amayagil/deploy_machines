@@ -19,4 +19,6 @@ collections:
     version: 2.3.1
     source: https://galaxy.ansible.com/
     
-
+  - name: redhatinsights.insights
+    version: 1-0.7
+    source: https://galaxy.ansible.com/
