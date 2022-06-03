@@ -21,8 +21,10 @@
   when: register_path.stat.exists
 
 - name: verificar contenido fichero
+  vars:
+    contenido: "{{ lookup('file', '/etc/insights-client/insights-client.conf') }}"
   debug:
-    msg: "contenido de /etc/insights-client/insights-client.conf es {{lookup('file', '/etc/insights-client/insights-client.conf') }}"
+    msg: "contenido de /etc/insights-client/insights-client.conf es {{ contenido }}"
 
 - name: Register Insights Client
   ansible.builtin.command: insights-client --register
