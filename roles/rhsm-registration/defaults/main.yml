@@ -3,3 +3,5 @@
 rhsm_user: ""
 rhsm_password: ""
 rhsm_pool_id: ""
+activationkey: ""
+org_id: ""
