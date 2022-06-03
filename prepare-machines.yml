@@ -33,7 +33,7 @@
 
     - name: salida rhsm-registration
       debug: 
-        msg: "rhsm_out: {{ rhsm_out.out }}"
+        msg: "rhsm_out: {{ rhsm_out.rc }}"
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
