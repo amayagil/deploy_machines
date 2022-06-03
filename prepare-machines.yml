@@ -28,6 +28,11 @@
         name: rhsm-registration
       when: ansible_os_family == 'RedHat'
       #loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      register: rhsm_out
+
+    - name: salida rhsm-registration
+      debug: 
+        msg: "rhsm_out: {{ rhsm_out }}"
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
