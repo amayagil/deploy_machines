@@ -32,6 +32,12 @@
     mode: og=rx
   become: true
 
+- name: Create machine_id file
+  file:
+    path: /etc/insights-client/machine-id
+    state: touch
+    mode: 644
+
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
     path: /etc/insights-client/machine-id
