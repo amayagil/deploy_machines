@@ -2,8 +2,6 @@
 - name: Prepare machines for use with Red Hat
   hosts: all
   gather_facts: true
-  vars:
-    instance_name: "rhel-demo1"
 
   pre_tasks:
     - name: What is my inventory_hostname
@@ -28,15 +26,11 @@
       ansible.builtin.include_role:
         name: rhsm-registration
       when: ansible_os_family == 'RedHat'
-      #loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
       register: rhsm_out
-
-    - name: salida rhsm-registration
-      debug: 
-        msg: "rhsm_out: {{ rhsm_out }}"
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
         name: insights-registration
       when: ansible_os_family == 'RedHat'
-      #loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"

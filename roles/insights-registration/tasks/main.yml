@@ -10,21 +10,15 @@
     src: templates/insights-client.conf.j2
   become: true
 
-- name: verificar q el fichero de config existe
-  stat:
-    path: /etc/insights-client/insights-client.conf
-  register: register_path
+#- name: verificar q el fichero de config existe
+#  stat:
+#    path: /etc/insights-client/insights-client.conf
+#  register: register_path
 
-- name: mostrar salida
-  debug:
-    msg: "The file or directory exists, {{ register_path }}"
-  when: register_path.stat.exists
-
-- name: verificar contenido fichero
-  vars:
-    contenido: "{{ lookup('file', '/etc/insights-client/insights-client.conf', errors='ignore') }}"
-  debug:
-    msg: "contenido de /etc/insights-client/insights-client.conf es {{ contenido }}"
+#- name: mostrar salida
+#  debug:
+#    msg: "The file or directory exists, {{ register_path }}"
+#  when: register_path.stat.exists
   
 - name: Change permissions of Insights Config directory so that Insights System ID can be read
   file:
@@ -35,12 +29,6 @@
 - name: Register Insights Client
   ansible.builtin.command: insights-client --register
   become: true
-  
-#- name: Create machine_id file
-#  file:
-#    path: /etc/insights-client/machine-id
-#    state: touch
-#    mode: 644
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:

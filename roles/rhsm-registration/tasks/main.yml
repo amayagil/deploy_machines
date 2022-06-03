@@ -21,6 +21,6 @@
     state: present
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
-    pool: '^Red Hat Enterprise Server$'
+    pool: '^(Red Hat Enterprise Server|Red Hat Ansible Automation Platform)$'
     force_register: true
   when: rhsm_username != "" or rhsm_password != ""
