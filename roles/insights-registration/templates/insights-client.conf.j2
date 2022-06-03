@@ -1,6 +1,6 @@
 [insights-client]
-username="{{ rhsm_username | default(omit) }}"
-password="{{ rhsm_password | default(omit) }}"
+username={{ rhsm_username | default(omit) }}
+password={{ rhsm_password | default(omit) }}
 auto_config={{ auto_config | default(omit) }}
 authmethod={{ authmethod | default(omit) }}
 display_name="{{ display_name | default(omit) }}"
