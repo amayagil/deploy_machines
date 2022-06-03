@@ -12,12 +12,12 @@
 
     - name: What is my ansible_hostname
       debug: 
-        msg: "ansible_hostname: {{ ansible_hostname }}"
+        msg: "ansible_hostname: {{ ansible_hostname }} corriendo OS  {{ ansible_os_family }}"
 
     - name: rhsm vars
       debug:
         msg: "username: {{ rhsm_username }} password: {{ rhsm_password }} pool_ids: {{ rhsm_poolid | default (omit) }}"
-        
+
     - name: insights vars
       debug: 
         msg: "rhsm_username: {{ rhsm_username }} auto_config: {{ auto_config }} authmethod: {{ authmethod }} display_name: {{ display_name }}"
