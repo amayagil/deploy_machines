@@ -17,7 +17,7 @@
 
 - name: mostrar salida
   debug:
-    msg: "The file or directory exists"
+    msg: "The file or directory exists, {{ register_path }}"
   when: register_path.stat.exists
 
 - name: verificar contenido fichero
