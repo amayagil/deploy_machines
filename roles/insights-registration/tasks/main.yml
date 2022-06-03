@@ -1,6 +1,6 @@
 ---
 - name: Install 'insights-client'
-  yum:
+  redhat.insights.yum:
     name: insights-client
   become: true
 
@@ -22,13 +22,9 @@
 
 - name: verificar contenido fichero
   vars:
-    contenido: "{{ lookup('file', '/etc/insights-client/insights-client.conf') }}"
+    contenido: "{{ lookup('file', '/etc/insights-client/insights-client.conf', errors='ignore') }}"
   debug:
     msg: "contenido de /etc/insights-client/insights-client.conf es {{ contenido }}"
-
-- name: Register Insights Client
-  ansible.builtin.command: insights-client --register
-  become: true
   
 - name: Change permissions of Insights Config directory so that Insights System ID can be read
   file:
@@ -54,4 +50,8 @@
     src: insights.fact
     dest: /etc/ansible/facts.d
     mode: a+x
+  become: true
+
+- name: Register Insights Client
+  ansible.builtin.command: insights-client --register
   become: true
