@@ -17,10 +17,20 @@
     - name: insights vars
       debug: 
         msg: "rhsm_username: {{ rhsm_username }} auto_config: {{ auto_config }} authmethod: {{ authmethod }} display_name: {{ display_name }}"
-    
+        
+    - name: verificar q el fichero de config existe
+      stat:
+        path: /etc/insights-client/insights-client.conf
+      register: register_path
+
+    - name: mostrar salida
+      debug:
+        msg: "The file or directory exists"
+      when: register_path.stat.exists
+      
     - name: file content 
       debug: 
-        msg: "the value of foo.txt is {{lookup('file', '/etc/insights-client.conf.j2') }}"
+        msg: "the value of foo.txt is {{lookup('file', '/etc/insights-client/insights-client.conf.j2') }}"
 
 
   tasks:
