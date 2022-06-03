@@ -1,6 +1,6 @@
 ---
 - name: Install 'insights-client'
-  redhat.insights.yum:
+  yum:
     name: insights-client
   become: true
 
