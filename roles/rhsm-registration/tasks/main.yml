@@ -21,4 +21,4 @@
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
     pool: '^Red Hat Enterprise Server$'
-  when: rhsm_username != "" and rhsm_password != ""
+  when: rhsm_username != "" or rhsm_password != ""
