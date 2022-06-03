@@ -20,7 +20,7 @@
     
     - name: file content 
       debug: 
-        msg: "the value of foo.txt is {{lookup('file', 'templates/insights-client.conf.j2') }}"
+        msg: "the value of foo.txt is {{lookup('file', '/etc/insights-client.conf.j2') }}"
 
 
   tasks:
