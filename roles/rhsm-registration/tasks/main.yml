@@ -11,6 +11,7 @@
     password: "{{ rhsm_password }}"
     state: present
     auto_attach: true
+    force_register: true
     pool_ids:
       - "{{ rhsm_poolid | default (omit) }}"
   when: rhsm_username != "" and rhsm_password != ""
@@ -21,4 +22,5 @@
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
     pool: '^Red Hat Enterprise Server$'
+    force_register: true
   when: rhsm_username != "" or rhsm_password != ""
