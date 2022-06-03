@@ -10,6 +10,20 @@
     src: templates/insights-client.conf.j2
   become: true
 
+- name: verificar q el fichero de config existe
+  stat:
+    path: /etc/insights-client/insights-client.conf
+  register: register_path
+
+- name: mostrar salida
+  debug:
+    msg: "The file or directory exists"
+  when: register_path.stat.exists
+
+- name: verificar contenido fichero
+  debug:
+    msg: "contenido de /etc/insights-client/insights-client.conf es {{lookup('file', '/etc/insights-client/insights-client.conf') }}"
+
 - name: Register Insights Client
   ansible.builtin.command: insights-client --register
   become: true
