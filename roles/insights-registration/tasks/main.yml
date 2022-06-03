@@ -32,11 +32,15 @@
     mode: og=rx
   become: true
 
-- name: Create machine_id file
-  file:
-    path: /etc/insights-client/machine-id
-    state: touch
-    mode: 644
+- name: Register Insights Client
+  ansible.builtin.command: insights-client --register
+  become: true
+  
+#- name: Create machine_id file
+#  file:
+#    path: /etc/insights-client/machine-id
+#    state: touch
+#    mode: 644
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
@@ -56,8 +60,4 @@
     src: insights.fact
     dest: /etc/ansible/facts.d
     mode: a+x
-  become: true
-
-- name: Register Insights Client
-  ansible.builtin.command: insights-client --register
   become: true
