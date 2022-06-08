@@ -55,15 +55,14 @@
 
 - name: verificar q el fichero de config existe
   stat:
-    path: /etc/insights-client/insights-client.conf
+    path: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
   register: register_path
 
 - name: mostrar salida
   debug:
-    msg: "The file or directory exists, {{ register_path }}"
+    msg: "El fichero es como Teruel, existe, {{ register_path }}"
   when: register_path.stat.exists
   
-
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
     src: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
