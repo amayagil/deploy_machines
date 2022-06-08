@@ -14,7 +14,7 @@
 
     - name: rhsm vars
       debug:
-        msg: "username: {{ rhsm_username | default (none) }} password: {{ rhsm_password }} pool_ids: {{ rhsm_poolid }} org_id: {{ org_id }} ak: {{ activationkey }}"
+        msg: "username: {{ rhsm_username | default (none) }} password: {{ rhsm_password }} pool_ids: {{ rhsm_poolid }} org_id: {{ org_id }} ak: {{ activationkey }} | default (omit) "
       ignore_errors: yes
 
     - name: insights vars
