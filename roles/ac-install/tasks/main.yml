@@ -34,7 +34,6 @@
   get_url:
     url: "{{ installer_url }}"
     dest: "/tmp/{{ installer_package }}"
-    remote_src: yes
 
 - name: Enable required RHSM repositories
   community.general.rhsm_repository:
@@ -72,6 +71,7 @@
   ansible.builtin.unarchive:
     src: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
     dest: ~/aap2
+    remote_src: yes
 
 - name: Retrieve AAP2 folder name
   find:
