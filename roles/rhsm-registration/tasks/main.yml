@@ -8,7 +8,6 @@
 - name: register on RHN with user and pass
   community.general.redhat_subscription:
     state: present
-    #auto_attach: true
     #force_register: true
     username: "{{ rhsm_username }}"
     password: "{{ rhsm_password }}"    
@@ -18,9 +17,8 @@
 - name: register on RHN with AK
   community.general.redhat_subscription:
     state: present
-    auto_attach: true
     force_register: true
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
     pool: "{{ rhsm_poolid }}"
-  when: rhsm_username != "" or rhsm_password != "" and activationkey != ""
+  when: ( rhsm_username != "" or rhsm_password != "" ) and activationkey != ""
