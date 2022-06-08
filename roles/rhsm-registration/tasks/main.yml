@@ -23,4 +23,4 @@
     org_id: "{{ org_id }}"
     pool: "{{ rhsm_poolid }}"
     force_register: true
-  when: rhsm_username != "" or rhsm_password != ""
+  when: rhsm_username != "" or rhsm_password != "" and activationkey != ""
