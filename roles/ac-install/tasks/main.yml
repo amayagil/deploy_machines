@@ -1,5 +1,4 @@
 ---
-- name: Download AAP2 Package 
 #  hosts: "{{ controller_ah_instance_name }}"
 #  vars_prompt:
 #    - name: offline_token
@@ -7,81 +6,70 @@
 #      unsafe: yes
 #      private: yes 
 #      register: offline_token | default (omit)
-  pre_tasks:
-    - name: debug cosas en role aap2
-      debug:
-        msg: "hostvars['localhost']['installer_package']: {{ hostvars['localhost']['installer_package'] }}"
-  
-  tasks:
-    - name: Retrieve an access token
-      uri:
-        url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-        body:
-          grant_type: refresh_token
-          client_id: rhsm-api
-          refresh_token: "{{ offline_token }}"
-        body_format: form-urlencoded
-        method: POST
-      register: response
+- name: Retrieve an access token
+  uri:
+    url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+    body:
+      grant_type: refresh_token
+      client_id: rhsm-api
+      refresh_token: "{{ offline_token }}"
+    body_format: form-urlencoded
+    method: POST
+  register: response
 
-    - name: Workaround to non-working uri module on success
-      shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum.aap2 }}/download'
-      register: imageurl
+- name: Workaround to non-working uri module on success
+  shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum.aap2 }}/download'
+  register: imageurl
 
-    - name: Set result as facts
-      ansible.builtin.set_fact:
-        installer_url: "{{ (imageurl.stdout | from_json).body.href }}"
-        installer_package: "{{(imageurl.stdout | from_json).body.filename }}"
+- name: Set result as facts
+  ansible.builtin.set_fact:
+    installer_url: "{{ (imageurl.stdout | from_json).body.href }}"
+    installer_package: "{{(imageurl.stdout | from_json).body.filename }}"
 
-    - name: Retrieve Installer
-      get_url:
-        url: "{{ installer_url }}"
+- name: Retrieve Installer
+  get_url:
+    url: "{{ installer_url }}"
 
-    - name: Enable required RHSM repositories
-      community.general.rhsm_repository:
-        name: 
-          - ansible-automation-platform-{{ controller_version }}-for-rhel-8-x86_64-rpms
-        state: enabled
-      become: true
+- name: Enable required RHSM repositories
+  community.general.rhsm_repository:
+    name: 
+      - ansible-automation-platform-{{ controller_version }}-for-rhel-8-x86_64-rpms
+    state: enabled
+  become: true
 
-    - name: Ensure all packages are updated
-      yum:
-        name: '*'
-        state: latest
-      become: true
+- name: Ensure all packages are updated
+  yum:
+    name: '*'
+    state: latest
+  become: true
 
-- name: AAP Controller configuration playbook
-  hosts: controller
-  vars_prompt:
+- name: Create destination directory
+  file:
+    path: ~/aap2
+    state: directory
 
-  tasks:
-    - name: Create destination directory
-      file:
-        path: ~/aap2
-        state: directory
+- name: Extract AAP2 setup content
+  ansible.builtin.unarchive:
+    src: "{{ hostvars['localhost']['installer_package'] }}"
+    dest: ~/aap2
 
-    - name: Extract AAP2 setup content
-      ansible.builtin.unarchive:
-        src: "{{ hostvars['localhost']['installer_package'] }}"
-        dest: ~/aap2
+- name: Retrieve AAP2 folder name
+  find:
+    paths: ~/aap2
+    file_type: directory
+  register: untar
 
-    - name: Retrieve AAP2 folder name
-      find:
-        paths: ~/aap2
-        file_type: directory
-      register: untar
+- name: Copy inventory for controller
+  copy:
+    src: inventory-controller
+    dest: "{{ untar.files[0].path }}/inventory"
 
-    - name: Copy inventory for controller
-      copy:
-        src: inventory-controller
-        dest: "{{ untar.files[0].path }}/inventory"
+- name: Install AAP2
+  ansible.builtin.shell: 
+    cmd: ./setup.sh
+    chdir: "{{ untar.files[0].path }}"
+  become: true        
 
-    - name: Install AAP2
-      ansible.builtin.shell: 
-        cmd: ./setup.sh
-        chdir: "{{ untar.files[0].path }}"
-      become: true        
-
-    - name: Reboot server
-      reboot: 
-      become: true
+- name: Reboot server
+  reboot: 
+  become: true
