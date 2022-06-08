@@ -1,6 +1,6 @@
 ---
 - name: Install AAP2
-  hosts: all
+  hosts: "{{ controller_instance_name }}"
   gather_facts: true
   vars:
     instance_name: "rhel-demo1"
