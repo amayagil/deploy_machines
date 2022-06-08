@@ -53,6 +53,17 @@
   debug:
     msg: "src: {{ hostvars[inventory_hostname]['installer_package'] }}"
 
+- name: verificar q el fichero de config existe
+  stat:
+    path: /etc/insights-client/insights-client.conf
+  register: register_path
+
+- name: mostrar salida
+  debug:
+    msg: "The file or directory exists, {{ register_path }}"
+  when: register_path.stat.exists
+  
+
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
     src: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
