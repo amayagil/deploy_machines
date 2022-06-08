@@ -87,6 +87,7 @@
   copy:
     src: inventory-controller
     dest: "{{ untar.files[0].path }}/inventory"
+    remote_src: yes
 
 - name: Install AAP2
   ansible.builtin.shell: 
