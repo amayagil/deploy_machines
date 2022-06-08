@@ -12,8 +12,7 @@
     state: present
     auto_attach: true
     force_register: true
-    pool_ids:
-      - "{{ rhsm_poolid }}"
+    pool_ids: "{{ rhsm_poolid }}"
   when: rhsm_username != "" and rhsm_password != "" and activationkey == ""
 
 - name: register on RHN
