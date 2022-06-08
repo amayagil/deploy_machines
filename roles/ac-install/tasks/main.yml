@@ -21,6 +21,10 @@
   shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum_aap2 }}/download'
   register: imageurl
 
+- name: ver imageurl
+  debug:
+    msg: "imageurl: {{ imageurl }}"
+
 - name: Set result as facts
   ansible.builtin.set_fact:
     installer_url: "{{ (imageurl.stdout | from_json).body.href }}"
@@ -50,7 +54,7 @@
     path: ~/aap2
     state: directory
 
-- name: ver path
+- name: ver paquete
   debug:
     msg: "src: {{ hostvars[inventory_hostname]['installer_package'] }}"
 
