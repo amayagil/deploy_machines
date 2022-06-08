@@ -51,7 +51,7 @@
 
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
-    src: "{{ hostvars['localhost']['installer_package'] }}"
+    src: "{{ hostvars['inventory_hostname']['installer_package'] }}"
     dest: ~/aap2
 
 - name: Retrieve AAP2 folder name
