@@ -29,7 +29,8 @@
 - name: Retrieve Installer
   get_url:
     url: "{{ installer_url }}"
-    dest: "/tmp/{{ installer_package }}"
+    dest: "{{ playbook_dir }}/{{ installer_package }}"
+    #dest: "/tmp/{{ installer_package }}"
 
 - name: Enable required RHSM repositories
   community.general.rhsm_repository:
@@ -55,7 +56,7 @@
 
 - name: verificar q el fichero de config existe
   stat:
-    path: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
+    path: "{{ playbook_dir }}/{{ hostvars[inventory_hostname]['installer_package'] }}"
   register: register_path
 
 - name: mostrar salida
