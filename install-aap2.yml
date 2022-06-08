@@ -2,17 +2,6 @@
 - name: Install AAP2
   hosts: "{{ controller_instance_name }}"
   gather_facts: true
-  vars:
-    instance_name: "rhel-demo1"
-
-  pre_tasks:
-    - name: What is my inventory_hostname
-      debug: 
-        msg: "inventory_hostname: {{ inventory_hostname }}"
-
-    - name: What is my ansible_hostname
-      debug: 
-        msg: "ansible_hostname: {{ ansible_hostname }}"
      
   tasks:
     - name: Install an Automation Controller
