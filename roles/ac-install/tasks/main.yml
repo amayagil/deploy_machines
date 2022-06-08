@@ -39,6 +39,7 @@
     - name: debug cosas
       debug:
         msg: "hostvars['localhost']['installer_package'] {{ hostvars['localhost']['installer_package'] }}"
+
     - name: Set result as facts
       ansible.builtin.set_fact:
         installer_url: "{{ (imageurl.stdout | from_json).body.href }}"
@@ -111,7 +112,7 @@
 
     - name: Extract AAP2 setup content
       ansible.builtin.unarchive:
-        src: "{{ hostvars['localhost']['installer_package'] }}"
+        src: "{{ controller_ah_instance_name['installer_package'] }}"
         #src: "{{ hostvars['localhost']['installer_package'] }}"
         dest: ~/aap2
 
