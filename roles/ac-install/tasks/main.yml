@@ -29,6 +29,7 @@
 - name: Retrieve Installer
   get_url:
     url: "{{ installer_url }}"
+    dest: "/tmp/{{ installer_package }}"
 
 - name: Enable required RHSM repositories
   community.general.rhsm_repository:
