@@ -9,7 +9,7 @@
   community.general.redhat_subscription:
     state: present
     #auto_attach: true
-    force_register: true
+    #force_register: true
     username: "{{ rhsm_username }}"
     password: "{{ rhsm_password }}"    
     pool_ids: "{{ rhsm_poolid }}"
