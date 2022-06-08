@@ -49,10 +49,6 @@
     path: ~/aap2
     state: directory
 
-- name: debug cosas
-  debug:
-    msg: "src: hostvars[localhost][installer_package]: {{ hostvars['localhost']['installer_package'] }}"
-
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
     src: "{{ hostvars['localhost']['installer_package'] }}"
