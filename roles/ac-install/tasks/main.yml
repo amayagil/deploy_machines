@@ -34,7 +34,7 @@
   get_url:
     url: "{{ installer_url }}"
     dest: "/tmp/{{ installer_package }}"
-    mode: '0777'
+    remote_src: yes
 
 - name: Enable required RHSM repositories
   community.general.rhsm_repository:
