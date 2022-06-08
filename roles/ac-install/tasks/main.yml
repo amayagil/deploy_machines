@@ -1,12 +1,12 @@
 ---
 - name: Download AAP2 Package 
-  hosts: localhost
-  vars_prompt:
-    - name: offline_token
-      prompt: What is your Offline Token? (Check README)
-      unsafe: yes
-      private: yes 
-      register: offline_token | default (omit)
+  hosts: "{{ controller_ah_instance_name }}"
+#  vars_prompt:
+#    - name: offline_token
+#      prompt: What is your Offline Token? (Check README)
+#      unsafe: yes
+#      private: yes 
+#      register: offline_token | default (omit)
         
   tasks:
     - name: Retrieve an access token
@@ -35,6 +35,10 @@
 #          Authorization: 'Bearer {{ response.json.access_token }}'
 #          User-Agent: curl/7.61.1
 #      register: imageurl
+
+    - name: debug cosas
+      debug:
+        msg: "hostvars['localhost']['installer_package'] {{ hostvars['localhost']['installer_package'] }}"
     - name: Set result as facts
       ansible.builtin.set_fact:
         installer_url: "{{ (imageurl.stdout | from_json).body.href }}"
@@ -43,38 +47,6 @@
     - name: Retrieve Installer
       get_url:
         url: "{{ installer_url }}"
-        dest: "{{ playbook_dir }}/{{ installer_package }}"
-
-- name: Configure RHSM on nodes and download installer
-  hosts: controller,hub
-  vars_prompt:
-    - name: rhsm_user
-      prompt: What is your RHSM Username (RHNID)?
-      unsafe: yes
-      private: no
-      register: rhsm_user | default (omit)
-
-    - name: rhsm_password
-      prompt: What is your RHSM Password?
-      unsafe: yes
-      private: yes
-      register: rhsm_password | default (omit)
-
-    - name: rhsm_pool_id
-      prompt: What is the pool-id for your subscription (check README)?
-      unsafe: yes
-      private: no
-      register: rhsm_pool_id | default (omit)
-
-  tasks:
-    - name: Register system with Red Hat Subscription Manager
-      community.general.redhat_subscription:
-        state: present
-        username: "{{ rhsm_user }}"
-        password: "{{ rhsm_password }}"
-        pool_ids: "{{ rhsm_pool_id }}"
-      become: true
-      
 
     - name: Enable required RHSM repositories
       community.general.rhsm_repository:
@@ -140,6 +112,7 @@
     - name: Extract AAP2 setup content
       ansible.builtin.unarchive:
         src: "{{ hostvars['localhost']['installer_package'] }}"
+        #src: "{{ hostvars['localhost']['installer_package'] }}"
         dest: ~/aap2
 
     - name: Get aap2 folder name
