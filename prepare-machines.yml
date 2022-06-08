@@ -3,26 +3,6 @@
   hosts: all
   gather_facts: true
 
-  pre_tasks:
-    - name: What is my inventory_hostname
-      debug: 
-        msg: "inventory_hostname: {{ inventory_hostname }}"
-
-    - name: What is my ansible_hostname
-      debug: 
-        msg: "ansible_hostname: {{ ansible_hostname }} corriendo OS {{ ansible_os_family }}"
-
-    - name: rhsm vars
-      debug:
-        msg: "username: {{ rhsm_username | default (none) }} password: {{ rhsm_password }} pool_ids: {{ rhsm_poolid }} org_id: {{ org_id }} "
-        #msg: "username: {{ rhsm_username | default (none) }} password: {{ rhsm_password }} pool_ids: {{ rhsm_poolid }} org_id: {{ org_id }} ak: {{ activationkey }} | default ('') "
-
-      ignore_errors: yes
-
-    - name: insights vars
-      debug: 
-        msg: "rhsm_username: {{ rhsm_username }} auto_config: {{ auto_config }} authmethod: {{ authmethod }} display_name: {{ display_name }}"
-
   tasks:
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:

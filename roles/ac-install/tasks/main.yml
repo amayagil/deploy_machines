@@ -1,13 +1,17 @@
 ---
 - name: Download AAP2 Package 
-  hosts: "{{ controller_ah_instance_name }}"
+#  hosts: "{{ controller_ah_instance_name }}"
 #  vars_prompt:
 #    - name: offline_token
 #      prompt: What is your Offline Token? (Check README)
 #      unsafe: yes
 #      private: yes 
 #      register: offline_token | default (omit)
-        
+  pre_tasks:
+    - name: debug cosas en role aap2
+      debug:
+        msg: "hostvars['localhost']['installer_package']: {{ hostvars['localhost']['installer_package'] }}"
+  
   tasks:
     - name: Retrieve an access token
       uri:
@@ -23,22 +27,6 @@
     - name: Workaround to non-working uri module on success
       shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum.aap2 }}/download'
       register: imageurl
-
-# HANGING FOREVER
-#    - name: Retrieve image download URL
-#      ansible.builtin.uri:
-#        url: https://api.access.redhat.com/management/v1/images/{{ checksum.rhel8 }}/download
-#        return_content: true
-#        follow_redirects: all
-#        headers:
-#          Content-Type: application/json
-#          Authorization: 'Bearer {{ response.json.access_token }}'
-#          User-Agent: curl/7.61.1
-#      register: imageurl
-
-    - name: debug cosas
-      debug:
-        msg: "hostvars['localhost']['installer_package'] {{ hostvars['localhost']['installer_package'] }}"
 
     - name: Set result as facts
       ansible.builtin.set_fact:
