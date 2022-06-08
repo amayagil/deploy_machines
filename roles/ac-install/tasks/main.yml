@@ -74,6 +74,10 @@
     file_type: directory
   register: untar
 
+- name: mostrar salida
+  debug:
+    msg: "untar: {{ untar }} y untar.files[0].path: {{ untar.files[0].path }}/inventory"
+
 - name: Copy inventory for controller
   copy:
     src: inventory-controller
