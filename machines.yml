@@ -4,11 +4,31 @@
   ec2_os_type: linux
   instance_name: rhel-demo1
   instance_flavor: m4.large
+  ec2_image_name: "RHEL-8.3_HVM*x86_64*"
 - name: rhel-demo2
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo2
   instance_flavor: m4.large
+  ec2_image_name: "RHEL-8.5_HVM*x86_64*"
+- name: rhel-demo3
+  type: ec2
+  ec2_os_type: linux
+  instance_name: rhel-demo2
+  instance_flavor: t3.large
+  ec2_image_name: "RHEL-7.9_HVM_GA*x86_64"
+- name: rhel-demo4
+  type: ec2
+  ec2_os_type: linux
+  instance_name: rhel-demo2
+  instance_flavor: t4.medium
+  ec2_image_name: "RHEL-7.9_HVM_GA*x86_64"
+- name: rhel-demo5
+  type: ec2
+  ec2_os_type: linux
+  instance_name: rhel-demo2
+  instance_flavor: m4.large
+  ec2_image_name: "RHEL-7.9_HVM_GA*x86_64"
 - name: win-demo1
   type: ec2
   ec2_os_type: windows
