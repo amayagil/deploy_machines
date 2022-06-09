@@ -21,13 +21,13 @@
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo2
-  instance_flavor: t4.medium
+  instance_flavor: t3.medium
   ec2_image_name: "RHEL-7.9_HVM_GA*x86_64"
 - name: rhel-demo5
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo2
-  instance_flavor: m4.large
+  instance_flavor: t3.medium
   ec2_image_name: "RHEL-7.9_HVM_GA*x86_64"
 #- name: win-demo1
 #  type: ec2
