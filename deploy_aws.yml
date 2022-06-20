@@ -21,7 +21,7 @@
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
 
-    # - name: ver parámetros
-    #   debug:
-    #     msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
-    #   loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+    - name: ver parámetros
+      debug:
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
