@@ -8,7 +8,7 @@ collections:
     source: https://galaxy.ansible.com/
 
   - name: ansible_ssa.general
-    version: 3.2.88
+    version: 3.2.99
     source: https://ahub/api/galaxy/content/published/
   
   - name: community.general
