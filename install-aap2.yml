@@ -1,7 +1,9 @@
 ---
 - name: Install AAP2
-  hosts: "{{ controller_instance_name }}"
+  hosts: all
   gather_facts: true
+  vars:
+    controller_instance_name: "rhel-demo1"
      
   tasks:
     - name: Install an Automation Controller
