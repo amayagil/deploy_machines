@@ -88,9 +88,8 @@
   template:
     dest: "{{ untar.files[0].path }}/inventory"
     src: inventory-controller.j2
-  remote_src: yes
   become: true
-  
+
 - name: Install AAP2
   ansible.builtin.shell: 
     cmd: ./setup.sh
