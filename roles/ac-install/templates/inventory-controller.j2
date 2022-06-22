@@ -1,7 +1,8 @@
-localhost ansible_connection=local
-
 [automationcontroller]
 localhost ansible_connection=local
+
+[automationcontroller:vars]
+peers=execution_nodes
 
 [database]
 
@@ -16,5 +17,5 @@ pg_username='awx'
 pg_password='redhat'
 
 registry_url='registry.redhat.io'
-registry_username='<registry username>'
-registry_password='<registry password>'
+registry_username="{{ registry_username }}"
+registry_password="{{ registry_password }}"
