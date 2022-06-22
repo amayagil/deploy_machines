@@ -7,6 +7,7 @@
 #      private: yes 
 #      register: offline_token | default (omit)
 - name: Retrieve an access token
+# offline_token to be retreived from https://access.redhat.com/management/api
   uri:
     url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
     body:
