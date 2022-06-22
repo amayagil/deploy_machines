@@ -85,11 +85,12 @@
     msg: "untar: {{ untar }} y untar.files[0].path: {{ untar.files[0].path }}/inventory"
 
 - name: Copy inventory for controller
-  copy:
-    src: inventory-controller
+  template:
     dest: "{{ untar.files[0].path }}/inventory"
-    remote_src: yes
-
+    src: inventory-controller.j2
+  remote_src: yes
+  become: true
+  
 - name: Install AAP2
   ansible.builtin.shell: 
     cmd: ./setup.sh
