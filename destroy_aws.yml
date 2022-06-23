@@ -8,13 +8,16 @@
       ansible.builtin.command: insights-client --unregister
       become: true
       ignore_errors: true
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
     
     - name: Unregister RHSM
       community.general.redhat_subscription:
         state: absent
         username: "{{ rhsm_username }}"
         password: "{{ rhsm_password }}"
+      become: true
       ignore_errors: true
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
 
   tasks:
     - name: Deploy AWS instance
