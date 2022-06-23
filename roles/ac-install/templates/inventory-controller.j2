@@ -15,7 +15,31 @@ pg_port='5432'
 pg_database='awx'
 pg_username='awx'
 pg_password='redhat'
+pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
+
+# Execution Environment Configuration
+# Credentials for container registry to pull execution environment images from,
+# registry_username and registry_password are required for registry.redhat.io
 
 registry_url='registry.redhat.io'
 registry_username="{{ registry_username }}"
 registry_password="{{ registry_password }}"
+
+# Receptor Configuration
+receptor_listener_port=27199
+
+# Automation Services Catalog Configuration
+
+automationcatalog_pg_host=''
+automationcatalog_pg_port=5432
+
+automationcatalog_pg_database='automationservicescatalog'
+automationcatalog_pg_username='automationservicescatalog'
+automationcatalog_pg_password=''
+
+insights_username='{{ rhsm_username | default(omit) }}''
+insights_password='{{ rhsm_password | default(omit) }}'
+
+# The default install will register node to the Red Hat Insights Service
+# if the node is registered with Subscription Manager. Set to False to disable.
+enable_insights_collection = True
