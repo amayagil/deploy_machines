@@ -1,4 +1,4 @@
-collections:
+#collections:
   #- name: amazon.aws 
   #  version: 3.2.0
   #  source: https://galaxy.ansible.com/
