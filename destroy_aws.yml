@@ -4,9 +4,6 @@
   gather_facts: false
 
   tasks:
-    - name: debug info
-      debug:
-        msg: "ec2_vpc_name: {{ ec2_vpc_name }} ec2_region: {{ ec2_region }}"
     - name: Deploy AWS instance
       vars:
         ec2_region: "eu-central-1"
