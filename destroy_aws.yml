@@ -3,6 +3,19 @@
   hosts: all
   gather_facts: false
 
+  pre_tasks:
+    - name: Unregister Insights Client
+      ansible.builtin.command: insights-client --unregister
+      become: true
+      ignore_errors: true
+    
+    - name: Unregister RHSM
+      community.general.redhat_subscription:
+        state: absent
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
+      ignore_errors: true
+
   tasks:
     - name: Deploy AWS instance
       vars:
