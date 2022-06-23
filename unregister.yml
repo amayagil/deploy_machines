@@ -1,0 +1,22 @@
+---
+- name: Unregister machines from Red Hat Services
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Unregister Insights Client
+      ansible.builtin.command: insights-client --unregister
+      become: true
+      ignore_errors: true
+      when: ansible_os_family == 'RedHat'
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+    
+    - name: Unregister RHSM
+      community.general.redhat_subscription:
+        state: absent
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
+      become: true
+      ignore_errors: true
+      when: ansible_os_family == 'RedHat'
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
