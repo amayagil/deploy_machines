@@ -4,10 +4,6 @@
     name: insights-client
   become: true
 
-- name: ver valores de config
-  debug:
-    msg: "auto_config: {{ auto_config }} authmethod: {{ authmethod }} display_name: {{ display_name }} proxy: {{ proxy }}"
-
 - name: Set Insights Configuration Values
   template:
     dest: /etc/insights-client/insights-client.conf
