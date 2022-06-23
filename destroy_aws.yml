@@ -8,6 +8,7 @@
       ansible.builtin.command: insights-client --unregister
       become: true
       ignore_errors: true
+      when: ansible_os_family == 'RedHat'
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
     
     - name: Unregister RHSM
@@ -17,6 +18,7 @@
         password: "{{ rhsm_password }}"
       become: true
       ignore_errors: true
+      when: ansible_os_family == 'RedHat'
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
 
   tasks:
