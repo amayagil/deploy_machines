@@ -1,4 +1,4 @@
-#collections:
+collections:
   #- name: amazon.aws 
   #  version: 3.2.0
   #  source: https://galaxy.ansible.com/
@@ -11,9 +11,9 @@
   #  version: 3.2.99
   #  source: https://ahub.cibeles.me/api/galaxy/content/published/
   
-  #- name: community.general
-  #  version: 4.8.0
-  #  source: https://galaxy.ansible.com/
+  - name: community.general
+    version: 4.8.0
+    source: https://galaxy.ansible.com/
 
   #- name: community.crypto
   #  version: 2.3.1
