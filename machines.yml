@@ -21,7 +21,7 @@
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo4
-  instance_flavor: t3.medium
+  instance_flavor: t4.large
   ec2_image_name: "RHEL-7.9_HVM_GA*x86_64*"
 #- name: win-demo1
 #  type: ec2
