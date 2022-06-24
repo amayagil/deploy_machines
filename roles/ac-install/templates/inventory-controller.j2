@@ -1,5 +1,5 @@
 [automationcontroller]
-{{ inventory_hostname }} ansible_user={{ host_user }} #host user to perform operations depending on the platform it's installed
+{{ inventory_hostname }} ansible_user={{ host_user }} ansible_conncetion=local #host user to perform operations depending on the platform it's installed
 
 [automationcontroller:vars]
 #peers=execution_nodes
