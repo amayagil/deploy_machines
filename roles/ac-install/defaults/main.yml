@@ -17,3 +17,4 @@ pg_password: "redhat"
 registry_url: "registry.redhat.io"
 registry_username: ""
 registry_password: ""
+host_user: "" #host user to perform operations depending on the platform it's installed
