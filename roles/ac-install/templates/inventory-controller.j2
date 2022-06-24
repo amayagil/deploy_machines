@@ -9,7 +9,7 @@
 [all:vars]
 admin_password='redhat'
 
-pg_host=''
+pg_host='{{ inventory_hostname }}'
 pg_port='5432'
 
 pg_database='awx'
