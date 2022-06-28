@@ -30,7 +30,7 @@
   become: true
 
 - name: Register Insights Client
-  ansible.builtin.command: insights-client --register
+  ansible.builtin.command: insights-client --register --display-name "{{ display_name }}"
   become: true
   register: salida
 
