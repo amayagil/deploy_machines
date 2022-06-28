@@ -2,5 +2,5 @@
 # vars file for insights-registration
 auto_config: "{{ auto_config | default(omit) }}"
 authmethod: "{{ authmethod | default(omit) }}"
-display_name: "{{ inventory_hostname | default(omit) }}"
+display_name: "{{ ansible_fqdn | default(omit) }}"
 proxy: "{{ insights_proxy | default(none) }}"
