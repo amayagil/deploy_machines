@@ -35,10 +35,7 @@ See the section 'Example Playbook' for information on various ways to use these 
     If a system's hostname is not easily identifiable, like "localhost" or "d4098731408", you can give
     it a better name by setting 'insights_display_name'
 
-    If undefined (not set at all), this role will not make changes to a system's display name.
-
-    If defined (set) to be the empty string, this role will remove any previously set display name
-    for the system, and cause it to use the systems hostname as it's Display name/System name.
+    If undefined, this will default to 'inventory_hostname' this is the long external FQDN machine name that would be used for ssh login attempts from an external machine in some other roles, hence setting it this way, allows external ssh connections.
 
     If defined to be a non-empty string, this role will replace any previously set display name
     for the system with the given string.
@@ -71,18 +68,6 @@ See the section 'Example Playbook' for information on various ways to use these 
     BASIC/CERT - This parameter is used to set the authentication method for the Portal. Default bahavior is BASIC.
     Note: when 'auto_config' is enabled (set to True), CERT will be used if RHSM or Satellite is detected.
 
-* insights_proxy: (optional)
-
-    If the insights client is behind a proxy or firewall, a proxy can be specified. Default is unspecified.
-		Ex: http://user:pass@192.168.100.50:8080 
-
-* ansible_python_interpreter: (see Requirements above to determine if this is needed)
-
-    This variable allows you to provide the python interpreter path for ansible to use. This is needed when 
-    managing RHEL 8 with older versions of Ansible (2.7 and lower).
-
-    RHEL 8 platform-python path: **/usr/libexec/platform-python**
-
 Facts Installed
 ---------------
 
@@ -108,20 +93,19 @@ Example Playbook
 
 In the examples directory is a very basic playbook utilizing this role:
 
-    - hosts: all
-      roles:
-      - { role: RedHatInsights.insights-client, when: ansible_os_family == 'RedHat' }
+```yaml
+---
+- name: Prepare machines for use with Red Hat
+  hosts: all
+  gather_facts: true
 
-Here is an example with additional configuration (though using a separate file is preferred if including 
-usernames or passwords):
-
-    - hosts: all
-      roles:
-      - role: RedHatInsights.insights-client
-          vars:
-            insights_display_name: 'example_system'
-            ansible_python_interpreter: '/usr/libexec/platform-python'
-        when: ansible_os_family == 'RedHat'
+  tasks:
+      
+    - name: Prepare machines with Insights Registration
+      ansible.builtin.include_role:
+        name: insights-registration
+      when: ansible_os_family == 'RedHat'
+```
 
 Example Configuration File
 ----------------
@@ -164,9 +148,9 @@ Example Use
     This will install the latest version of the role to ansible's default role directory (if using a non default role directory 
     update the playbook accordingly)
 
-1. Copy the Example Playbook to a file named 'install-insights.yml'.
+2. Copy the Example Playbook to a file named 'install-insights.yml'.
 
-1. Run the following command, replacing 'myhost.example.com' with the name of the
+3. Run the following command, replacing 'myhost.example.com' with the name of the
    system where you want to install, configure, and register the insights client.
 
     ```bash
