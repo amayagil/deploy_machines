@@ -21,7 +21,7 @@
 #  when: register_path.stat.exists
 - name: ver nombres de host
   debug:
-    msg: "display_name: {{ display_name }} ansible_hostname: {{ ansible_hostname }} inventory_hostname: {{ inventory_hostname }} insights_display_name: {{ insights_display_name }} "
+    msg: "display_name: {{ display_name }} ansible_hostname: {{ ansible_hostname }} inventory_hostname: {{ inventory_hostname }}"
   
 - name: Change permissions of Insights Config directory so that Insights System ID can be read
   file:

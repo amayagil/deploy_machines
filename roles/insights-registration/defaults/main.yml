@@ -2,5 +2,5 @@
 # defaults file for insights-registration
 auto_config: TRUE
 authmethod: BASIC
-display_name: "{{ inventory_hostname | default(omit) }}"
+display_name: "{{ inventory_hostname | default(omit, true) }}"
 proxy: "{{ insights_proxy | default(none) }}"
