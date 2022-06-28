@@ -3,24 +3,6 @@ insights-client
 
 Installs, configures, and registers a system to the [Red Hat Insights service](http://access.redhat.com/insights).  This role is intended to work on Red Hat Enterprise Linux, though it will generally work on any yum based system that has access to the insights-client RPM or the redhat-access-insights RPM.
 
-Requirements
-------------
-
-**Note on managing RHEL 8 systems:**
-
-RHEL 8 changed the default path for the python interpreter so this role will need to know the new path. 
-Ansible version 2.8+ can determine the correct path automatically, but if you are using Ansible version 2.7 
-or lower the path will need to be supplied to the role. This can be done by configuring the `ansible_python_interpreter` 
-parameter via the configuration file (shown in the examples further down), playbook invocation, inventory, etc.
-
-RHEL 8 platform-python path: **/usr/libexec/platform-python**
-
-This is only required when managing RHEL 8 systems with Ansible version 2.7 or lower. 
-
-**Note on managing RHEL 6 SELinux systems:**
-
-Almost all uses of Ansible that target SELinux machines require that the python module 'selinux' is installed. On RHEL that module is provided by the rpm 'python-selinux'. This rpm will need to be installed prior to using this role on RHEL 6 (it is already included in RHEL 7). 
-
 Role Variables / Configuration
 --------------
 
@@ -112,7 +94,7 @@ Example Configuration File
 
 The insights-client install will be configured by using a configuration yaml file to modify various parameters. 
 Here's an example, insights-client-.conf.j2, that configures the insights-client to register via basic auth 
-using the provided username/password and display_name:
+using the provided username/password and display_name (it will populate the /etc/insights-client/insights-client.conf file):
 
 ```yaml
 [insights-client]
@@ -127,6 +109,17 @@ If you need to run the Insights Client on a system that is not registered to Red
 Manager, as often happens in testing and demoing, set the redhat_portal_username/redhat_portal_password.
 
 Note: Any of the role variables mentioned earlier can be placed in this configuration file
+
+Example Tags File
+----------------
+This role also sets the tags for the machines, in this case, it simply sets the group tag to a value set by the cloud_provider variable.
+
+Those are set on the tags.yaml.j2 template that will populate the /etc/insights-client/tags.yaml file. Add as many tags as you want there.
+
+```yaml
+---
+group: "{{ cloud_provider }}"
+```
 
 IMPORTANT:
 
