@@ -1,6 +1,6 @@
 [insights-client]
 obfuscate_hostname=True
-#obfuscate=True
+obfuscate=True
 username={{ rhsm_username | default(omit, true) }}
 password={{ rhsm_password | default(omit, true) }}
 auto_config={{ auto_config | default(omit, true) }}
