@@ -40,10 +40,15 @@
   become: true
   register: salida
 
-- name: Force Insights display_name
+- name: Force Insights display-name
   ansible.builtin.command: insights-client --display-name "{{ display_name }}"
   become: true
   register: salido
+
+- name: Force Insights ansible-host
+  ansible.builtin.command: insights-client --ansible-host "{{ display_name }}"
+  become: true
+  register: salide
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
