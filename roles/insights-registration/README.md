@@ -110,57 +110,24 @@ In the examples directory is a very basic playbook utilizing this role:
 Example Configuration File
 ----------------
 
-The insights-client install can be configured by using a configuration yaml file to modify various parameters. 
-Here's an example, insights-client-config.yml, that configures the insights-client to register via basic auth 
+The insights-client install will be configured by using a configuration yaml file to modify various parameters. 
+Here's an example, insights-client-.conf.j2, that configures the insights-client to register via basic auth 
 using the provided username/password and display_name:
 
 ```yaml
-redhat_portal_username: example_user
-redhat_portal_password: example_password
-insights_display_name: example_system
-autoconfig: False
-authmethod: BASIC
+[insights-client]
+username={{ rhsm_username | default(omit, true) }}
+password={{ rhsm_password | default(omit, true) }}
+auto_config={{ auto_config | default(omit, true) }}
+authmethod={{ authmethod | default(omit, true) }}
+display_name="{{ display_name | default(omit, true) }}"
 ```
-
-**Reminder:** Check Requirements above to determine if `ansible_python_interpreter` should be configured prior to running.
 
 If you need to run the Insights Client on a system that is not registered to Red Hat Subscription
 Manager, as often happens in testing and demoing, set the redhat_portal_username/redhat_portal_password.
 
 Note: Any of the role variables mentioned earlier can be placed in this configuration file
 
-Change the permissions on the file so that only you can read them (in case usernames/passwords are listed), and then any time you invoke
-this role, add the ansible-playbook --extra-vars option:
+IMPORTANT:
 
-    $ ansible-playbook ... --extra-vars @insights-client-config.yml ...
-
-Note: One of the really useful features of Ansible Tower is role based management of credentials.
-
-Example Use
------------
-
-1. On a system where [Ansible is installed](http://docs.ansible.com/ansible/intro_installation.html), run the following command:
-
-    ```bash
-    $ ansible-galaxy install RedHatInsights.insights-client
-    ```
-
-    This will install the latest version of the role to ansible's default role directory (if using a non default role directory 
-    update the playbook accordingly)
-
-2. Copy the Example Playbook to a file named 'install-insights.yml'.
-
-3. Run the following command, replacing 'myhost.example.com' with the name of the
-   system where you want to install, configure, and register the insights client.
-
-    ```bash
-    $ ansible-playbook --limit=myhost.example.com install-insights.yml --extra-vars @insights-client-config.yml
-    ```
-
-    Note: The ansible-playbook invocation will depend on ansible configuration
-
-License and Author
-------------------
-
-License: Apache License 2.0
-Author: Red Hat, Inc.
+Due to how remediation playbooks are generated on cloud.redhat.com, this role forces the display_name and ansible_name to being the same (both of them will be inventory_hostname) so it can be used to fix remote machines from the controller.
