@@ -36,7 +36,7 @@
 
 - name: ver salida de insights-client --register
   debug:
-    msg: "salida: {{ salida.out }}"
+    msg: "salida: {{ salida }}"
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
