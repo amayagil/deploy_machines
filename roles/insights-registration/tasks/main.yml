@@ -32,6 +32,11 @@
 - name: Register Insights Client
   ansible.builtin.command: insights-client --register
   become: true
+  register: salida
+
+- name: ver salida de insights-client --register
+  debug:
+    msg: "salida: {{ salida.out }}"
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
