@@ -6,6 +6,12 @@
 
 - name: Set Insights Configuration Values
   template:
+    dest: /etc/insights-client/tags.yaml
+    src: templates/tags.yaml.j2
+  become: true
+
+- name: Set Insights Tags
+  template:
     dest: /etc/insights-client/insights-client.conf
     src: templates/insights-client.conf.j2
   become: true
@@ -34,18 +40,10 @@
   become: true
   register: salida
 
-- name: ver salida de insights-client --register
-  debug:
-    msg: "salida: {{ salida }}"
-
 - name: Force Insights display_name
   ansible.builtin.command: insights-client --display-name "{{ display_name }}"
   become: true
   register: salido
-
-- name: ver salida de insights-client --register
-  debug:
-    msg: "salido: {{ salido }}"
 
 - name: Change permissions of machine_id file so that Insights System ID can be read
   file:
