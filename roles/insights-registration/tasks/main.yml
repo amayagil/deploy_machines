@@ -36,17 +36,17 @@
   become: true
 
 - name: Register Insights Client
-  ansible.builtin.command: insights-client --register --display-name "{{ display_name }}"
+  ansible.builtin.command: insights-client --register --display-name {{ display_name }}
   become: true
   register: salida
 
 - name: Force Insights display-name
-  ansible.builtin.command: insights-client --display-name "{{ display_name }}"
+  ansible.builtin.command: insights-client --display-name {{ display_name }}
   become: true
   register: salido
 
 - name: Force Insights ansible-host
-  ansible.builtin.command: insights-client --ansible-host "{{ display_name }}"
+  ansible.builtin.command: insights-client --ansible-host {{ display_name }}
   become: true
   register: salide
 
