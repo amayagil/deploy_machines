@@ -1,0 +1,21 @@
+---
+- name: Prepare machines to show Insights vulnerability
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Install the Adobe rpm from a remote repo
+      ansible.builtin.dnf:
+        name: 'http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm'
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install Adobe plugin and its dependencies
+      ansible.builtin.dnf:
+        name:
+          - libcurl
+          - flash-plugin
+          - alsa-plugins-pulseaudio
+        state: latest
+      when: ansible_os_family == 'RedHat'
+      register: aplug_out
