@@ -8,6 +8,7 @@
       ansible.builtin.dnf:
         name: 'http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm'
         state: present
+        validate_certs: false
       when: ansible_os_family == 'RedHat'
 
     - name: Install Adobe plugin and its dependencies
