@@ -20,3 +20,8 @@
         state: latest
       when: ansible_os_family == 'RedHat'
       register: aplug_out
+
+    - name: Run Insights to update data
+      ansible.builtin.command: insights-client
+      changed_when: false
+      when: ansible_os_family == 'RedHat'
