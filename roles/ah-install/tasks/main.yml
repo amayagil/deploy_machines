@@ -3,30 +3,32 @@
 - name: AAP Automation Hub configuration playbook
   tasks:
     - name: Create destination directory
-      file:
+      ansible.builtin.file:
         path: ~/aap2
         state: directory
 
     - name: Extract AAP2 setup content
       ansible.builtin.unarchive:
-        src: "{{ controller_ah_instance_name['installer_package'] }}"
+        src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
         #src: "{{ hostvars['localhost']['installer_package'] }}"
         dest: ~/aap2
+        remote_src: yes
 
-    - name: Get aap2 folder name
-      find:
+    - name: Retrieve aap2 folder name
+      ansible.builtin.find:
         paths: ~/aap2
         file_type: directory
       register: untar
 
     - name: Print var
-      debug:
+      ansible.builtin.debug:
         var: untar.files[0].path
 
     - name: Copy inventory for controller
-      copy:
-        src: inventory-hub
+      ansible.builtin.copy:
         dest: "{{ untar.files[0].path }}/inventory"
+        src: inventory-hub.j2
+      become: true
 
     - name: Install Automation Hub
       ansible.builtin.shell:
@@ -35,5 +37,5 @@
       become: true        
 
     - name: Reboot server
-      reboot:
+      ansible.builtin.reboot:
       become: true
