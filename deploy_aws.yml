@@ -16,6 +16,7 @@
         ec2_os_type: "{{ item.ec2_os_type}}"
         instance_name: "{{ item.name }}"
         instance_flavor: "{{ item.instance_flavor }}"
+        instance_disk_size: "{{ item.instance_disk_size }}"
         ec2_key_pair: '{{ lookup("file","/tmp/id_rsa.pub") }}'
         windows_admin_password: "{{ item.windows_admin_password }}"
       ansible.builtin.include_role:
