@@ -8,7 +8,7 @@
 #      register: offline_token | default (omit)
 - name: Retrieve an access token
 # offline_token to be retreived from https://access.redhat.com/management/api
-  uri:
+  ansible.builtin.uri:
     url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
     body:
       grant_type: refresh_token
@@ -19,12 +19,8 @@
   register: response
 
 - name: Workaround to non-working uri module on success
-  shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum_aap2 }}/download'
+  ansible.builtin.shell: 'curl -H "Authorization: Bearer {{ response.json.access_token }}" https://api.access.redhat.com/management/v1/images/{{ checksum_aap2 }}/download'
   register: imageurl
-
-- name: ver imageurl
-  debug:
-    msg: "imageurl: {{ imageurl }}"
 
 - name: Set result as facts
   ansible.builtin.set_fact:
@@ -32,7 +28,7 @@
     installer_package: "{{(imageurl.stdout | from_json).body.filename }}"
 
 - name: Retrieve Installer
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ installer_url }}"
     dest: "/tmp/{{ installer_package }}"
 
@@ -44,29 +40,15 @@
   become: true
 
 - name: Ensure all packages are updated
-  yum:
+  ansible.builtin.yum:
     name: '*'
     state: latest
   become: true
 
 - name: Create destination directory
-  file:
+  ansible.builtin.file:
     path: ~/aap2
     state: directory
-
-- name: ver paquete
-  debug:
-    msg: "src: {{ hostvars[inventory_hostname]['installer_package'] }}"
-
-- name: verificar q el fichero de config existe
-  stat:
-    path: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
-  register: register_path
-
-- name: mostrar salida
-  debug:
-    msg: "El fichero es como Teruel, existe, {{ register_path }}"
-  when: register_path.stat.exists
   
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
@@ -75,17 +57,12 @@
     remote_src: yes
 
 - name: Retrieve AAP2 folder name
-  find:
+  ansible.builtin.find:
     paths: ~/aap2
     file_type: directory
-  register: untar
-
-- name: mostrar salida
-  debug:
-    msg: "untar: {{ untar }} y untar.files[0].path: {{ untar.files[0].path }}/inventory"
 
 - name: Copy inventory for controller
-  template:
+  ansible.builtin.template:
     dest: "{{ untar.files[0].path }}/inventory"
     src: inventory-controller.j2
   become: true
@@ -97,5 +74,5 @@
   become: true        
 
 - name: Reboot server
-  reboot: 
+  ansible.builtin.reboot: 
   become: true
