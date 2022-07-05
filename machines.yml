@@ -1,17 +1,18 @@
 ---
-- name: rhel-demo1
+- name: controller
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo1
   instance_flavor: t3.large	
   ec2_image_name: "RHEL-8.6_HVM*x86_64*"
   instance_disk_size: 20
-- name: rhel-demo2
+- name: ahub
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo2
   instance_flavor: m4.large
-  ec2_image_name: "RHEL-8.1_HVM*x86_64*"
+  ec2_image_name: "RHEL-8.6_HVM*x86_64*"
+  instance_disk_size: 20
 - name: rhel-demo3
   type: ec2
   ec2_os_type: linux
