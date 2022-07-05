@@ -6,11 +6,11 @@
   tasks:
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
-        name: rhsm-registration
+        name: role-rhsm-registration
       when: ansible_os_family == 'RedHat'
       register: rhsm_out
       
     - name: Prepare machines with Insights Registration
       ansible.builtin.include_role:
-        name: insights-registration
+        name: role-insights-registration
       when: ansible_os_family == 'RedHat'

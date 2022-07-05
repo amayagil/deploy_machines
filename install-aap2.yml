@@ -8,5 +8,5 @@
   tasks:
     - name: Install an Automation Controller
       ansible.builtin.include_role:
-        name: ac-install
+        name: role-ac-install
       when: ansible_os_family == 'RedHat'
