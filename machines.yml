@@ -19,12 +19,14 @@
   instance_name: rhel-demo3
   instance_flavor: m5d.large
   ec2_image_name: "RHEL-8.1_HVM*x86_64*"
+  instance_disk_size: 10
 - name: rhel-demo4
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo4
   instance_flavor: t3.large
   ec2_image_name: "RHEL-7.9_HVM_GA*x86_64*"
+  instance_disk_size: 10
 #- name: win-demo1
 #  type: ec2
 #  ec2_os_type: windows
