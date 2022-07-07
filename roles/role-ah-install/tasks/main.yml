@@ -46,12 +46,11 @@
 
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
-    #src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
     src: "/tmp/{{ hostvars[inventory_hostname]['installer_package'] }}"
     dest: ~/aap2
     remote_src: yes
 
-- name: Retrieve aap2 folder name
+- name: Retrieve AAP2 folder name
   ansible.builtin.find:
     paths: ~/aap2
     file_type: directory
@@ -61,8 +60,8 @@
   ansible.builtin.debug:
     var: untar.files[0].path
 
-- name: Copy inventory for controller
-  ansible.builtin.copy:
+- name: Copy inventory for automation hub
+  ansible.builtin.template:
     dest: "{{ untar.files[0].path }}/inventory"
     src: inventory-hub.j2
   become: true
