@@ -3,10 +3,11 @@
   hosts: all
   gather_facts: true
   vars:
-    controller_instance_name: "ahub"
+    controller_instance_name: "controller"
+    controller_ah_instance_name : "ahub"
      
   tasks:
-    - name: Install an Automation Controller
+    - name: Install a Private Automation Hub
       ansible.builtin.include_role:
         name: role-ah-install
       when: ansible_os_family == 'RedHat'
