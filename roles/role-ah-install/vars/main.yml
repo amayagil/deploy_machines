@@ -1,2 +1,5 @@
 ---
 # vars file for ah-install
+checksum:
+- aap2: 835161225aec0bc18421978985870a7d3a0d54667dc659b68a358ba32256a8fb
+host_user: "ec2-user"
