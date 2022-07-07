@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: true
   vars:
-    controller_instance_name: "rhel-demo1"
+    controller_instance_name: "controller"
      
   tasks:
     - name: Install an Automation Controller
