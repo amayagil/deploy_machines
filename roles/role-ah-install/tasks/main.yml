@@ -29,7 +29,7 @@
 - name: Enable required RHSM repositories
   community.general.rhsm_repository:
     name: 
-      - ansible-automation-platform-{{ controller_version }}-for-rhel-8-x86_64-rpms
+      - ansible-automation-platform-{{ aap_version }}-for-rhel-8-x86_64-rpms
     state: enabled
   become: true
 
@@ -38,7 +38,7 @@
     name: '*'
     state: latest
   become: true
-  
+
 - name: Create destination directory
   ansible.builtin.file:
     path: ~/aap2
