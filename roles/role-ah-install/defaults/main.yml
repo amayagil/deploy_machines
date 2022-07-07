@@ -4,6 +4,11 @@ registry_url: "registry.redhat.io"
 registry_username: ""
 registry_password: ""
 
+controller_instance_name: "{{ instance_name }}"
+controller_ah_instance_name : "{{ controller_ah_instance_name }}"
+aap_version: "2.2"
+checksum_aap2: ""
+
 automationhub_admin_password: "redhat"
 
 automationhub_pg_host: ""
