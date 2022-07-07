@@ -1,41 +1,39 @@
 ---
 # tasks file for ah-install
-- name: AAP Automation Hub configuration playbook
-  tasks:
-    - name: Create destination directory
-      ansible.builtin.file:
-        path: ~/aap2
-        state: directory
+- name: Create destination directory
+  ansible.builtin.file:
+    path: ~/aap2
+    state: directory
 
-    - name: Extract AAP2 setup content
-      ansible.builtin.unarchive:
-        src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
-        #src: "{{ hostvars['localhost']['installer_package'] }}"
-        dest: ~/aap2
-        remote_src: yes
+- name: Extract AAP2 setup content
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
+    #src: "{{ hostvars['localhost']['installer_package'] }}"
+    dest: ~/aap2
+    remote_src: yes
 
-    - name: Retrieve aap2 folder name
-      ansible.builtin.find:
-        paths: ~/aap2
-        file_type: directory
-      register: untar
+- name: Retrieve aap2 folder name
+  ansible.builtin.find:
+    paths: ~/aap2
+    file_type: directory
+  register: untar
 
-    - name: Print var
-      ansible.builtin.debug:
-        var: untar.files[0].path
+- name: Print var
+  ansible.builtin.debug:
+    var: untar.files[0].path
 
-    - name: Copy inventory for controller
-      ansible.builtin.copy:
-        dest: "{{ untar.files[0].path }}/inventory"
-        src: inventory-hub.j2
-      become: true
+- name: Copy inventory for controller
+  ansible.builtin.copy:
+    dest: "{{ untar.files[0].path }}/inventory"
+    src: inventory-hub.j2
+  become: true
 
-    - name: Install Automation Hub
-      ansible.builtin.shell:
-        cmd: ./setup.sh
-        chdir: "{{ untar.files[0].path }}"
-      become: true        
+- name: Install Automation Hub
+  ansible.builtin.shell:
+    cmd: ./setup.sh
+    chdir: "{{ untar.files[0].path }}"
+  become: true        
 
-    - name: Reboot server
-      ansible.builtin.reboot:
-      become: true
+- name: Reboot server
+  ansible.builtin.reboot:
+  become: true
