@@ -47,7 +47,7 @@
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
     #src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
-    src: "{{ hostvars['inventory_hostname']['installer_package'] }}"
+    src: "{{ hostvars[inventory_hostname]['installer_package'] }}"
     dest: ~/aap2
     remote_src: yes
 
