@@ -44,10 +44,6 @@
     path: ~/aap2
     state: directory
 
-- name: ver nombre host
-  debug:
-    msg: "controller_ah_instance_name: {{ controller_ah_instance_name }}"
-
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
     #src: "/tmp/{{ controller_ah_instance_name['installer_package'] }}"
