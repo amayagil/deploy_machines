@@ -60,6 +60,7 @@
   ansible.builtin.find:
     paths: ~/aap2
     file_type: directory
+  register: untar
 
 - name: Copy inventory for controller
   ansible.builtin.template:
