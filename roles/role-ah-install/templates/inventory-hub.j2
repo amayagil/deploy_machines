@@ -1,5 +1,5 @@
 [automationcontroller]
-{{ inventory_hostname }} ansible_user={{ host_user }} ansible_connection=local #host user to perform operations depending on the platform it's installed
+{{ controller_instance_name }} ansible_user={{ host_user }} ansible_connection=local #host user to perform operations depending on the platform it's installed
 
 [automationcontroller:vars]
 #peers=execution_nodes
