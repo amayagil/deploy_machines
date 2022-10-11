@@ -1,0 +1,26 @@
+---
+# tasks file for role
+- name: habilitar repo 
+  community.general.rhsm_repository:
+    name: ansible-2.9-for-rhel-8-x86_64-rpms 
+    state: enabled
+  register: salida
+  when: salida.changed == true
+
+- name: instalar paquete rhc para el8.5
+  ansible.builtin.dnf:
+    name: rhc-worker-playbook-0.1.5-3.el8_4
+  when:
+    - ansible_facts['distribution'] == "Red Hat"
+    - ansible_facts['distribution_version'] == "8.5"
+
+- name: instalar paquete rhc para el8.6 y posteriores
+  ansible.builtin.dnf:
+    name: 
+      - rhc
+      - rhc-worker-playbook
+      - ansible-core
+    state: latest
+  when:
+    - ansible_facts['distribution'] == "Red Hat"
+    - ansible_facts['distribution_version'] >= "8.6"
