@@ -5,7 +5,10 @@
     name: ansible-2.9-for-rhel-8-x86_64-rpms 
     state: enabled
   register: salida
-  when: salida.changed == true
+  
+- name: ver costitans
+  debug:
+    msg: "{{ salida }} {{ ansible_distribution }} {{ ansible_distribution_version }} ansible_facts['distribution'] ansible_facts['distribution_version'] "
 
 - name: instalar paquete rhc para el8.5
   ansible.builtin.dnf:
