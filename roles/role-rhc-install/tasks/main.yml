@@ -11,7 +11,7 @@
   
 - name: ver costitans
   debug:
-    msg: "{{ salida }} {{ ansible_distribution }} {{ ansible_distribution_version }} ansible_facts['distribution'] ansible_facts['distribution_version'] "
+    msg: "ansible_facts['distribution'] ansible_facts['distribution_version'] "
 
 - name: instalar paquete rhc para el8.5
   ansible.builtin.dnf:
