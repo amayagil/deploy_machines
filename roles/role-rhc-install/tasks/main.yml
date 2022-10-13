@@ -11,7 +11,7 @@
   
 - name: ver costitans
   debug:
-    msg: "ansible_facts['distribution'] ansible_facts['distribution_version'] "
+    msg: "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} "
 
 - name: instalar paquete rhc para el8.5
   ansible.builtin.dnf:
@@ -29,6 +29,6 @@
       - rhc-worker-playbook
       - ansible-core
     state: latest
-  when:
-    - ansible_facts['distribution'] == "Red Hat"
-    - ansible_facts['distribution_version'] is version('8.6', '>=')
+  when: 
+    - "{{ ansible_facts['distribution'] == "Red Hat" }}"
+    - "{{ ansible_facts['distribution_version'] is version('8.6', '>=') }}"
