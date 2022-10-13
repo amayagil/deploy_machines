@@ -30,5 +30,5 @@
       - ansible-core
     state: latest
   when: 
-    - "{{ ansible_facts['distribution'] == "Red Hat" }}"
-    - "{{ ansible_facts['distribution_version'] is version('8.6', '>=') }}"
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_version'] is version('8.6', '>=')
