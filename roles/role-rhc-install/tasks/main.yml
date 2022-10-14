@@ -4,10 +4,6 @@
   ansible.builtin.command: subscription-manager config --rhsm.manage_repos=1
   register: output
 
-- name: debug
-  debug:
-    msg: "{{ output }}"
-
 - name: habilitar repo para el8.5 
   community.general.rhsm_repository:
     name: ansible-2.9-for-rhel-8-x86_64-rpms 
@@ -16,10 +12,6 @@
   when:
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '==')
-  
-- name: ver costitans
-  debug:
-    msg: "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} {{ salida }}"
 
 - name: instalar paquete rhc para el8.5
   ansible.builtin.dnf:
