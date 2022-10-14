@@ -8,6 +8,11 @@
   # El filtro from_yaml convierte de yaml a un objeto iterable
   
   tasks:
+    - name: ver parámetros
+      debug:
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ tem.ec2_image_name }} "
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      
     - name: Deploy AWS instance
       vars:
         #ec2_key_pair: "ssh-rsa ZJoSENlXI2+B9dTUG2OA== amaya@redhat.com"
@@ -22,9 +27,4 @@
         windows_admin_password: "{{ item.windows_admin_password }}"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
-      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
-
-    - name: ver parámetros
-      debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ tem.ec2_image_name }} "
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
