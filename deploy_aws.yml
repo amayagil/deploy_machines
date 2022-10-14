@@ -10,9 +10,9 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ tem.ec2_image_name }} "
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ item.ec2_image_name }} "
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
-      
+
     - name: Deploy AWS instance
       vars:
         #ec2_key_pair: "ssh-rsa ZJoSENlXI2+B9dTUG2OA== amaya@redhat.com"
