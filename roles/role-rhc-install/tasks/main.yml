@@ -11,7 +11,16 @@
   
 - name: ver costitans
   debug:
-    msg: "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} "
+    msg: "{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} {{ salida }}"
+
+- name: arreglar el error 'Repositories disabled by configuration'
+  ansible.builtin.command: subscription-manager config --rhsm.manage_repos=1
+  register: output
+  when: salida.rc != 0
+
+- name: debug
+  debug:
+    msg: "{{ output }}"
 
 - name: instalar paquete rhc para el8.5
   ansible.builtin.dnf:
