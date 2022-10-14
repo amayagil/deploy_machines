@@ -2,7 +2,7 @@
 # tasks file for role
 - name: habilitar repo para el8.5 
   community.general.rhsm_repository:
-    name: ansible-2.9-for-rhel-8-x86_64-rpms 
+    name: ansible-2-for-rhel-8-x86_64-rpms 
     state: enabled
   register: salida
   when:
