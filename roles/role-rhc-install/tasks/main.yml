@@ -7,7 +7,7 @@
   register: salida
   when:
     - ansible_facts['distribution'] == "Red Hat"
-    - ansible_facts['distribution_version'] == "8.5"
+    - ansible_facts['distribution_version'] is version('8.5', '=')
   
 - name: ver costitans
   debug:
@@ -20,7 +20,7 @@
       - ansible
   when:
     - ansible_facts['distribution'] == "Red Hat"
-    - ansible_facts['distribution_version'] == "8.5"
+    - ansible_facts['distribution_version'] is version('8.5', '=')
 
 - name: instalar paquete rhc para el8.6 y posteriores
   ansible.builtin.dnf:
