@@ -19,3 +19,4 @@
       ansible.builtin.include_role:
         name: role-rhc-install
       when: ansible_os_family == 'RedHat'
+      tags: rhc
