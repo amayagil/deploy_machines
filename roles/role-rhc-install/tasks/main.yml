@@ -16,7 +16,7 @@
 - name: arreglar el error 'Repositories disabled by configuration'
   ansible.builtin.command: subscription-manager config --rhsm.manage_repos=1
   register: output
-  when: salida.rc != 0
+  when: salida.rc != '0'
 
 - name: debug
   debug:
