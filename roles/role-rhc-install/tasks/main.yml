@@ -6,7 +6,7 @@
     state: enabled
   register: salida
   when:
-    - ansible_facts['distribution'] == "Red Hat"
+    - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '==')
   
 - name: ver costitans
@@ -19,7 +19,7 @@
       - rhc-worker-playbook-0.1.5-3.el8_4
       - ansible
   when:
-    - ansible_facts['distribution'] == "Red Hat"
+    - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '==')
 
 - name: instalar paquete rhc para el8.6 y posteriores
