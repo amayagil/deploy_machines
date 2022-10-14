@@ -24,7 +24,7 @@
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo2
-  instance_flavor: m4.large
+  instance_flavor: t3.large
   ec2_image_name: "RHEL-8.5_HVM*x86_64*"
   instance_disk_size: 10
 - name: rhel-demo3
@@ -38,7 +38,7 @@
   type: ec2
   ec2_os_type: linux
   instance_name: rhel-demo4
-  instance_flavor: m4.large
+  instance_flavor: t3.large
   ec2_image_name: "RHEL-8.3_HVM*x86_64*"
   instance_disk_size: 10
 #- name: win-demo1
