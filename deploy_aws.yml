@@ -26,5 +26,5 @@
 
     - name: ver parámetros
       debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}}"
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ tem.ec2_image_name }} "
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
