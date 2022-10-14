@@ -4,7 +4,7 @@
   ec2_os_type: linux
   instance_name: rhel-controller
   instance_flavor: t3.large	
-  ec2_image_name: "RHEL-8.5_HVM*x86_64*"
+  ec2_image_name: "RHEL-8.6*x86_64*"
   instance_disk_size: 20
 - name: ahub
   type: ec2
