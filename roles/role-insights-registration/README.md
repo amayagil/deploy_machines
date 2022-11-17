@@ -124,3 +124,8 @@ group: "{{ cloud_provider }}"
 IMPORTANT:
 
 Due to how remediation playbooks are generated on cloud.redhat.com, this role forces the display_name and ansible_name to being the same (both of them will be inventory_hostname) so it can be used to fix remote machines from the controller.
+
+Author Information
+------------------
+
+Amaya Rosa Gil Pippino
