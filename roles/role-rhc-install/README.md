@@ -32,7 +32,7 @@ Example Playbook
 
 This is an example of how to use the role:
 
-    - name: Prepare machines with Red Hat Cloud Connector
+    - name: Prepare machines with Remote Host Configuration
       ansible.builtin.include_role:
         name: role-rhc-install
       when: ansible_os_family == 'RedHat'
