@@ -1,31 +1,41 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Remote host configuration client is a tool included with RHC that allows RHEL hosts to connect to the Insights services.
+
+RHC client is not a replacement for insights-client or subscription-manager, it is a an additional utility that complements the user experience around hosted Red Hat Insights services provided by Red Hat Hybrid Cloud Console.
+
+Installing and configuring rhc client on a RHEL host allows you to directly execute Insights remediation playbook directly from the UI context of Red Hat Hybrid Cloud Console for hosts directly registered to Red Hat via Insights.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+RHC on RHEL 8.5 has dependencies on ansible and rhc-playbook-worker. For installing the dependencies, it will be required to register with subscription-manager in the first place (the role automatically does that based on the RHEL version).
+
+Starting from RHEL 8.6, the registration process requires only one command. However, to get the full benefit of direct remediation via Insights, you will need to install additional packages:
+* rhc
+* rhc-worker-playbook
+* ansible-core
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+N/A
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+N/A
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+This is an example of how to use the role:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    - name: Prepare machines with Red Hat Cloud Connector
+      ansible.builtin.include_role:
+        name: role-rhc-install
+      when: ansible_os_family == 'RedHat'
 
 License
 -------
@@ -35,4 +45,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Amaya Rosa Gil Pippino
