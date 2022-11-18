@@ -8,11 +8,11 @@
   tasks:
     - name: Download AAP2 package for installation
       ansible.builtin.include_role:
-        name: package-downloader
+        name: role-package-downloader
       vars:
         rh_product_name: "aap2"
         rh_api_offline_token: "{{ offline_token }}"
-        
+
     - name: Install an Automation Controller
       ansible.builtin.include_role:
         name: role-ac-install
