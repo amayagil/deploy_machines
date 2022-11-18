@@ -4,9 +4,11 @@
   gather_facts: true
   vars:
     controller_instance_name: "controller"
+    rh_product_path: "/root"
      
   tasks:
-    - name: Download AAP2 package for installation
+  
+    - name: Download AAP2 package for installation  
       ansible.builtin.include_role:
         name: role-package-downloader
       vars:

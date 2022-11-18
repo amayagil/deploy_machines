@@ -19,7 +19,7 @@
   
 - name: Extract AAP2 setup content
   ansible.builtin.unarchive:
-    src: "/{{ playbook_dir }}/{{ hostvars[inventory_hostname]['product_filename'] }}"
+    src: "/{{ rh_product_path }}/{{ hostvars[inventory_hostname]['product_filename'] }}"
     dest: ~/aap2
     remote_src: yes
 
