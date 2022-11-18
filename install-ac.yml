@@ -5,6 +5,7 @@
   vars:
     controller_instance_name: "controller"
     rh_product_path: "/root"
+    rh_product_filename: ""
      
   tasks:
   
