@@ -1,23 +1,11 @@
 [automationcontroller]
 
-[automationcontroller:vars]
-#peers=execution_nodes
-
 [database]
 
 [automationhub]
 {{ controller_ah_instance_name }} ansible_user={{ host_user }} ansible_connection=local
 
 [all:vars]
-admin_password='redhat'
-
-pg_host=''
-pg_port='5432'
-
-pg_database='awx'
-pg_username='awx'
-pg_password='redhat'
-pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 
 # Execution Environment Configuration
 # Credentials for container registry to pull execution environment images from,
