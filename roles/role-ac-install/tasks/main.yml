@@ -6,6 +6,12 @@
     state: enabled
   become: true
 
+- name: Ensure python3-pyOpenSSL is installed
+  ansible.builtin.yum:
+    name: python3-pyOpenSSL
+    state: latest
+  become: true
+  
 - name: Ensure all packages are updated
   ansible.builtin.yum:
     name: '*'
