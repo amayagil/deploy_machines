@@ -7,6 +7,7 @@ Requirements
 ------------
 
 AAP2 bundle has to be downloaded or use role-package-downloader to download it.
+If downloaded, the variable `rh_product_path` must be set.
 
 Role Variables
 --------------
@@ -56,7 +57,7 @@ Here's an example on how to call this role.
 License
 -------
 
-BSD
+GPL
 
 Author Information
 ------------------
