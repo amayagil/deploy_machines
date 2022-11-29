@@ -34,14 +34,14 @@
     - ansible_facts['distribution_version'] is version('8.6', '>=')
 
 - name: ejecutar cliente rhc con user y pass
-  ansible.builtin.command: rhc connect
+  ansible.builtin.command: rhc connect -u {{ rhsm_username }} -p {{ rhsm_password }}
   when:
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '>=')
     - rhsm_username != "" and rhsm_password != "" and activationkey == ""
 
 - name: ejecutar cliente rhc con AK
-  ansible.builtin.command: rhc connect
+  ansible.builtin.command: rhc connect -a {{ activationkey }} -o {{ org_id }}
   when:
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '>=')
