@@ -46,3 +46,9 @@
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '>=')
     - ( rhsm_username != "" or rhsm_password != "" ) and activationkey != ""
+
+- name: ejecutar cliente rhc valores en la máquina (si los hubiere), sin parámetros
+  ansible.builtin.command: rhc connect -u {{ rhsm_username }} -p {{ rhsm_password }}
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_version'] is version('8.5', '>=')

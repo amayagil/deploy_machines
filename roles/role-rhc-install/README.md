@@ -20,7 +20,24 @@ Starting from RHEL 8.6, the registration process requires only one command. Howe
 Role Variables
 --------------
 
-N/A
+* redhat_portal_username: (optional)
+* redhat_portal_password: (optional)
+    
+    If defined, these set, change, or remove the username and password in the RHC / Insights configuration.
+    If undefined, this role will make no changes to the RHC / Insights configuration.
+
+    If defined to a non-empty string this role will set or change the username and password.
+    If defined to an empty string this role will remove the username and password.
+
+    These should be valid username/password for Insights/Red Hat Portal/Red Hat Subscription Manager.
+
+    If the username and password are set in the Insights configuration, they will be used as
+    credentials for all future interactions with the Insights server.
+
+    These credentials are only necessary if the client system is not registered with Red Hat
+    Subscription Manager.  If the username and password are not set in the Insights configuration,
+    which is the default initial state, all interactions with the Insights server will use the
+    CERT provided by RHSM.
 
 Dependencies
 ------------
