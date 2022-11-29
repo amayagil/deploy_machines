@@ -4,6 +4,10 @@
   gather_facts: true
 
   tasks:
+    - name: ver variables
+      debug:
+        msg: "{{ rhsm_username }} {{ rhsm_password }} {{ activationkey }}"
+        
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
         name: role-rhsm-registration
