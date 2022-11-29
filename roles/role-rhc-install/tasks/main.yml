@@ -32,3 +32,9 @@
   when: 
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.6', '>=')
+
+- name: ejecutar cliente rhc
+  ansible.builtin.command: rhc
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_version'] is version('8.5', '==') OR ansible_facts['distribution_version'] is version('8.6', '>=')
