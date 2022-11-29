@@ -1,2 +1,7 @@
 ---
 # vars file for role
+rhsm_username: "{{ rhsm_username | default(none) }}"
+rhsm_password: "{{ rhsm_password | default(none) }}"
+rhsm_poolid: "{{ rhsm_poolid | default(none) }}"
+activationkey: "{{ activationkey | default(none) }}"
+org_id: "{{ org_id | default(none) }}"
