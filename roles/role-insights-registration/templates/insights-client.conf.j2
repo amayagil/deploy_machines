@@ -4,5 +4,6 @@ password={{ rhsm_password | default(omit, true) }}
 auto_config={{ auto_config | default(omit, true) }}
 authmethod={{ authmethod | default(omit, true) }}
 display_name={{ display_name | default(omit, true) }}
+ansible_host={{ display_name | default(omit, true) }}
 #adding this line to trigger and resolver Advisor rule
 core_collect=True
