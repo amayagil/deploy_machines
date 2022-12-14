@@ -40,6 +40,15 @@
     - ansible_facts['distribution_version'] is version('8.5', '>=')
     - rhsm_username != "" and rhsm_password != "" and activationkey == ""
 
+- name: lanzar el servicio rhc
+  ansible.builtin.service:
+    name: rhc
+    state: start
+    enable: true
+  when:
+    - ansible_facts['distribution'] == "RedHat"
+    - ansible_facts['distribution_version'] is version('8.5', '>=')
+
 - name: ejecutar cliente rhc con AK
   ansible.builtin.command: rhc connect -a {{ activationkey }} -o {{ org_id }}
   when:
