@@ -20,6 +20,19 @@
         state: latest
       when: ansible_os_family == 'RedHat'
       register: aplug_out
+    
+    # create advisor issues to fix
+    - name: Set too open perms to sshd config file
+      ansible.builtin.file:
+        path: /etc/ssh/sshd_config
+        state: file
+        mode: u+rwx,g+rwx,o-+rwx
+    
+    - name: Allow Empty Passwords on sshd
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: "PermitEmptyPasswords yes"
 
     - name: Run Insights to update data
       ansible.builtin.command: insights-client
