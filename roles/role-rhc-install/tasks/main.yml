@@ -43,7 +43,7 @@
 - name: lanzar el servicio rhc
   ansible.builtin.service:
     name: rhc
-    state: start
+    state: started
     enable: true
   when:
     - ansible_facts['distribution'] == "RedHat"
