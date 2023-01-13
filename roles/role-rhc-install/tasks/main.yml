@@ -44,7 +44,7 @@
   ansible.builtin.service:
     name: rhc
     state: started
-    enable: true
+    enabled: true
   when:
     - ansible_facts['distribution'] == "RedHat"
     - ansible_facts['distribution_version'] is version('8.5', '>=')
