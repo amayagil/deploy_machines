@@ -42,7 +42,7 @@
 
 - name: lanzar el servicio rhc
   ansible.builtin.service:
-    name: rhc
+    name: rhcd
     state: started
     enabled: true
   when:
