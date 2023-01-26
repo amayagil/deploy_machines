@@ -53,3 +53,7 @@
     dest: /etc/ansible/facts.d
     mode: a+x
   become: true
+
+- name: Run openscsap on machines (generates report if a policy is set)
+  ansible.builtin.command: insights-client --compliance --display-name {{ display_name }}
+  become: true
