@@ -43,4 +43,9 @@
       ansible.builtin.command: insights-client --collector malware-detection --display-name {{ display_name }}
       become: true
       when: ansible_os_family == 'RedHat'
+      register: malos
+
+    - name: debug malos
+      debug:
+        msg: "malos es {{ malos }}"
 
