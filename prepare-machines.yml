@@ -19,8 +19,3 @@
       ansible.builtin.include_role:
         name: role-rhc-install
       when: ansible_os_family == 'RedHat'
-
-    - name: Prepare machines for Insights Malware detection
-      ansible.builtin.include_role:
-        name: role-malware-detection-conf
-      when: ansible_os_family == 'RedHat'

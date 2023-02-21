@@ -1,59 +1,7 @@
 ---
-- name: Install 'insights-client'
-  ansible.builtin.yum:
-    name: insights-client
-  become: true
+- include_tasks: 
+    file: insights.yml
 
-- name: Set Insights Configuration Values
-  ansible.builtin.template:
-    dest: /etc/insights-client/tags.yaml
-    src: templates/tags.yaml.j2
-  become: true
-
-- name: Set Insights Tags
-  ansible.builtin.template:
-    dest: /etc/insights-client/insights-client.conf
-    src: templates/insights-client.conf.j2
-  become: true
-  
-- name: Change permissions of Insights Config directory so that Insights System ID can be read
-  ansible.builtin.file:
-    path: /etc/insights-client
-    mode: og=rx
-  become: true
-
-- name: Register Insights Client
-  ansible.builtin.command: insights-client --register --display-name {{ display_name }}
-  become: true
-
-- name: Force Insights display-name
-  ansible.builtin.command: insights-client --display-name {{ display_name }}
-  become: true
-
-- name: Force Insights ansible-host
-  ansible.builtin.command: insights-client --ansible-host {{ display_name }}
-  become: true
-
-- name: Change permissions of machine_id file so that Insights System ID can be read
-  ansible.builtin.file:
-    path: /etc/insights-client/machine-id
-    mode: og=r
-  become: true
-
-- name: Create directory for ansible custom facts
-  ansible.builtin.file:
-    state: directory
-    recurse: true
-    path: /etc/ansible/facts.d
-  become: true
-
-- name: Install custom insights fact
-  ansible.builtin.copy:
-    src: insights.fact
-    dest: /etc/ansible/facts.d
-    mode: a+x
-  become: true
-
-- name: Run openscsap on machines (generates report if a policy is set)
-  ansible.builtin.command: insights-client --compliance --display-name {{ display_name }}
-  become: true
+- include_tasks: 
+    file: malware.yml
+  when: malware_detection

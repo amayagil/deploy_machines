@@ -4,3 +4,4 @@ auto_config: TRUE
 authmethod: BASIC
 display_name: "{{ inventory_hostname | default(omit, true) }}"
 proxy: "{{ insights_proxy | default(none, true) }}"
+malware_detection: true
