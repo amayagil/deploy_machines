@@ -59,11 +59,9 @@
   become: true
 
 - name: Habilitar Insights Malware detection
-  ansible.builtin.command: insights-client --collector malware-detection #--display-name {{ display_name }}
+  ansible.builtin.command: insights-client --collector malware-detection
   become: true
-  when: ansible_os_family == 'RedHat'
-  register: malos
-
-- name: debug
-  debug:
-    msg: "salida {{ malos }}"
+  when: 
+  - ansible_os_family == 'RedHat'
+  - ansible_facts['distribution'] == "RedHat"
+  - ansible_facts['distribution_version'] is version('8.0', '>=')
