@@ -1,5 +1,5 @@
 ---
-- name: Prepare machines to show Insights vulnerability
+- name: Prepare machines to show Insights vulnerability & Malware detection
   hosts: all
   gather_facts: true
 
@@ -38,3 +38,9 @@
       ansible.builtin.command: insights-client
       changed_when: false
       when: ansible_os_family == 'RedHat'
+
+    - name: Force Insights Malware detection
+      ansible.builtin.command: insights-client --collector malware-detection --display-name {{ display_name }}
+      become: true
+      when: ansible_os_family == 'RedHat'
+
