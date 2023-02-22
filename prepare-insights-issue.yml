@@ -34,6 +34,12 @@
         state: present
         line: "PermitEmptyPasswords yes"
 
+    - name: Allow Root login on sshd
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: "PermitRootLogin yes"
+
     - name: Run Insights to update data
       ansible.builtin.command: insights-client
       changed_when: false
