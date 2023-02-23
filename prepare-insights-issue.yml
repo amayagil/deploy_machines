@@ -32,7 +32,7 @@
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
         state: present
-        line: "PermitEmptyPasswords no"
+        line: "PermitEmptyPasswords yes"
 
     - name: Allow Root login on sshd
       ansible.builtin.lineinfile:
