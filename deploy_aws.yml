@@ -32,6 +32,6 @@
       
     - name: Slack test
         community.general.slack:
-        token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
+          token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
           msg: Instances created
           channel: '#insights'
