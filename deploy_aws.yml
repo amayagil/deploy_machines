@@ -29,3 +29,9 @@
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      
+    - name: Slack test
+        community.general.slack:
+        token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
+          msg: Instances created
+          channel: '#insights'
