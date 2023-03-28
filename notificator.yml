@@ -17,4 +17,4 @@
       api_args:
         chat_id: 11394314
         parse_mode: "markdown"
-        text: "Approval is waiting... \nhttps://controller.cibeles.me/#/workflow_approvals"
+        text: "Approval is waiting... https://controller.cibeles.me/#/workflow_approvals"
