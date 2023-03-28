@@ -2,13 +2,11 @@
 - name: Notificator playbook
   hosts: all
   gather_facts: false
-    
+
   - name: Notificar Slack
     community.general.slack:
       token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
-      msg: 
-        - Approval is waiting...
-        - https://controller.cibeles.me/#/workflow_approvals
+      msg: "Approval is waiting... \nhttps://controller.cibeles.me/#/workflow_approvals"
       channel: '#insights'
        
   - name: Notificar Telegram
