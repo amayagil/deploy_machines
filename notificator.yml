@@ -1,6 +1,6 @@
 --- 
 - name: Notificator playbook
-  hosts: all
+  hosts: localhost
   gather_facts: false
   
   tasks:
