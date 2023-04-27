@@ -2,13 +2,16 @@
 - name: Notificator playbook
   hosts: localhost
   gather_facts: false
-  
+  vars:
+    msg_tlg: ""
+    msg_slack: ""
+    
   tasks:
   
   - name: Notificar Slack
     community.general.slack:
       token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
-      msg: "Approval is waiting... \nhttps://controller.cibeles.me/#/workflow_approvals"
+      msg: "{{ msg_tlg | default("Notification in place", true) }}"
       channel: '#insights'
        
   - name: Notificar Telegram
@@ -17,4 +20,4 @@
       api_args:
         chat_id: 11394314
         parse_mode: "markdown"
-        text: "Approval is waiting..."
+        text: "{{ msg_slack | default("Notification in place", true) }}"
