@@ -4,7 +4,7 @@
   gather_facts: false
 
   tasks:
-    - name: Deploy AWS instance
+    - name: Destroy AWS instance
       vars:
         ec2_region: "eu-central-1"
         type: "{{ item.type}}"
