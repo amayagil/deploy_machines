@@ -17,7 +17,7 @@
       vars:
         #ec2_key_pair: "ssh-rsa ZJoSENlXI2+B9dTUG2OA== amaya@redhat.com"
         ec2_region: "eu-central-1"
-        type: "{{ item.type}}"
+        type: "ec2"
         ec2_os_type: "{{ item.ec2_os_type}}"
         ec2_image_name: "{{ item.ec2_image_name }}"
         ec2_image_id: ""
