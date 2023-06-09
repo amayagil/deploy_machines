@@ -1,5 +1,5 @@
 ---
-- name: Deploy EC2 instance
+- name: Deploy Azure instance
   hosts: all
   gather_facts: false
 
@@ -10,21 +10,22 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.ec2_os_type}} instancia {{ item.ec2_image_name }} "
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.image_offer }} "
       loop: "{{ lookup('file', 'machines_def_+{{ type }}.yml') | from_yaml }}"
 
     - name: Deploy AWS instance
       vars:
-        #ec2_key_pair: "ssh-rsa ZJoSENlXI2+B9dTUG2OA== amaya@redhat.com"
-        ec2_region: "eu-central-1"
         type: "{{ item.type}}"
-        ec2_os_type: "{{ item.ec2_os_type}}"
-        ec2_image_name: "{{ item.ec2_image_name }}"
-        ec2_image_id: ""
-        instance_name: "{{ item.name }}"
-        instance_flavor: "{{ item.instance_flavor }}"
-        instance_disk_size: "{{ item.instance_disk_size }}"
-        ec2_key_pair: '{{ lookup("file","/tmp/id_rsa.pub") }}'
+        # Azure resource group name
+        # override this value if you use Azure Open Environment credentials from RHPDS
+        azure_resource_group: "{{ instance_name }}"
+        azure_private_network: "{{ azure_resource_group }}"
+        # public key to inject into the Linux instance for SSH
+        azure_os_type: "{{ item.azure_os_type}}"
+        azure_image_offer: "{{ item.image_offer }}"
+        azure_image_publisher: "{{ item.azure_image_publisher }}"
+        azure_image_sku: "{{ item.azure_image_sku }}"
+        azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
         windows_admin_password: "{{ item.windows_admin_password }}"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance

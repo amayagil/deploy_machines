@@ -1,0 +1,58 @@
+---
+- name: controller
+  type: azure
+  # standard flavor is 2 CPU, 8 GB RAM
+  # instance_flavor: Standard_DS2
+  # for 4 CPU , 16 GB RAM
+  # instance_flavor: Standard_DS4
+  # for 1 CPU, 1 GB RAM
+  # instance_flavor: Standard_B1s
+  # get list of images with the following command: (might require you to do az login first)
+  # az vm image list-skus --output table --offer RHEL --location westeurope --publisher RedHat
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  # set guest OS type, either "linux" or "windows"
+  azure_os_type: linux
+  # set disk type for this instance
+  azure_disk_type: "StandardSSD_LRS"
+- name: ahub
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo1
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo2
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo3
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+#- name: rhel-demo4
+#  type: ec2
+#  ec2_os_type: linux
+#  instance_name: rhel-demo4
+#  instance_flavor: t3.large
+#  ec2_image_name: "RHEL-8.6*HVM*x86_64*"
+#  instance_disk_size: 10
+#- name: win-demo1
+#  type: ec2
+#  ec2_os_type: windows
+#  instance_name: win-demo1
+#  instance_flavor: t3.large
+#  windows_admin_password: redhat
