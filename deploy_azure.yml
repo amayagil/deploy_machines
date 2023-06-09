@@ -1,6 +1,6 @@
 ---
 - name: Deploy Azure instance
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   # Cada loop itera sobre todas las localizaciones.
