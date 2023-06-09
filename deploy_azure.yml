@@ -10,7 +10,7 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.image_offer }} "
+        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure.image_offer }} "
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
 
     - name: Deploy AWS instance
