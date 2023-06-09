@@ -22,7 +22,7 @@
         azure_private_network: "{{ azure_resource_group }}"
         # public key to inject into the Linux instance for SSH
         azure_os_type: "{{ item.azure_os_type}}"
-        azure_image_offer: "{{ item.image_offer }}"
+        azure_image_offer: "{{ item.azure.image_offer }}"
         azure_image_publisher: "{{ item.azure_image_publisher }}"
         azure_image_sku: "{{ item.azure_image_sku }}"
         azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
