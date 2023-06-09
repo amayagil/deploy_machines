@@ -16,6 +16,7 @@
     - name: Deploy AWS instance
       vars:
         type: "azure"
+        instance_name: "{{ item.name }}"
         # Azure resource group name
         # override this value if you use Azure Open Environment credentials from RHPDS
         azure_resource_group: "{{ instance_name }}"
