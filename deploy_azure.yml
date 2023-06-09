@@ -11,7 +11,7 @@
     - name: ver parámetros
       debug:
         msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.image_offer }} "
-      loop: "{{ lookup('file', 'machines_def_'+{{ type }}.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines_def_'{{ type }}.yml') | from_yaml }}"
 
     - name: Deploy AWS instance
       vars:
@@ -29,7 +29,7 @@
         windows_admin_password: "{{ item.windows_admin_password }}"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
-      loop: "{{ lookup('file', 'machines_def_'+{{ type }}.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines_def_'{{ type }}.yml') | from_yaml }}"
       
     - name: Slack test
       community.general.slack:
