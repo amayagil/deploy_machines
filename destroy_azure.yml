@@ -16,4 +16,4 @@
         remove: yes
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
-      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
+      loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
