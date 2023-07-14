@@ -1,12 +1,12 @@
 
 - name: Debug Notificator
   debug:
-    msg: "{{ txt_slack }} && {{ txt_tlg }}"
+    msg: "{{ msg_slack }} && {{ msg_tlg }}"
 
 - name: Notificar Slack
   community.general.slack:
     token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
-    msg: "{{ txt_slack | default('Notification in place', true) }}"
+    msg: "{{ msg_slack | default('Notification in place', true) }}"
     channel: '#insights'
       
 - name: Notificar Telegram
@@ -15,4 +15,4 @@
     api_args:
       chat_id: 11394314
       parse_mode: "html"
-      text: "{{ txt_tlg | default('Notification in place', true) }}"
+      text: "{{ msg_tlg | default('Notification in place', true) }}"
