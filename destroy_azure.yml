@@ -1,0 +1,19 @@
+---
+- name: Destroy Azure instance
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Destroy Azure instance
+      vars:
+        ec2_region: "eu-central-1"
+        type: "{{ item.type}}"
+        instance_name: "{{ item.name }}"
+        instance_flavor: "Standard_D2s_v3"
+        azure_os_type: "{{ item.azure_os_type}}"
+        azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
+        windows_admin_password: "{{ item.windows_admin_password }}"
+        remove: yes
+      ansible.builtin.include_role:
+        name: ansible_ssa.general.instance
+      loop: "{{ lookup('file', 'machines.yml') | from_yaml }}"
