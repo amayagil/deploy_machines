@@ -1,8 +1,3 @@
-
-- name: Debug Notificator
-  debug:
-    msg: "{{ msg_slack }} && {{ msg_tlg }}"
-
 - name: Notificar Slack
   community.general.slack:
     token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
