@@ -17,7 +17,7 @@
       vars:
         type: "azure"
         instance_name: "{{ item.name }}"
-        instance_flavor: "Standard_DS2"
+        instance_flavor: "Standard_D2s_v3"
         # Azure resource group name
         # override this value if you use Azure Open Environment credentials from RHPDS
         azure_resource_group: "{{ instance_name }}"
