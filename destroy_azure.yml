@@ -6,7 +6,7 @@
   tasks:
     - name: Destroy Azure instances
       vars:
-        type: "azure"
+        type: "{{ item.type}}"
         instance_name: "{{ item.name }}"
         instance_flavor: "Standard_D2s_v3"
         azure_os_type: "{{ item.azure_os_type}}"
