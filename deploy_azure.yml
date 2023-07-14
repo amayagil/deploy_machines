@@ -7,8 +7,8 @@
   # El filtro file devuelve los contenidos del fichero machines.yml
   # El filtro from_yaml convierte de yaml a un objeto iterable
   vars:
-    msg_slack: ""
-    msg_tlg: ""
+    msg_slack: "{{ type | capitalize  }} instances created in {{ azure_resource_group }}"
+    msg_tlg: "{{ type | capitalize }} instances created in {{ azure_resource_group }}"
 
   tasks:
     - name: ver parámetros
@@ -35,13 +35,6 @@
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
-      
-
-    - name: "Artifact URL of test results to Workflows"
-      set_stats:
-        data:
-          msg_slack: "{{ type | capitalize  }} instances created in {{ azure_resource_group }}"
-          msg_tlg: "{{ type | capitalize }} instances created in {{ azure_resource_group }}"
 
     - name: Debug Notificator
       debug:
