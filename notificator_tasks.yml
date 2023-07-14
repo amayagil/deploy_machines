@@ -6,7 +6,7 @@
 - name: Notificar Slack
   community.general.slack:
     token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
-    msg: "{{ msg_slack | default('Notification in place', true) }}"
+    msg: "{{ txt_slack | default('Notification in place', true) }}"
     channel: '#insights'
       
 - name: Notificar Telegram
@@ -15,4 +15,4 @@
     api_args:
       chat_id: 11394314
       parse_mode: "html"
-      text: "{{ msg_tlg | default('Notification in place', true) }}"
+      text: "{{ txt_tlg | default('Notification in place', true) }}"
