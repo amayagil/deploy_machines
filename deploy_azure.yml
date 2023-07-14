@@ -35,8 +35,8 @@
       
     - name: Debug Notificator
       vars:
-        msg_slack: "{{ type | capitalize  }} instances created in {{ instance_name }}"
-        msg_tlg: "{{ type | capitalize }} instances created in {{ instance_name }}"
+        msg_slack: "{{ type | capitalize  }} instances created in {{ azure_resource_group }}"
+        msg_tlg: "{{ type | capitalize }} instances created in {{ azure_resource_group }}"
       debug:
         msg: "{{ msg_slack }} && {{ msg_tlg }}"
         
