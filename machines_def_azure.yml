@@ -16,33 +16,33 @@
   azure_os_type: linux
   # set disk type for this instance
   azure_disk_type: "StandardSSD_LRS"
-# - name: ahub
-#   type: azure
-#   azure_image_offer: RHEL
-#   azure_image_publisher: RedHat
-#   azure_image_sku: 9-lvm-gen2
-#   azure_os_type: linux
-#   azure_disk_type: "StandardSSD_LRS"
-# - name: rhel-demo1
-#   azure_image_offer: RHEL
-#   azure_image_publisher: RedHat
-#   azure_image_sku: 9-lvm-gen2
-#   azure_os_type: linux
-#   azure_disk_type: "StandardSSD_LRS"
-# - name: rhel-demo2
-#   type: azure
-#   azure_image_offer: RHEL
-#   azure_image_publisher: RedHat
-#   azure_image_sku: 9-lvm-gen2
-#   azure_os_type: linux
-#   azure_disk_type: "StandardSSD_LRS"
-# - name: rhel-demo3
-#   type: azure
-#   azure_image_offer: RHEL
-#   azure_image_publisher: RedHat
-#   azure_image_sku: 9-lvm-gen2
-#   azure_os_type: linux
-#   azure_disk_type: "StandardSSD_LRS"
+- name: ahub
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo1
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo2
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
+- name: rhel-demo3
+  type: azure
+  azure_image_offer: RHEL
+  azure_image_publisher: RedHat
+  azure_image_sku: 9-lvm-gen2
+  azure_os_type: linux
+  azure_disk_type: "StandardSSD_LRS"
 #- name: rhel-demo4
 #  type: ec2
 #  ec2_os_type: linux
