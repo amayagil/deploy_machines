@@ -33,6 +33,13 @@
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
       
+    - name: Debug Notificator
+      vars:
+        msg_slack: "{{ type | capitalize  }} instances created in {{ instance_name }}"
+        msg_tlg: "{{ type | capitalize }} instances created in {{ instance_name }}"
+      debug:
+        msg: "{{ msg_slack }} && {{ msg_tlg }}"
+        
     - name: Invocar Notificator
       vars:
         msg_slack: "{{ type | capitalize  }} instances created in {{ instance_name }}"
