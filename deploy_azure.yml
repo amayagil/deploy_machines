@@ -38,6 +38,6 @@
         
     - name: Invocar Notificator
       vars:
-        txt_slack: "{{ type | capitalize  }} instances created in {{ instance_name }}"
-        txt_tlg: "{{ type | capitalize }} instances created in {{ instance_name }}"
+        txt_slack: "{{ type | capitalize  }} instances created in {{ azure_resource_group }}"
+        txt_tlg: "{{ type | capitalize }} instances created in {{ azure_resource_group }}"
       ansible.builtin.include_tasks: notificator_tasks.yml
