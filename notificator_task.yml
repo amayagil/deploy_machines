@@ -1,0 +1,13 @@
+- name: Notificar Slack
+  community.general.slack:
+    token: T04RP428ZBQ/B04RW4Z11DL/Xow5ljlHZliYA2uSgjVAeLwR
+    msg: "{{ msg_slack | default('Notification in place', true) }}"
+    channel: '#insights'
+      
+- name: Notificar Telegram
+  community.general.telegram:
+    token: '1024279922:AAHSx-S_PC0vkjdG1-CqR5RxSIdma1sbZTM'
+    api_args:
+      chat_id: 11394314
+      parse_mode: "html"
+      text: "{{ msg_tlg | default('Notification in place', true) }}"

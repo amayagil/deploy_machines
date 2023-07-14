@@ -13,7 +13,7 @@
         msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml"
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
 
-    - name: Deploy AWS instance
+    - name: Deploy Azure instance
       vars:
         type: "azure"
         instance_name: "{{ item.name }}"
@@ -33,7 +33,7 @@
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
       
-    - include_tasks: notificator.yml
+    - include_tasks: notificator_tasks.yml
       vars:
         msg_slack: "{{ type | capitalize  }} instances created in {{ instance_name }}"
         msg_tlg: "{{ type | capitalize }} instances created in {{ instance_name }}"
