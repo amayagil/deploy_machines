@@ -1,7 +1,7 @@
 
 - name: Debug Notificator
   debug:
-    msg: "{{ msg_slack }} && {{ msg_tlg }}"
+    msg: "{{ txt_slack }} && {{ txt_tlg }}"
 
 - name: Notificar Slack
   community.general.slack:
