@@ -1,10 +1,10 @@
 ---
-- name: Destroy Azure instance
+- name: Destroy Azure instances
   hosts: all
   gather_facts: false
 
   tasks:
-    - name: Destroy Azure instance
+    - name: Destroy Azure instances
       vars:
         type: "azure"
         instance_name: "{{ item.name }}"
