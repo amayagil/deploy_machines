@@ -6,8 +6,7 @@
   tasks:
     - name: Destroy Azure instance
       vars:
-        ec2_region: "eu-central-1"
-        type: "{{ item.type}}"
+        type: "azure"
         instance_name: "{{ item.name }}"
         instance_flavor: "Standard_D2s_v3"
         azure_os_type: "{{ item.azure_os_type}}"
