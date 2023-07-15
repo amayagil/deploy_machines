@@ -16,3 +16,9 @@
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
+
+    - name: Invocar Notificator
+      vars:
+        msg_slack: "{{ type | capitalize  }} instances destroyed in {{ azure_resource_group }}"
+        msg_tlg: "{{ type | capitalize }} instances destroyed in {{ azure_resource_group }}"
+      ansible.builtin.include_tasks: notificator_tasks.yml
