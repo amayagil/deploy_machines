@@ -8,6 +8,7 @@
       vars:
         type: "{{ item.type}}"
         instance_name: "{{ item.name }}"
+        azure_private_network: "{{ azure_resource_group }}"
         instance_flavor: "Standard_D2s_v3"
         azure_os_type: "{{ item.azure_os_type}}"
         azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
@@ -16,3 +17,9 @@
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
+
+    - name: Invocar Notificator
+      vars:
+        msg_slack: "{{ type | capitalize  }} instances destroyed in {{ azure_resource_group }}"
+        msg_tlg: "{{ type | capitalize }} instances destroyed in {{ azure_resource_group }}"
+      ansible.builtin.include_tasks: notificator_tasks.yml

@@ -19,6 +19,6 @@
 
     - name: Invocar Notificator
       vars:
-        msg_slack: "{{ type | capitalize  }} instances destroyed in {{ azure_resource_group }}"
-        msg_tlg: "{{ type | capitalize }} instances destroyed in {{ azure_resource_group }}"
+        msg_slack: "{{ type | capitalize  }} instances destroyed in AWS, region {{ ec2_region }}"
+        msg_tlg: "{{ type | capitalize }} instances destroyed in AWS, region {{ ec2_region }}"
       ansible.builtin.include_tasks: notificator_tasks.yml
