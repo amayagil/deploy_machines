@@ -10,7 +10,7 @@
   tasks:
     - name: debug IPs
       debug:
-        msg: "ansible host {{ ansible_host }} nombre {{ ansible_hostname }} IP {{  ansible_default_ipv4.address }}"
+        msg: "ansible host {{ ansible_host }} nombre {{ ansible_hostname }} IP {{ ansible_default_ipv4.address }}"
 
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
