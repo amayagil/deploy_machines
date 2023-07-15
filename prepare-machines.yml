@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: true
 
+  vars:
+    msg_slack: "Instances registed to Red Hat services"
+    msg_tlg: "Instances registed to Red Hat services"
+
   tasks:
     - name: Prepare machines with RHSM Registration
       ansible.builtin.include_role:
