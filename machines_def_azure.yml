@@ -50,4 +50,5 @@
   azure_image_publisher: MicrosoftWindowsServer
   azure_image_sku: 2019-Datacenter
   azure_disk_type: "StandardSSD_LRS"
+  admin_username: ansible
   windows_admin_password: redhat

@@ -32,6 +32,9 @@
         azure_image_publisher: "{{ item.azure_image_publisher }}"
         azure_image_sku: "{{ item.azure_image_sku }}"
         windows_admin_password: "{{ item.windows_admin_password }}"
+        # User and pass if no keys are to be used
+        admin_username: ansible
+        admin_password: "redhat"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
