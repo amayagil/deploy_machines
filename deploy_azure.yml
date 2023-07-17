@@ -13,7 +13,7 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: "Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml"
+        msg: 'Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml clave pública ofrecida {{ lookup("file","/tmp/id_rsa.pub") }}'
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
 
     - name: Deploy Azure instance
@@ -26,11 +26,11 @@
         azure_resource_group: "{{ instance_name }}"
         azure_private_network: "{{ azure_resource_group }}"
         # public key to inject into the Linux instance for SSH
+        azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
         azure_os_type: "{{ item.azure_os_type}}"
         azure_image_offer: "{{ item.azure_image_offer }}"
         azure_image_publisher: "{{ item.azure_image_publisher }}"
         azure_image_sku: "{{ item.azure_image_sku }}"
-        azure_ssh_public_key: '{{ lookup("file","/tmp/id_rsa.pub") }}'
         windows_admin_password: "{{ item.windows_admin_password }}"
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
