@@ -26,7 +26,7 @@
 
     - name: Display system details
       debug:
-        var: "{{ result.content.split('\n') | to_json }}"
+        var: "{{ result.content.split('\n') | from_json }}"
 
 #    - name: Ver cositas
 #      debug:
