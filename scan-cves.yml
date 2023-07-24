@@ -26,7 +26,7 @@
 
     - name: Display system details
       debug:
-        var: result.json
+        var: "{{ result | to_json }}"
 
 #    - name: Display system facts
 #      debug:
