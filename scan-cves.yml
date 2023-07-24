@@ -13,8 +13,8 @@
   tasks:
     - name: pull info from Insights API
       ansible.builtin.uri:
-        #url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
-        url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves"
+        url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
+        #url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves"
         method: GET
         return_content: true
         user: "{{ insights_auth_user }}"
