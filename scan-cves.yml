@@ -11,8 +11,13 @@
     #playbook: playbook.yml
 
   tasks:
+    - name: gather facts for RHEL hosts
+      ansible.builtin.setup:
+        gather_subset:
+          - all
+      when: ansible_os_family == 'RedHat'
+
     - name: pull info from Insights API
-      gather_facts: true
       ansible.builtin.uri:
         url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
         method: GET
@@ -22,4 +27,3 @@
         force_basic_auth: yes
       register: this
       failed_when: this is failed or "'CVE' not in this.content"
-      when: ansible_os_family == 'RedHat'
