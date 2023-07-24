@@ -15,7 +15,6 @@
       ansible.builtin.setup:
         gather_subset:
           - 'all'
-      when: ansible_os_family == 'RedHat'
 
     - name: pull info from Insights API
       ansible.builtin.uri:
