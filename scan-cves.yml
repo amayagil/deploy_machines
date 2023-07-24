@@ -1,7 +1,7 @@
 ---
 - name: Prepare machines for use with Red Hat
   hosts: all
-  gather_facts: false
+  gather_facts: true
 
   vars:
     insights_auth_user: "{{ rhsm_username }}"
@@ -11,13 +11,6 @@
     #playbook: playbook.yml
 
   tasks:
-    - name: gather facts for RHEL hosts
-      ansible.builtin.setup:
-        gather_subset:
-          - 'all'
-        tags: 
-          - dc_role: '!client'
-
     - name: pull info from Insights API
       ansible.builtin.uri:
         url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
