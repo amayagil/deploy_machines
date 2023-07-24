@@ -19,9 +19,9 @@
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
         force_basic_auth: yes
-      register: result
       #failed_when: result is failed or "'CVE' not in result.content"
       when: ansible_os_family == 'RedHat'
+      register: result
 
     - name: Display system details
       debug:
