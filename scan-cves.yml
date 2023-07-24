@@ -28,3 +28,15 @@
         force_basic_auth: yes
       register: this
       failed_when: this is failed or "'CVE' not in this.content"
+
+    - name: Display system details
+      debug:
+        var: result.json
+
+    - name: Display system facts
+      debug:
+        msg:
+        - "display_name: {{ result.json.results[0].display_name }}"
+        - "fqdn: {{ result.json.results[0].fqdn }}"
+        - "insights_id: {{ result.json.results[0].insights_id }}"
+        - "id: {{ result.json.results[0].id }}"
