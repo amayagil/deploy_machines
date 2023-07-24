@@ -31,10 +31,10 @@
     - name: Ver cositas
       debug:
         msg:
-        - "CVE Score: {{ result.content.data[0].cvss3_score }}"
-        - "CVE Description: {{ result.content.data[0].description }}"
-        - "CVE Synopsis: {{ result.content.data[0].synopsis }}"
-        - "CVE Impact: {{ result.content.data[0].impact }}"
+        - "CVE Score: {{ result.content.data[0].attributes.cvss3_score }}"
+        - "CVE Description: {{ result.content.data[0].attributes.description }}"
+        - "CVE Synopsis: {{ result.content.data[0].attributes.synopsis }}"
+        - "CVE Impact: {{ result.content.data[0].attributes.impact }}"
 #    - name: Display system facts
 #      debug:
 #        msg:
