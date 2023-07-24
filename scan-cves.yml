@@ -26,15 +26,15 @@
 
     - name: Display system details
       debug:
-        var: result
+        var: "{{ result.content.split('\n') | to_json }}"
 
-    - name: Ver cositas
-      debug:
-        msg:
-        - "CVE Score: {{ result.content.data[0].attributes.cvss3_score }}"
-        - "CVE Description: {{ result.content.data[0].attributes.description }}"
-        - "CVE Synopsis: {{ result.content.data[0].attributes.synopsis }}"
-        - "CVE Impact: {{ result.content.data[0].attributes.impact }}"
+#    - name: Ver cositas
+#      debug:
+#        msg:
+#        - "CVE Score: {{ result.content.data[0].attributes.cvss3_score }}"
+#        - "CVE Description: {{ result.content.data[0].attributes.description }}"
+#        - "CVE Synopsis: {{ result.content.data[0].attributes.synopsis }}"
+#        - "CVE Impact: {{ result.content.data[0].attributes.impact }}"
 #    - name: Display system facts
 #      debug:
 #        msg:
