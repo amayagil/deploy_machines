@@ -12,6 +12,7 @@
 
   tasks:
     - name: pull info from Insights API
+      gather_facts: true
       ansible.builtin.uri:
         url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
         method: GET
