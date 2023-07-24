@@ -14,7 +14,7 @@
     - name: gather facts for RHEL hosts
       ansible.builtin.setup:
         gather_subset:
-          - all
+          - 'all'
       when: ansible_os_family == 'RedHat'
 
     - name: pull info from Insights API
