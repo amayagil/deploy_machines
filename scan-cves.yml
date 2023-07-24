@@ -6,7 +6,7 @@
   vars:
     insights_auth_user: "{{ rhsm_username }}"
     insights_auth_password: "{{ rhsm_password  }}"
-    insights_api_url: "https://cloud.redhat.com/api"
+    insights_api_url: "https://console.redhat.com/api"
     recommendation_id: "{{ recommendation_id}}"
     #playbook: playbook.yml
 
