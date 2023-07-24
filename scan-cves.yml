@@ -4,8 +4,8 @@
   gather_facts: true
 
   vars:
-    insights_auth_user: "{{ creds.username }}"
-    insights_auth_password: "{{ creds.password }}"
+    insights_auth_user: "{{ rhsm_username }}"
+    insights_auth_password: "{{ rhsm_password  }}"
     insights_api_url: "https://cloud.redhat.com/api"
     recommendation_id: "{{ recommendation_id}}"
     #playbook: playbook.yml
@@ -13,7 +13,7 @@
   tasks:
     - name: pull info from Insights API
       ansible.builtin.uri:
-        url: https://console.redhat.com/api/vulnerability/v1/vulnerabilities/cves?affecting=true
+        url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
         method: GET
         return_content: true
         user: "{{ insights_auth_user }}"
