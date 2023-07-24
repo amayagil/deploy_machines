@@ -21,3 +21,4 @@
         force_basic_auth: yes
       register: this
       failed_when: this is failed or "'CVE' not in this.content"
+      when: ansible_os_family == 'RedHat'
