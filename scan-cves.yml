@@ -26,16 +26,16 @@
       ansible.builtin.debug:
         msg: "{{ insights_api.content | type_debug }}"
 
-#    - name: Show what type of data the bands variable is made up of
-#      ansible.builtin.debug:
-#        msg: "{{ item | type_debug }}"
-#      loop: "{{ insights_api.content['data'] }}"
+    - name: Show what type of data the insights_api variable is made up of
+      ansible.builtin.debug:
+        msg: "{{ item | type_debug }}"
+      loop: "{{ insights_api.content }}"
 
     - name: set facts
       set_fact: 
-        insights_api_content: "{{insights_api.content}}"
+        insights_api_content: "{{ insights_api.content }}"
 
-    - name: List ALL band members of ALL bands
+    - name: List ALL data of ALL CVEs
       ansible.builtin.debug:
         msg: "{{ insights_api_content | selectattr('data', 'defined') | map(attribute='data') }}"
 
