@@ -30,14 +30,11 @@
       ansible.builtin.debug:
         msg: "{{ insights_api_json }}"
 
-    - name: Show what type of data the insights_api variable is made up of
-      ansible.builtin.debug:
-        msg: "{{ item | type_debug }}"
-      loop: "{{ insights_api_json.data[0] }}"
+#    - name: Show what type of data the insights_api variable is made up of
+#      ansible.builtin.debug:
+#        msg: "{{ item | type_debug }}"
+#      loop: "{{ insights_api_json.data[0] }}"
 #
-#    - name: set facts
-#      set_fact: 
-#        insights_api_content: "{{ insights_api.content }}"
 #
 #    - name: List ALL data of ALL CVEs
 #      ansible.builtin.debug:
