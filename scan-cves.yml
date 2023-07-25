@@ -24,7 +24,7 @@
 
     - name: Display system details
       ansible.builtin.debug:
-        var: insights_api.content.'data'
+        var: "{{ insights_api.content | selectattr('data', 'defined') | map(attribute='impact') }}"
 
 #    - name: Ver cositas
 #      debug:
