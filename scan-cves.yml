@@ -33,7 +33,7 @@
 
     - name: List ALL band members of ALL bands
       ansible.builtin.debug:
-        msg: "{{ bands | selectattr('data', 'defined') | map(attribute='data') }}"
+        msg: "{{ insights_api.content | selectattr('data', 'defined') | map(attribute='data') }}"
 
     - name: Display system details
       ansible.builtin.debug:
