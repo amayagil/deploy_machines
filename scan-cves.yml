@@ -19,13 +19,12 @@
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
         return_content: yes
-        body_format: json
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api.content.data }}"
+        msg: "{{ insights_api.content }}"
 
 #    - name: Show what type of data the insights_api variable is made up of
 #      ansible.builtin.debug:
