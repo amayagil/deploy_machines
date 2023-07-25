@@ -22,9 +22,13 @@
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
+    - name: Set result json as fact
+      ansible.builtin.set_fact:
+        insights_api_json: "{{ insights_api.content | from_json }}"
+
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api.content | from_json }}"
+        msg: "{{ insights_api_json }}"
 
 #    - name: Show what type of data the insights_api variable is made up of
 #      ansible.builtin.debug:
@@ -41,7 +45,7 @@
 #
     - name: Display system details
       ansible.builtin.debug:
-        var: "{{ insights_api.content.data[0] }}"
+        var: "{{ insights_api_json.data[0] }}"
 
 #    - name: Ver cositas
 #      debug:
