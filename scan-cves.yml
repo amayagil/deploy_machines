@@ -39,9 +39,9 @@
 #      ansible.builtin.debug:
 #        msg: "{{ insights_api_content | selectattr('data', 'defined') | map(attribute='data') }}"
 #
-#    - name: Display system details
-#      ansible.builtin.debug:
-#        var: "{{ insights_api_content['data'] }}"
+    - name: Display system details
+      ansible.builtin.debug:
+        var: "{{ insights_api.content }}"
 
 #    - name: Ver cositas
 #      debug:
