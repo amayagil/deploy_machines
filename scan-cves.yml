@@ -26,10 +26,14 @@
       ansible.builtin.debug:
         msg: "{{ insights_api.content.data | type_debug }}"
 
-    - name: Show what type of data the bands variable is made up of
+#    - name: Show what type of data the bands variable is made up of
+#      ansible.builtin.debug:
+#        msg: "{{ item | type_debug }}"
+#      loop: "{{ insights_api.content['data'] }}"
+
+    - name: List ALL band members of ALL bands
       ansible.builtin.debug:
-        msg: "{{ item | type_debug }}"
-      loop: "{{ insights_api.content['data'] }}"
+        msg: "{{ bands | selectattr('data', 'defined') | map(attribute='data') }}"
 
     - name: Display system details
       ansible.builtin.debug:
