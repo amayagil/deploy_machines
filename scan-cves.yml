@@ -22,17 +22,15 @@
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
+    - name: ver  insights_api
+      ansible.builtin.debug:
+        msg: "todo {{ insights_api }}"
     - name: Set result json as fact
       ansible.builtin.set_fact:
         insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
         #insights_api_json: "{{ insights_api.content | from_json }}"
 
-    - name: Show what type of variable insights_api is
-      ansible.builtin.debug:
-        msg: "{{ insights_api_data_json }}"
-        #msg: "{{ insights_api_json | community.general.json_query('data[*]') }}"
-
-    - name: Show what type of data the insights_api variable is made up of
+    - name: List ALL data of ALL CVEs
       ansible.builtin.debug:
         msg: 
         - "CVE Description: {{ item.attributes.description }}"
@@ -41,27 +39,9 @@
         verbosity: 0
       loop: "{{ insights_api_data_json }}"
       #loop: "{{ insights_api_json['data'] }}"
-#
-#
-#    - name: List ALL data of ALL CVEs
-#      ansible.builtin.debug:
-#        msg: "{{ insights_api_content | selectattr('data', 'defined') | map(attribute='data') }}"
+
 #
 #    - name: Display system details
 #      ansible.builtin.debug:
 #        var: "{{ insights_api_data_json }}"
         #var: "{{ insights_api_json | community.general.json_query('[data]') }}"
-#    - name: Ver cositas
-#      debug:
-#        msg:
-#        - "CVE Score: {{ insights_api.content.data[0].attributes.cvss3_score }}"
-#        - "CVE Description: {{ insights_api.content.data[0].attributes.description }}"
-#        - "CVE Synopsis: {{ insights_api.content.data[0].attributes.synopsis }}"
-#        - "CVE Impact: {{ insights_api.content.data[0].attributes.impact }}"
-#    - name: Display system facts
-#      debug:
-#        msg:
-#        - "display_name: {{ insights_api.json.insights_apis[0].display_name }}"
-#        - "fqdn: {{ insights_api.json.insights_apis[0].fqdn }}"
-#        - "insights_id: {{ insights_api.json.insights_apis[0].insights_id }}"
-#        - "id: {{ insights_api.json.insights_apis[0].id }}"
