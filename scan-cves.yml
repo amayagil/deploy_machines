@@ -23,7 +23,7 @@
 
     - name: Display system details
       ansible.builtin.debug:
-        var: insights_api.json
+        var: insights_api
 
 #    - name: Ver cositas
 #      debug:
