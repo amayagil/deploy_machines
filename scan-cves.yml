@@ -31,9 +31,13 @@
 #        msg: "{{ item | type_debug }}"
 #      loop: "{{ insights_api.content['data'] }}"
 
+    - name: set facts
+      set_fact: 
+        insights_api_content: "{{insights_api.content}}"
+
     - name: List ALL band members of ALL bands
       ansible.builtin.debug:
-        msg: "{{ insights_api.content | selectattr('data', 'defined') | map(attribute='data') }}"
+        msg: "{{ insights_api_content | selectattr('data', 'defined') | map(attribute='data') }}"
 
     - name: Display system details
       ansible.builtin.debug:
