@@ -18,6 +18,7 @@
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
+        return_content: yes
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
