@@ -19,13 +19,13 @@
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
         return_content: yes
-      register: insights_api
-      #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
+      register: cve_list
+      #failed_when: cve_list is failed or "'CVE' not in cve_list.content"
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
-        #insights_api_json: "{{ insights_api.content | from_json }}"
+        cve_list_data_json: "{{ (cve_list.content | from_json).data }}"
+        #cve_list_json: "{{ cve_list.content | from_json }}"
 
     - name: List ALL data of ALL CVEs
       ansible.builtin.debug:
@@ -34,18 +34,18 @@
         - "CVE Synopsis: {{ item.attributes.synopsis }}"
         - "CVE Impact: {{ item.attributes.impact }}"
         verbosity: 0
-      loop: "{{ insights_api_data_json }}"
-      #loop: "{{ insights_api_json['data'] }}"
+      loop: "{{ cve_list_data_json }}"
+      #loop: "{{ cve_list_json['data'] }}"
 
     - name: List of CVEs
       ansible.builtin.set_fact:
         cves: |-
           [
-          {% for host in groups.mygroup %}
+          {% for host in item.attributes %}
             {"id": "{{ item.attributes.synopsis }}"},
           {% endfor %}
           ]
-        loop: "{{ insights_api_data_json }}"
+        loop: "{{ cve_list_data_json }}"
 
     - name: List of system affected by CVEs
       ansible.builtin.uri:
@@ -65,5 +65,5 @@
 #
 #    - name: Display system details
 #      ansible.builtin.debug:
-#        var: "{{ insights_api_data_json }}"
-        #var: "{{ insights_api_json | community.general.json_query('[data]') }}"
+#        var: "{{ cve_list_data_json }}"
+        #var: "{{ cve_list_json | community.general.json_query('[data]') }}"
