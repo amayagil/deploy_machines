@@ -18,30 +18,14 @@
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
-        # return_content: yes
+        return_content: yes
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api }}"
+        msg: "{{ insights_api | type_debug }}"
 
-#  tasks:
-#    - name: Pull info from Insights API
-#      ansible.builtin.uri:
-#        url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
-#        method: GET
-#        user: "{{ insights_auth_user }}"
-#        password: "{{ insights_auth_password }}"
-#        force_basic_auth: true
-#        return_content: yes
-#      register: insights_api
-#      #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
-#
-#    - name: Show what type of variable insights_api is
-#      ansible.builtin.debug:
-#        msg: "{{ insights_api | type_debug }}"
-#
 #    - name: Show what type of data the insights_api variable is made up of
 #      ansible.builtin.debug:
 #        msg: "{{ item | type_debug }}"
@@ -58,7 +42,7 @@
 #    - name: Display system details
 #      ansible.builtin.debug:
 #        var: "{{ insights_api_content['data'] }}"
-#
+
 #    - name: Ver cositas
 #      debug:
 #        msg:
