@@ -35,7 +35,7 @@
 
     - name: Show what type of data the insights_api variable is made up of
       ansible.builtin.debug:
-        msg: "{{ item.description }}"
+        msg: "{{ item.attributes.description }}"
       loop: "{{ insights_api_data_json }}"
       #loop: "{{ insights_api_json['data'] }}"
 #
