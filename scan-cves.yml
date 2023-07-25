@@ -29,7 +29,7 @@
     - name: Show what type of data the bands variable is made up of
       ansible.builtin.debug:
         msg: "{{ item | type_debug }}"
-      loop: "{{ insights_api }}"
+      loop: "{{ insights_api.content }}"
 
     - name: Display system details
       ansible.builtin.debug:
