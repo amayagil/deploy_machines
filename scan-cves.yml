@@ -18,24 +18,24 @@
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
-      register: instights_api
-      #failed_when: instights_api is failed or "'CVE' not in instights_api.content"
+      register: insights_api
+      #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
     - name: Display system details
       ansible.builtin.debug:
-        var: instights_api.json
+        var: insights_api.json
 
 #    - name: Ver cositas
 #      debug:
 #        msg:
-#        - "CVE Score: {{ instights_api.content.data[0].attributes.cvss3_score }}"
-#        - "CVE Description: {{ instights_api.content.data[0].attributes.description }}"
-#        - "CVE Synopsis: {{ instights_api.content.data[0].attributes.synopsis }}"
-#        - "CVE Impact: {{ instights_api.content.data[0].attributes.impact }}"
+#        - "CVE Score: {{ insights_api.content.data[0].attributes.cvss3_score }}"
+#        - "CVE Description: {{ insights_api.content.data[0].attributes.description }}"
+#        - "CVE Synopsis: {{ insights_api.content.data[0].attributes.synopsis }}"
+#        - "CVE Impact: {{ insights_api.content.data[0].attributes.impact }}"
 #    - name: Display system facts
 #      debug:
 #        msg:
-#        - "display_name: {{ instights_api.json.instights_apis[0].display_name }}"
-#        - "fqdn: {{ instights_api.json.instights_apis[0].fqdn }}"
-#        - "insights_id: {{ instights_api.json.instights_apis[0].insights_id }}"
-#        - "id: {{ instights_api.json.instights_apis[0].id }}"
+#        - "display_name: {{ insights_api.json.insights_apis[0].display_name }}"
+#        - "fqdn: {{ insights_api.json.insights_apis[0].fqdn }}"
+#        - "insights_id: {{ insights_api.json.insights_apis[0].insights_id }}"
+#        - "id: {{ insights_api.json.insights_apis[0].id }}"
