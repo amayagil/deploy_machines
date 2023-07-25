@@ -38,6 +38,7 @@
         - "CVE Description: {{ item.attributes.description }}"
         - "CVE Synopsis: {{ item.attributes.synopsis }}"
         - "CVE Impact: {{ item.attributes.impact }}"
+        verbosity: 0
       loop: "{{ insights_api_data_json }}"
       #loop: "{{ insights_api_json['data'] }}"
 #
