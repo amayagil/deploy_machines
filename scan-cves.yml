@@ -11,17 +11,15 @@
     #playbook: playbook.yml
 
   tasks:
-    - name: pull info from Insights API
+    - name: Pull info from Insights API
       ansible.builtin.uri:
         url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
-        #url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves"
         method: GET
-        return_content: true
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
-        force_basic_auth: yes
-      #failed_when: result is failed or "'CVE' not in result.content"
+        force_basic_auth: true
       register: instights_api
+      #failed_when: instights_api is failed or "'CVE' not in instights_api.content"
 
     - name: Display system details
       ansible.builtin.debug:
@@ -30,14 +28,14 @@
 #    - name: Ver cositas
 #      debug:
 #        msg:
-#        - "CVE Score: {{ result.content.data[0].attributes.cvss3_score }}"
-#        - "CVE Description: {{ result.content.data[0].attributes.description }}"
-#        - "CVE Synopsis: {{ result.content.data[0].attributes.synopsis }}"
-#        - "CVE Impact: {{ result.content.data[0].attributes.impact }}"
+#        - "CVE Score: {{ instights_api.content.data[0].attributes.cvss3_score }}"
+#        - "CVE Description: {{ instights_api.content.data[0].attributes.description }}"
+#        - "CVE Synopsis: {{ instights_api.content.data[0].attributes.synopsis }}"
+#        - "CVE Impact: {{ instights_api.content.data[0].attributes.impact }}"
 #    - name: Display system facts
 #      debug:
 #        msg:
-#        - "display_name: {{ result.json.results[0].display_name }}"
-#        - "fqdn: {{ result.json.results[0].fqdn }}"
-#        - "insights_id: {{ result.json.results[0].insights_id }}"
-#        - "id: {{ result.json.results[0].id }}"
+#        - "display_name: {{ instights_api.json.instights_apis[0].display_name }}"
+#        - "fqdn: {{ instights_api.json.instights_apis[0].fqdn }}"
+#        - "insights_id: {{ instights_api.json.instights_apis[0].insights_id }}"
+#        - "id: {{ instights_api.json.instights_apis[0].id }}"
