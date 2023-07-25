@@ -27,6 +27,7 @@
     - name: Display system details
       debug:
         var: result
+        msg: result
 
 #    - name: Ver cositas
 #      debug:
