@@ -41,7 +41,7 @@
 #
     - name: Display system details
       ansible.builtin.debug:
-        var: "{{ insights_api_json | community.general.json_query('data[0]. attributes') }}"
+        var: "{{ insights_api_json | community.general.json_query('data[0].attributes') }}"
 #    - name: Ver cositas
 #      debug:
 #        msg:
