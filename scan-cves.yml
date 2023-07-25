@@ -24,7 +24,7 @@
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api.content }}"
+        msg: "{{ insights_api.content | to_json }}"
 
 #    - name: Show what type of data the insights_api variable is made up of
 #      ansible.builtin.debug:
