@@ -41,7 +41,7 @@
 #
     - name: Display system details
       ansible.builtin.debug:
-        var: "{{ insights_api.content }}"
+        var: "{{ insights_api.content.data[0] }}"
 
 #    - name: Ver cositas
 #      debug:
