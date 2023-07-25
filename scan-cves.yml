@@ -24,16 +24,20 @@
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        insights_api_json: "{{ insights_api.content | from_json }}"
+        insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
+        #insights_api_json: "{{ insights_api.content | from_json }}"
+
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api_json | community.general.json_query('data[*]') }}"
+        msg: "{{ insights_api_data_json }}"
+        #msg: "{{ insights_api_json | community.general.json_query('data[*]') }}"
 
     - name: Show what type of data the insights_api variable is made up of
       ansible.builtin.debug:
-        msg: "{{ item | type_debug }}"
-      loop: "{{ insights_api_json['data'] }}"
+        msg: "{{ item.description }}"
+      loop: "{{ insights_api_data_json }}"
+      #loop: "{{ insights_api_json['data'] }}"
 #
 #
 #    - name: List ALL data of ALL CVEs
@@ -42,7 +46,8 @@
 #
     - name: Display system details
       ansible.builtin.debug:
-        var: "{{ insights_api_json | community.general.json_query('[data]') }}"
+        var: "{{ insights_api_data_json }}"
+        #var: "{{ insights_api_json | community.general.json_query('[data]') }}"
 #    - name: Ver cositas
 #      debug:
 #        msg:
