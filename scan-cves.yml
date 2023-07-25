@@ -22,10 +22,6 @@
       register: insights_api
       #failed_when: insights_api is failed or "'CVE' not in insights_api.content"
 
-    - name: ver insights_api
-      ansible.builtin.debug:
-        msg: "todo {{ insights_api.content }}"
-
     - name: Set result json as fact
       ansible.builtin.set_fact:
         insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
@@ -41,6 +37,30 @@
       loop: "{{ insights_api_data_json }}"
       #loop: "{{ insights_api_json['data'] }}"
 
+    - name: List of CVEs
+      ansible.builtin.set_fact:
+        cves: |-
+          [
+          {% for host in groups.mygroup %}
+            {"id": "{{ item.attributes.synopsis }}"},
+          {% endfor %}
+          ]
+        loop: "{{ insights_api_data_json }}"
+
+    - name: List of system affected by CVEs
+      ansible.builtin.uri:
+        url: "{{ insights_api_url }}/vulnerability/v1/cves/%7Bcve_id%7D/affected_systems"
+        method: GET
+        user: "{{ insights_auth_user }}"
+        password: "{{ insights_auth_password }}"
+        force_basic_auth: true
+        return_content: yes
+      register: hosts_cves
+
+    - name: Display system details
+      ansible.builtin.debug:
+        msg: hosts_cves
+             
 #
 #    - name: Display system details
 #      ansible.builtin.debug:
