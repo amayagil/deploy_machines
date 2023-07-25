@@ -24,12 +24,12 @@
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        msg: "{{ insights_api.content | type_debug }}"
+        msg: "{{ insights_api | type_debug }}"
 
     - name: Show what type of data the bands variable is made up of
       ansible.builtin.debug:
         msg: "{{ item | type_debug }}"
-      loop: "{{ insights_api.content.['data'] }}"
+      loop: "{{ insights_api.content['data'] }}"
 
     - name: Display system details
       ansible.builtin.debug:
