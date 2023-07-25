@@ -1,6 +1,6 @@
 ---
 - name: Prepare machines for use with Red Hat
-  hosts: all
+  hosts: localhost
   gather_facts: true
 
   vars:
@@ -22,11 +22,11 @@
         force_basic_auth: yes
       #failed_when: result is failed or "'CVE' not in result.content"
       when: ansible_os_family == 'RedHat'
-      register: result
+      register: instights_api
 
     - name: Display system details
-      debug:
-        msg: "{{ result }}"
+      ansible.builtin.debug:
+        var: instights_api.json
 
 #    - name: Ver cositas
 #      debug:
