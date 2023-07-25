@@ -24,7 +24,7 @@
 
     - name: ver insights_api
       ansible.builtin.debug:
-        msg: "todo {{ insights_api.content | from_json }}"
+        msg: "todo {{ insights_api.content }}"
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
