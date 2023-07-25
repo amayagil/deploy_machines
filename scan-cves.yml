@@ -47,6 +47,10 @@
           ]
         loop: "{{ cve_list_data_json }}"
 
+    - name: ver cves 
+      ansible.builtin.debug:
+        msg: "cve list {{ cves }}"
+        
     - name: List of system affected by CVEs
       ansible.builtin.uri:
         url: "{{ insights_api_url }}/vulnerability/v1/cves/{{ item }}/affected_systems"
