@@ -24,24 +24,21 @@
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        #insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
-        insights_api_json: "{{ insights_api.content | from_json }}"
-
-
-    - name: Show what type of variable insights_api is
-      ansible.builtin.debug:
-        #msg: "{{ insights_api_data_json }}"
-        msg: "{{ insights_api_json | community.general.json_query('data[*]') }}"
+        insights_api_data_json: "{{ (insights_api.content | from_json).data }}"
+        #insights_api_json: "{{ insights_api.content | from_json }}"
 
     - name: Show what type of variable insights_api is
       ansible.builtin.debug:
-        #msg: "{{ insights_api_data_json }}"
-        msg: "{{ insights_api_json | community.general.json_query('data[0]') }}"
+        msg: "{{ insights_api_data_json }}"
+        #msg: "{{ insights_api_json | community.general.json_query('data[*]') }}"
 
-#    - name: Show what type of data the insights_api variable is made up of
-#      ansible.builtin.debug:
-#        msg: "{{ item.attributes.description }}"
-#      loop: "{{ insights_api_data_json }}"
+    - name: Show what type of data the insights_api variable is made up of
+      ansible.builtin.debug:
+        msg: 
+        - "CVE Description: {{ item.attributes.description }}"
+        - "CVE Synopsis: {{ item.attributes.synopsis }}"
+        - "CVE Impact: {{ item.attributes.impact }}"
+      loop: "{{ insights_api_data_json }}"
       #loop: "{{ insights_api_json['data'] }}"
 #
 #
