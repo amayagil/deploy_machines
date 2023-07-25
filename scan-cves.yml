@@ -49,18 +49,19 @@
 
     - name: List of system affected by CVEs
       ansible.builtin.uri:
-        url: "{{ insights_api_url }}/vulnerability/v1/cves/%7Bcve_id%7D/affected_systems"
+        url: "{{ insights_api_url }}/vulnerability/v1/cves/{{ item }}/affected_systems"
         method: GET
         user: "{{ insights_auth_user }}"
         password: "{{ insights_auth_password }}"
         force_basic_auth: true
         return_content: yes
       register: hosts_cves
+      loop: "{{ cves }}"
 
     - name: Display system details
       ansible.builtin.debug:
         msg: hosts_cves
-             
+
 #
 #    - name: Display system details
 #      ansible.builtin.debug:
