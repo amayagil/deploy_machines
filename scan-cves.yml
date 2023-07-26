@@ -35,24 +35,27 @@
         verbosity: 0
       loop: "{{ cve_list_data_json }}"
 
-    - name: List of CVEs
-      ansible.builtin.set_fact:
-        cves: |-
-          [
-          {% for synopsis in lista %}
-            {"id": "{{ lista.id }}"},
-          {% endfor %}
-          ]
-      vars:
-        lista: "{{ cve_list_data_json.attributes.synopsis }}"
-
-#    - name: Cve list - prova questo
+#    - name: List of CVEs
 #      ansible.builtin.set_fact:
-#        cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
-#      loop: "{{ cve_list_data_json }}"
+#        cves: |-
+#          [
+#          {% for synopsis in lista %}
+#            {"id": "{{ lista.id }}"},
+#          {% endfor %}
+#          ]
+#      vars:
+#        lista: "{{ cve_list_data_json.attributes.synopsis }}"
+
+    - name: Cve list - prova questo
+      ansible.builtin.set_fact:
+        #cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
+        cves: "{{ cves + [ item.id ] }}"
+      loop: "{{ cve_list_data_json }}"#
+      vars:
+        cves: []
 
     - name: ver cves 
-      ansible.builtin.debug:
+      anible.builtin.debug:
         msg: "cve list {{ cves }}"
         
     - name: List of system affected by CVEs
