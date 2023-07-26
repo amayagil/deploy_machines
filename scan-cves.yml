@@ -50,7 +50,7 @@
       ansible.builtin.set_fact:
         #cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
         cves: "{{ cves + [ item.id ] }}"
-      loop: "{{ cve_list_data_json }}"#
+      loop: "{{ cve_list_data_json }}"
       vars:
         cves: []
 
