@@ -60,8 +60,8 @@
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        hosts_cves_list_data_json: "{{ cves.results['json']['data'] }}"
-#        hosts_cves_list_data_json: "{{ (hosts_cves.results.content | from_json).data }}"
+        hosts_cves_list_data_json: "{{ hosts_cves.msg.results.content['json']['data'] }}"
+#        hosts_cves_list_data_json: "{{ (hosts_cves.msg.results.content | from_json).data }}"
 
     - name: Display system details
       ansible.builtin.debug:
