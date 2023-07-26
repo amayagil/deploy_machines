@@ -25,7 +25,6 @@
     - name: Set result json as fact
       ansible.builtin.set_fact:
         cve_list_data_json: "{{ (cve_list.content | from_json).data }}"
-        #cve_list_json: "{{ cve_list.content | from_json }}"
 
     - name: List ALL data of ALL CVEs
       ansible.builtin.debug:
@@ -35,22 +34,21 @@
         - "CVE Impact: {{ item.attributes.impact }}"
         verbosity: 0
       loop: "{{ cve_list_data_json }}"
-      #loop: "{{ cve_list_json['data'] }}"
 
-#    - name: List of CVEs
-#      ansible.builtin.set_fact:
-#        cves: |-
-#          [
-#          {% for cve in item %}
-#            {"id": "{{ item.id }}"},
-#          {% endfor %}
-#          ]
-#        loop: "{{ cve_list_data_json }}"
-
-    - name: Cve list - prova questo
+    - name: List of CVEs
       ansible.builtin.set_fact:
-        cves: '{{ cves | default([]) + [ {"id:" {{ item.id }} } ] }}'
-      loop: "{{ cve_list_data_json }}"
+        cves: |-
+          [
+          {% for cve in item %}
+            {"id": "{{ item.id }}"},
+          {% endfor %}
+          ]
+        loop: "{{ cve_list_data_json }}"
+
+#    - name: Cve list - prova questo
+#      ansible.builtin.set_fact:
+#        cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
+#      loop: "{{ cve_list_data_json }}"
 
     - name: ver cves 
       ansible.builtin.debug:
