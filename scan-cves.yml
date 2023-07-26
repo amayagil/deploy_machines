@@ -65,7 +65,7 @@
 
     - name: Display system details
       ansible.builtin.debug:
-        msg: "{{ hosts_cves.results[0].content }}"
+        msg: "{{ (hosts_cves.results[0].content | from_json).data}}"
 #        msg: hosts_cves_list_data_json
       
 #
