@@ -70,7 +70,8 @@
 
     - name: Display system details
       ansible.builtin.debug:
-        msg: hosts_cves
+        msg: "{{ item }}"
+      loop: "{{ hosts_cves }}"
 
 #
 #    - name: Display system details
