@@ -57,11 +57,14 @@
       register: hosts_cves
       loop: "{{ cves }}"
 
+    - name: Set result json as fact
+      ansible.builtin.set_fact:
+        host_cve_list_data_json: "{{ (cve.content | from_json).data }}"
+
     - name: Display system details
       ansible.builtin.debug:
-        msg: "{{ hosts_cves }}"
+        msg: "{{ host_cve_list_data_json }}"
       
-
 #
 #    - name: Display system details
 #      ansible.builtin.debug:
