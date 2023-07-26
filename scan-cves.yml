@@ -49,7 +49,7 @@
 
     - name: Cve list - prova questo
       ansible.builtin.set_fact:
-        cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}"} ] }}'
+        cves: '{{ cves | default([]) + [ {"id": "{{ item.attributes.synopsis }}"} ] }}'
       loop: "{{ cve_list_data_json }}"
 
     - name: ver cves 
