@@ -58,7 +58,7 @@
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        hosts_cves_list_data_json: "{{ (hosts_cves.result[].content | from_json).data }}"
+        hosts_cves_list_data_json: "{{ (hosts_cves.results.content | from_json).data }}"
 
     - name: Display system details
       ansible.builtin.debug:
