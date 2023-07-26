@@ -39,7 +39,7 @@
       ansible.builtin.set_fact:
         cves: |-
           [
-          {% for id in lista %}
+          {% for synopsis in lista %}
             {"id": "{{ lista.id }}"},
           {% endfor %}
           ]
