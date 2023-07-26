@@ -47,15 +47,15 @@
 #      vars:
 #        lista: "{{ cve_list_data_json.attributes.synopsis }}"
 
+    - name: Initilize Cves list
+      set_fact:
+        cves: []
+
     - name: Cve list - prova questo
       ansible.builtin.set_fact:
         #cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
         cves: "{{ cves + [ item.id ] }}"
       loop: "{{ cve_list_data_json }}"
-
-    - name: ver cves
-      anible.builtin.debug:
-        msg: "cve list {{ cves }}"
         
     - name: List of system affected by CVEs
       ansible.builtin.uri:
