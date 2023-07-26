@@ -40,9 +40,8 @@
       set_fact:
         cves: []
 
-    - name: Cve list - prova questo
+    - name: List of ALL CVEs
       ansible.builtin.set_fact:
-        #cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
         cves: "{{ cves + [ item.id ] }}"
       loop: "{{ cve_list_data_json }}"
         
@@ -59,7 +58,7 @@
 
     - name: Set result json as fact
       ansible.builtin.set_fact:
-        host_cve_list_data_json: "{{ (cve.content | from_json).data }}"
+        host_cve_list_data_json: "{{ (hosts_cves.content | from_json).data }}"
 
     - name: Display system details
       ansible.builtin.debug:
