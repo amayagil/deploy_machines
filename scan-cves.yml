@@ -8,6 +8,7 @@
     insights_auth_password: "{{ rhsm_password  }}"
     insights_api_url: "https://console.redhat.com/api"
     recommendation_id: "{{ recommendation_id}}"
+    cves: []
     #playbook: playbook.yml
 
   tasks:
@@ -51,10 +52,8 @@
         #cves: '{{ cves | default([]) + [ {"id": "{{ item.id }}" } ] }}'
         cves: "{{ cves + [ item.id ] }}"
       loop: "{{ cve_list_data_json }}"
-      vars:
-        cves: []
 
-    - name: ver cves 
+    - name: ver cves
       anible.builtin.debug:
         msg: "cve list {{ cves }}"
         
