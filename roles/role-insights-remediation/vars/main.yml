@@ -3,5 +3,5 @@
 insights_auth_user: "{{ rhsm_username }}"
 insights_auth_password: "{{ rhsm_password  }}"
 insights_api_url: "https://console.redhat.com/api"
-dns_name: "rhel1_demo"
+dns_name: "rhel-demo1"
 cves_with_pb: []
