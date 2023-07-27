@@ -1,7 +1,7 @@
 ---
   - name: Print out the Insights inventory id
     ansible.builtin.debug:
-      msg: "{{ insights_api_url }}/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
+      msg: "inventory id {{ insights_inventory_id }} url {{ insights_api_url }}/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
 
   - name: Get my list of CVEs
     ansible.builtin.uri:
