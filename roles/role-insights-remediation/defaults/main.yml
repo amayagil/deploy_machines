@@ -1,2 +1,5 @@
 ---
 # defaults file for role-insights-remediation
+insights_auth_user: "{{ rhsm_username }}"
+insights_auth_password: "{{ rhsm_password  }}"
+insights_api_url: "https://console.redhat.com/api"

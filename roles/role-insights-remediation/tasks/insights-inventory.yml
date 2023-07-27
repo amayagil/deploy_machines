@@ -1,0 +1,25 @@
+---
+  - name: Get the list of registered hosts
+    register: host_list
+    ignore_errors: true
+    ansible.builtin.uri:
+      url: "{{ insights_api_url }}/inventory/v1/hosts?display_name={{ private_dns_name }}"
+      method: GET
+      user: "{{ insights_auth_user }}"
+      password: "{{ insights_auth_password }}"
+      validate_certs: no
+      force_basic_auth: yes
+      status_code: 200
+      return_content: yes 
+      headers:
+        Content-Type: "application/json"
+
+  - name: Print out all insights_ids
+    ansible.builtin.debug:
+      msg: "{{ host_list.json.results[0].id }}"
+
+  - name: Capture Red Hat Insights inventory id
+    register: insights_inventory_id
+    ansible.builtin.set_stats:
+      data:
+        insights_inventory_id: "{{ host_list.json.results[0].id }}"

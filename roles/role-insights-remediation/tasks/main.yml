@@ -1,2 +1,4 @@
 ---
 # tasks file for role-insights-remediation
+- include_tasks: 
+    file: insights-inventory.yml
