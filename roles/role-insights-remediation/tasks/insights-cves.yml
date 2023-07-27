@@ -25,8 +25,8 @@
     ansible.builtin.debug:
       "{{ task_numbers_are_here }}"
     register: task_numbers_are_here
-    loop: "{{ cve_list | community.general.json_query('content.data[*].attributes') }}"
-    #loop: "{{ cve_list['json']['content']['data'] }}"
+    #loop: "{{ cve_list | community.general.json_query('content.data[*].attributes') }}"
+    loop: "{{ cve_list['json']['results']['content']['data'] }}"
     when: item.attributes.remediation == 2
 
 
