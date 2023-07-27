@@ -55,9 +55,9 @@
 
   - name: print out cves_with_pb
     ansible.builtin.debug:
-      msg: "{{ item }}"
+      msg: "{{ item.content.split('\n') }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
-    loop: "{{ pbs_per_host['results'] }}"
+    loop: "{{ pbs_per_host.content }}"
 
 #  - name: print my_playbooks stadard out
 #    loop: "{{ pbs_per_host['results'] }}"
@@ -66,7 +66,7 @@
 
   - name: Set result json as fact
     ansible.builtin.set_fact:
-      pbs_per_host_data_json: "{{ (pbs_per_host.content | from_json).data }}"
+      pbs_per_host_data_json: "{{ (pbs_per_host.content | from_json) }}"
 
 #  - name: Write the playbooks to the change task for this cve
 #    loop: "{{ my_playbooks['results'] }}"
