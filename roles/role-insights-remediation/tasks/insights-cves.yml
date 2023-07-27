@@ -57,10 +57,10 @@
     ansible.builtin.debug:
       msg: "{{ pbs_per_host }}"
 
-  - name: print my_playbooks stadard out
-    loop: "{{ pbs_per_host['results'] }}"
-    ansible.builtin.debug:
-      msg: "{{item.item.number}} {{ item.content.split('\n') }}"
+#  - name: print my_playbooks stadard out
+#    loop: "{{ pbs_per_host['results'] }}"
+#    ansible.builtin.debug:
+#      msg: "{{item.item.number}} {{ item.content.split('\n') }}"
 
   - name: Set result json as fact
     ansible.builtin.set_fact:
