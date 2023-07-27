@@ -56,7 +56,7 @@
   - name: print out cves_with_pb
     ansible.builtin.debug:
       #msg: "{{ pbs_per_host.content | split('\n') }}"
-      msg: "{{ pbs_per_host | type_debug }}"
+      msg: "{{ pbs_per_host }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
     #loop: "{{ pbs_per_host.content }}"
 
