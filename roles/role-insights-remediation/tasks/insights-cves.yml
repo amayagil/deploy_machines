@@ -53,7 +53,7 @@
         accept: "text/vnd.yaml"
         Connection: "keep-alive"
       body_format: json
-      body: "{{ lookup('ansible.builtin.template','templates/playbook_generator_body.j2') }}"
+      body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
     register: pbs_per_host
     loop: "{{ cves_with_pb }}"
 
