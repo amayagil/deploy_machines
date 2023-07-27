@@ -64,7 +64,7 @@
 
   - name: Set result json as fact
     ansible.builtin.set_fact:
-      pbs_per_host_data_json: "{{ (pbs_per_host['results''].content | from_json).data }}"
+      pbs_per_host_data_json: "{{ (pbs_per_host.content | from_json).data }}"
 
 #  - name: Write the playbooks to the change task for this cve
 #    loop: "{{ my_playbooks['results'] }}"
