@@ -1,10 +1,5 @@
 ---
   - name: Get my list of CVEs
-    register: cve_list
-    until: "cve_list.status == 200"
-    ignore_errors: true
-    retries: 40
-    delay: 10
     ansible.builtin.uri:
       url: "https://console.redhat.com/api/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
       method: GET
@@ -16,16 +11,23 @@
       return_content: yes 
       headers:
         Content-Type: "application/json"
+    register: cve_list
+    until: "cve_list.status == 200"
+    ignore_errors: true
+    retries: 40
+    delay: 10
 
   - name: print out cve_list
     ansible.builtin.debug:
       msg: "{{ cve_list }}"
 
   - name: Create a list for each cve with a playbook
+    ansible.builtin.msg:
+      "{{ task_numbers_are_here }}"
     register: task_numbers_are_here
     loop: "{{ cve_list['json']['data'] }}"
     when: item.attributes.remediation == 2
-    ansible.builtin.msg:
+
 
   - name: print out task_numbers_are_here
     ansible.builtin.debug:
