@@ -22,7 +22,7 @@
       msg: "{{ cve_list }}"
 
   - name: Create a list for each cve with a playbook
-    ansible.builtin.msg:
+    ansible.builtin.debug:
       "{{ task_numbers_are_here }}"
     register: task_numbers_are_here
     loop: "{{ cve_list['json']['data'] }}"
