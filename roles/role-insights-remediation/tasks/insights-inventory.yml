@@ -31,7 +31,3 @@
       data:
         insights_inventory_id: "{{ host_list.json.results[0].id }}"
     register: insights_inventory_id
-
-  - name: Print out the Insights inventory id
-    ansible.builtin.debug:
-      msg: "{{ insights_inventory_id }}"
