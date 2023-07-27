@@ -1,8 +1,4 @@
 ---
-  - name: Print out the Insights inventory id
-    ansible.builtin.debug:
-      msg: "inventory id {{ insights_inventory_id }} url {{ insights_api_url }}/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
-
   - name: Get my list of CVEs
     ansible.builtin.uri:
       url: "{{ insights_api_url }}/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
@@ -29,7 +25,7 @@
     ansible.builtin.debug:
       "{{ task_numbers_are_here }}"
     register: task_numbers_are_here
-    loop: "{{ cve_list['json']['data'] }}"
+    loop: "{{ cve_list['json']['content']['data'] }}"
     when: item.attributes.remediation == 2
 
 
