@@ -29,6 +29,7 @@
     ansible.builtin.set_fact:
       cves_with_pb: "{{ cves_with_pb + [{ 'id' : item.id, 
                                           'insights_id' : insights_inventory_id,
+                                          'hostname' : dns_name,
                                           'impact' : item.attributes.impact }] }}"
     loop: "{{ cve_list_data_json }}"
     when: item.attributes.remediation == 2
