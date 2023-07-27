@@ -3,8 +3,8 @@
     register: host_list
     ignore_errors: true
     ansible.builtin.uri:
-      url: "{{ insights_api_url }}/inventory/v1/hosts"
-      #url: "{{ insights_api_url }}/inventory/v1/hosts?display_name={{ private_dns_name }}"
+      #url: "{{ insights_api_url }}/inventory/v1/hosts"
+      url: "{{ insights_api_url }}/inventory/v1/hosts?display_name={{ dns_name }}"
       method: GET
       user: "{{ insights_auth_user }}"
       password: "{{ insights_auth_password }}"

@@ -3,4 +3,4 @@
 insights_auth_user: "{{ rhsm_username }}"
 insights_auth_password: "{{ rhsm_password  }}"
 insights_api_url: "https://console.redhat.com/api"
-private_dns_name: "rhel-demo2.ckbrxs44gqfefnagk1pr54gnna.ax.internal.cloudapp.net"
+dns_name: "{{ host_fqdn }}"
