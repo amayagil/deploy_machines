@@ -1,4 +1,8 @@
 ---
+  - name: Print out the Insights inventory id
+    ansible.builtin.debug:
+      msg: "{{ insights_inventory_id }}"
+      
   - name: Get my list of CVEs
     ansible.builtin.uri:
       url: "https://console.redhat.com/api/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
