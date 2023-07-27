@@ -56,9 +56,9 @@
   - name: print out cves_with_pb
     ansible.builtin.debug:
       #msg: "{{ pbs_per_host.content | split('\n') }}"
-      msg: "{{ pbs_per_host.results | type_debug }}"
+      msg: "{{ item.results.content }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
-    #loop: "{{ pbs_per_host.content }}"
+    loop: "{{ pbs_per_host.content }}"
 
 #  - name: print my_playbooks stadard out
 #    loop: "{{ pbs_per_host['results'] }}"
