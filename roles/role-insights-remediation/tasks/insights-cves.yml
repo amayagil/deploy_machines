@@ -28,7 +28,8 @@
   - name: Create a list for each cve with a playbook
     ansible.builtin.set_fact:
       cves_with_pb: "{{ cves_with_pb + [{ 'id' : item.id, 
-                                          'insights_id' : insights_inventory_id }] }}"
+                                          'insights_id' : insights_inventory_id,
+                                          'impact' : item.attributes.impact }] }}"
     loop: "{{ cve_list_data_json }}"
     when: item.attributes.remediation == 2
 
