@@ -25,11 +25,17 @@
       #msg: "{{ host_list.json.results[0].id }}"
       msg: "{{ host_list.json.results }}"
 
-  - name: Capture Red Hat Insights inventory id
-    register: insights_inventory_id
+  - name: Capture Red Hat Insights inventory id for use on a workflow
+    ansible.builtin.set_stats:
+      data:
+        insights_inventory_id_wf: "{{ host_list.json.results[0].id }}"
+    register: insights_inventory_id_wf
+
+  - name: Capture Red Hat Insights inventory id for use on a playbook    
     ansible.builtin.set_stats:
       data:
         insights_inventory_id: "{{ host_list.json.results[0].id }}"
+    register: insights_inventory_id
 
   - name: Print out the Insights inventory id
     ansible.builtin.debug:
