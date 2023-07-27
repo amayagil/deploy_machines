@@ -34,10 +34,6 @@
     loop: "{{ cve_list_data_json }}"
     when: item.attributes.remediation == 2
 
-  - name: print out cves_with_pb
-    ansible.builtin.debug:
-      msg: "{{ cves_with_pb }}"
-
   - name: Generate playbooks to remediate vulnerabilities
     ansible.builtin.uri:
       url: "{{ insights_api_url }}/remediations/v1/playbook"
@@ -56,6 +52,10 @@
       body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
     register: pbs_per_host
     loop: "{{ cves_with_pb }}"
+
+  - name: print out cves_with_pb
+    ansible.builtin.debug:
+      msg: "{{ pbs_per_host }}"
 
   # - name: print my_playbooks stadard out
   #   loop: "{{ my_playbooks['results'] }}"
