@@ -27,7 +27,7 @@
 
   - name: Create a list for each cve with a playbook
     ansible.builtin.debug:
-      msg: "{{ (cve_list_data_json }}"
+      msg: "{{ (cve_list_data_json) }}"
 
 #  - name: Create a list for each cve with a playbook
 #    ansible.builtin.debug:
