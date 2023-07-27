@@ -1,4 +1,9 @@
 ---
+  - name: Print out all insights_ids
+    ansible.builtin.debug:
+      #msg: "{{ host_list.json.results[0].id }}"
+      msg: "{{ dns_name }}"
+
   - name: Get the list of registered hosts
     register: host_list
     ignore_errors: true
