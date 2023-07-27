@@ -27,7 +27,5 @@
     register: insights_inventory_id_wf
 
   - name: Capture Red Hat Insights inventory id for use on a playbook    
-    ansible.builtin.set_stats:
-      data:
-        insights_inventory_id: "{{ host_list.json.results[0].id }}"
-    register: insights_inventory_id
+    ansible.builtin.set_fact:
+      insights_inventory_id: "{{ host_list.json.results[0].id }}"
