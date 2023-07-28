@@ -66,6 +66,11 @@
     delegate_to: localhost
     loop: "{{ pbs_per_host.results }}"
 
+- name: Run CVE remediation playbooks
+  ansible.builtin.shell: 
+    file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+  loop: "{{ pbs_per_host.results }}"
+
 #
 #  - name: Kick off a project sync
 #    ansible.builtin.uri:
