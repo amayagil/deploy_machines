@@ -90,15 +90,9 @@
         accept: "text/vnd.yaml"
         Connection: "keep-alive"
       body_format: json
-      #body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
-      body:
-          issues:
-            - "id": "vulnerabilities:CVE-2018-3620"
-              "systems": [
-                "210f4107-03e5-4381-80a4-2b93890ee003"
-              ]
+      body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
     register: pbs_per_host
-    #loop: "{{ cves_with_pb }}"
+    loop: "{{ cves_with_pb }}"
 
 #  - name: print out cves_with_pb
 #    ansible.builtin.debug:
@@ -112,24 +106,38 @@
 
   - name: Insights | Create playbooks locally
     ansible.builtin.copy:
-      #dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-      #content: "{{ item.content }}"
-      dest: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
-      content: "{{ pbs_per_host.content }}"
+      dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      content: "{{ item.content }}"
+#      dest: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+#      content: "{{ pbs_per_host.content }}"
       mode: "0755"
-    #loop: "{{ pbs_per_host.results }}"
+    loop: "{{ pbs_per_host.results }}"
 
+  - name: Generate one playbook for {{ dns_name }} host
+    ansible.builtin.assemble:
+      src: "{{ playbook_dir }}"
+      dest: "{{ playbook_dir }}/remediation-CVE.yml"
+
+  - name: ver contenido del pb
+    ansible.builtin.debug:
+      msg: "{{ lookup('ansible.builtin.file','{{ playbook_dir }}/remediation-CVE.yml') }}"
+      
 - name: Run CVE remediation playbook
   hosts: "{{ dns_name }}"
   gather_facts: true
 
   tasks:
-  
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
-    ansible.builtin.shell:
-      cmd: ansible-playbook "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
-      #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-    loop: "{{ pbs_per_host.results }}"
+    ansible.builtin.fetch:
+      src: "{{ playbook_dir }}/remediation-CVE.yml"
+      dest: /tmp/remediation-CVE.yml
+
+
+#  - name: Run CVE remediation playbooks on "{{ dns_name }}"
+#    ansible.builtin.shell:
+#      cmd: ansible-playbook "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+#      #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+#    loop: "{{ pbs_per_host.results }}"
     
 #  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
 #  ignore_errors: true
