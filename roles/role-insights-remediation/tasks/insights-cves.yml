@@ -53,9 +53,9 @@
     register: pbs_per_host
     loop: "{{ cves_with_pb }}"
 
-#  - name: print out cves_with_pb
-#    ansible.builtin.debug:
-#      msg: "{{ pbs_per_host['content'] }}"
+  - name: print out cves_with_pb
+    ansible.builtin.debug:
+      msg: "{{ pbs_per_host.results['content'] }}"
       #msg: "{{ item }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
     #loop: "{{ pbs_per_host['content'] }}"
