@@ -68,7 +68,7 @@
 
   - name: Run CVE remediation playbooks
     ansible.builtin.shell: 
-      cmd: ansible-navigator run -m stdout "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     loop: "{{ pbs_per_host.results }}"
 
 #

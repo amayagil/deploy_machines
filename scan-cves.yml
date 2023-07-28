@@ -118,12 +118,18 @@
       mode: "0755"
     #loop: "{{ pbs_per_host.results }}"
 
-#  - name: Run CVE remediation playbooks on "{{ dns_name }}"
-#    ansible.builtin.shell:
-#      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-#    loop: "{{ pbs_per_host.results }}"
+- name: Run CVE remediation playbook
+  hosts: "{{ dns_name }}"
+  gather_facts: true
+
+  tasks:
+  
+  - name: Run CVE remediation playbooks on "{{ dns_name }}"
+    ansible.builtin.shell:
+      cmd: ansible-playbook "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+      #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    loop: "{{ pbs_per_host.results }}"
     
-- name: Run CVE remediation playbooks
-  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
-  ignore_errors: true
+#  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+#  ignore_errors: true
 #  loop: "{{ pbs_per_host_wf.results }}"
