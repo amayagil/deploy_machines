@@ -125,7 +125,7 @@
   tasks:
   - name: Create pb dir
     file:
-      path: "/tmp/{{ dns_name }}"
+      path: "/tmp/{{ dns_name }}/rhel-demo1/tmp/"
       state: directory
       mode: '0755'
 
@@ -136,6 +136,10 @@
       #flat: yes
     delegate_to: localhost
 
+  - name: File read
+    debug:
+      msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
+      
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
       cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
