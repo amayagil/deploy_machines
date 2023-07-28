@@ -93,12 +93,12 @@
       body_format: json
       body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
     register: pbs_per_host
-    loop: "{{ cves_with_pb }}"
+    #loop: "{{ cves_with_pb }}"
 
-  - name: print out cves_with_pb
-    ansible.builtin.debug:
-      msg: "{{ item.content }}"
-    loop: "{{ pbs_per_host.results }}"
+#  - name: print out cves_with_pb
+#    ansible.builtin.debug:
+#      msg: "{{ item.content }}"
+#    loop: "{{ pbs_per_host.results }}"
 
   - name: Capture Red Hat Insights inventory id for use on a workflow
     ansible.builtin.set_stats:
@@ -107,17 +107,20 @@
 
   - name: Insights | Create playbooks locally
     ansible.builtin.copy:
-      dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-      content: "{{ item.content }}"
+      #dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      #content: "{{ item.content }}"
+      dest: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+      content: "{{ pbs_per_host.content }}"
       mode: "0755"
     #delegate_to: localhost
-    loop: "{{ pbs_per_host.results }}"
+    #loop: "{{ pbs_per_host.results }}"
 
-  - name: This command will change the working directory to somedir/
-    ansible.builtin.shell:
-      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-    loop: "{{ pbs_per_host.results }}"
+#  - name: This command will change the working directory to somedir/
+#    ansible.builtin.shell:
+#      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+#    loop: "{{ pbs_per_host.results }}"
     
-#- name: Run CVE remediation playbooks
-#  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+- 
+  name: Run CVE remediation playbooks
+  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ ansible_host }}-CVEs.yml"
 #  loop: "{{ pbs_per_host_wf.results }}"
