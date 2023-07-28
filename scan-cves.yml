@@ -132,7 +132,7 @@
   - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
-      dest: "/tmp/{{ dns_name }}"
+      dest: "/tmp/{{ dns_name }}/remediation-CVE.yml"
       flat: yes
     delegate_to: localhost
 
