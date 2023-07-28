@@ -118,11 +118,12 @@
       mode: "0755"
     #loop: "{{ pbs_per_host.results }}"
 
-#  - name: This command will change the working directory to somedir/
+#  - name: Run CVE remediation playbooks on "{{ dns_name }}"
 #    ansible.builtin.shell:
 #      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
 #    loop: "{{ pbs_per_host.results }}"
     
 - name: Run CVE remediation playbooks
   ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
+  ignore_errors: true
 #  loop: "{{ pbs_per_host_wf.results }}"
