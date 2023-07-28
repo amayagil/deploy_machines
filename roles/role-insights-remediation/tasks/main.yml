@@ -5,3 +5,6 @@
 
 - ansible.builtin.include_tasks: 
     file: insights-cves.yml
+
+- ansible.builtin.include_tasks: 
+    file: insights-run-cve-pb.yml
