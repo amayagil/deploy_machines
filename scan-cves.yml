@@ -123,7 +123,7 @@
   gather_facts: true
 
   tasks:
-  - name: Run CVE remediation playbooks on "{{ dns_name }}"
+  - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
       dest: "/tmp/remediation-CVE.yml"
