@@ -133,6 +133,7 @@
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
       dest: "/tmp/{{ dns_name }}"
+    delegate_to: localhost
 
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
