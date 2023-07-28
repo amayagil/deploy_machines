@@ -111,7 +111,8 @@
   - name: This command will change the working directory to somedir/
     ansible.builtin.shell:
       cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-
+    loop: "{{ pbs_per_host.results }}"
+    
 #- name: Run CVE remediation playbooks
 #  ansible.builtin.import_playbook: 
 #    file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
