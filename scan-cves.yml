@@ -123,10 +123,16 @@
   gather_facts: true
 
   tasks:
+  - name: Create pb dir
+    file:
+      path: "/tmp/{{ dns_name }}"
+      state: directory
+      mode: '0755'
+
   - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
-      dest: "/tmp/remediation-CVE.yml"
+      dest: "/tmp/{{ dns_name }}"
 
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
