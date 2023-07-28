@@ -11,7 +11,7 @@
     cves_with_pb: []
   
   tasks:
-  - name: Get the list of registered hosts
+  - name: Get the data of registered host
     register: host_list
     ignore_errors: true
     ansible.builtin.uri:
@@ -35,7 +35,6 @@
     ansible.builtin.set_stats:
       data:
         insights_inventory_id_wf: "{{ host_list.json.results[0].id }}"
-    register: insights_inventory_id_wf
 
   - name: Capture Red Hat Insights inventory id for use on a playbook    
     ansible.builtin.set_fact:
@@ -91,7 +90,12 @@
         accept: "text/vnd.yaml"
         Connection: "keep-alive"
       body_format: json
-      body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
+      body:
+          issues:
+            - id: "{{ cve_list_data_json.item.attributes.item.id }}"
+              systems: 
+              - "{{ cve_list_data_json.item.insights_inventory_id }}"
+      #body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
     register: pbs_per_host
     #loop: "{{ cves_with_pb }}"
 
@@ -112,7 +116,6 @@
       dest: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
       content: "{{ pbs_per_host.content }}"
       mode: "0755"
-    #delegate_to: localhost
     #loop: "{{ pbs_per_host.results }}"
 
 #  - name: This command will change the working directory to somedir/
@@ -120,7 +123,6 @@
 #      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
 #    loop: "{{ pbs_per_host.results }}"
     
-- 
-  name: Run CVE remediation playbooks
-  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ ansible_host }}-CVEs.yml"
+- name: Run CVE remediation playbooks
+  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
 #  loop: "{{ pbs_per_host_wf.results }}"
