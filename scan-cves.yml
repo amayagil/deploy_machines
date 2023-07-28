@@ -90,12 +90,12 @@
         accept: "text/vnd.yaml"
         Connection: "keep-alive"
       body_format: json
+      #body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
       body:
           issues:
-            - id: "{{ cve_list_data_json.item.attributes.item.id }}"
+            - id: "CVE-2018-3646"
               systems: 
-              - "{{ cve_list_data_json.item.insights_inventory_id }}"
-      #body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
+              - "210f4107-03e5-4381-80a4-2b93890ee003"
     register: pbs_per_host
     #loop: "{{ cves_with_pb }}"
 
