@@ -137,8 +137,8 @@
 
   - name: install ansible-playbook
     ansible.builtin.shell:
-      cmd: "pipx install --include-deps ansible"
-       
+      cmd: "pip install --include-deps ansible"
+
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
       cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
