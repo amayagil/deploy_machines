@@ -100,6 +100,11 @@
       msg: "{{ item.content }}"
     loop: "{{ pbs_per_host.results }}"
 
+  - name: Capture Red Hat Insights inventory id for use on a workflow
+    ansible.builtin.set_stats:
+      data:
+        pbs_per_host_wf: "{{ pbs_per_host }}"
+
   - name: Insights | Create playbooks locally
     ansible.builtin.copy:
       dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
@@ -108,12 +113,12 @@
     delegate_to: localhost
     loop: "{{ pbs_per_host.results }}"
 
-  - name: This command will change the working directory to somedir/
-    ansible.builtin.shell:
-      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-    loop: "{{ pbs_per_host.results }}"
+#  - name: This command will change the working directory to somedir/
+#    ansible.builtin.shell:
+#      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+#    loop: "{{ pbs_per_host.results }}"
     
-#- name: Run CVE remediation playbooks
-#  ansible.builtin.import_playbook: 
-#    file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-#  loop: "{{ pbs_per_host.results }}"
+- name: Run CVE remediation playbooks
+  ansible.builtin.import_playbook: 
+    file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+  loop: "{{ pbs_per_host_wf.results }}"
