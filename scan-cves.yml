@@ -93,9 +93,10 @@
       #body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
       body:
           issues:
-            - id: "CVE-2018-3646"
-              systems: 
-              - "210f4107-03e5-4381-80a4-2b93890ee003"
+            - "id": "vulnerabilities:CVE-2018-3620"
+              "systems": [
+                "210f4107-03e5-4381-80a4-2b93890ee003"
+              ]
     register: pbs_per_host
     #loop: "{{ cves_with_pb }}"
 

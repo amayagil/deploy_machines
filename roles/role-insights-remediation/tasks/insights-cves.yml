@@ -63,13 +63,21 @@
       dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
       content: "{{ item.content }}"
       mode: "0755"
-    delegate_to: localhost
     loop: "{{ pbs_per_host.results }}"
 
-  - name: Run CVE remediation playbooks
-    ansible.builtin.shell: 
-      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-    loop: "{{ pbs_per_host.results }}"
+  - name: Generate one playbook for {{ dns_name }} host
+    ansible.builtin.assemble:
+      src: "{{ playbook_dir }}"
+      dest: "{{ playbook_dir }}/remediation-CVE.yml"
+
+  - name: ver contenido del pb
+    ansible.builtin.debug:
+      msg: "{{ lookup('ansible.builtin.file','{{ playbook_dir }}/remediation-CVE.yml') }}"
+
+#  - name: Run CVE remediation playbooks
+#    ansible.builtin.shell: 
+#      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+#    loop: "{{ pbs_per_host.results }}"
 
 #
 #  - name: Kick off a project sync
