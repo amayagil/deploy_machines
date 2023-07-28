@@ -123,11 +123,6 @@
   gather_facts: true
 
   tasks:
-#  - name: Create pb dir
-#    file:
-#      path: "/tmp/{{ dns_name }}/rhel-demo1/tmp/"
-#      state: directory
-#      mode: '0755'
 
   - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
     ansible.builtin.fetch:
