@@ -53,9 +53,9 @@
     register: pbs_per_host
     loop: "{{ cves_with_pb }}"
 
-  - name: print out cves_with_pb
-    ansible.builtin.debug:
-      msg: "{{ pbs_per_host['content'] }}"
+#  - name: print out cves_with_pb
+#    ansible.builtin.debug:
+#      msg: "{{ pbs_per_host['content'] }}"
       #msg: "{{ item }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
     #loop: "{{ pbs_per_host['content'] }}"
@@ -65,9 +65,9 @@
 #    ansible.builtin.debug:
 #      msg: "{{item.item.number}} {{ item.content.split('\n') }}"
 
-  - name: Set result json as fact
-    ansible.builtin.set_fact:
-      pbs_per_host_data_json: "{{ (pbs_per_host['content'] | from_json) }}"
+#  - name: Set result json as fact
+#    ansible.builtin.set_fact:
+#      pbs_per_host_data_json: "{{ (pbs_per_host['content'] | from_json) }}"
 
   - name: Insights | Create playbooks locally
     ansible.builtin.copy:
