@@ -7,69 +7,107 @@
     insights_auth_user: "{{ rhsm_username }}"
     insights_auth_password: "{{ rhsm_password  }}"
     insights_api_url: "https://console.redhat.com/api"
-    recommendation_id: "{{ recommendation_id}}"
     cves: []
-    #playbook: playbook.yml
-
+  
   tasks:
-    - name: Pull info from Insights API
-      ansible.builtin.uri:
-        url: "{{ insights_api_url }}/vulnerability/v1/vulnerabilities/cves?affecting=true"
-        method: GET
-        user: "{{ insights_auth_user }}"
-        password: "{{ insights_auth_password }}"
-        force_basic_auth: true
-        return_content: yes
-      register: cve_list
-      #failed_when: cve_list is failed or "'CVE' not in cve_list.content"
+  - name: Get the list of registered hosts
+    register: host_list
+    ignore_errors: true
+    ansible.builtin.uri:
+      #url: "{{ insights_api_url }}/inventory/v1/hosts"
+      url: "{{ insights_api_url }}/inventory/v1/hosts?display_name={{ dns_name }}"
+      method: GET
+      user: "{{ insights_auth_user }}"
+      password: "{{ insights_auth_password }}"
+      validate_certs: no
+      force_basic_auth: yes
+      status_code: 200
+      return_content: yes 
+      headers:
+        Content-Type: "application/json"
 
-    - name: Set result json as fact
-      ansible.builtin.set_fact:
-        cve_list_data_json: "{{ (cve_list.content | from_json).data }}"
-
-    - name: List ALL data of ALL CVEs
-      ansible.builtin.debug:
-        msg: 
-        - "CVE Description: {{ item.attributes.description }}"
-        - "CVE Synopsis: {{ item.attributes.synopsis }}"
-        - "CVE Impact: {{ item.attributes.impact }}"
-        verbosity: 0
-      loop: "{{ cve_list_data_json }}"
-
-    - name: Initilize Cves list
-      set_fact:
-        cves: []
-
-    - name: List of ALL CVEs
-      ansible.builtin.set_fact:
-        cves: "{{ cves + [ item.id ] }}"
-      loop: "{{ cve_list_data_json }}"
-        
-    - name: List of system affected by CVEs
-      ansible.builtin.uri:
-        url: "{{ insights_api_url }}/vulnerability/v1/cves/{{ item }}/affected_systems"
-        method: GET
-        user: "{{ insights_auth_user }}"
-        password: "{{ insights_auth_password }}"
-        force_basic_auth: true
-        return_content: yes
-        headers:
-          Content-Type: "application/json"
-      register: hosts_cves
-      loop: "{{ cves }}"
-
-#    - name: Set result json as fact
-#      ansible.builtin.set_fact:
-#        hosts_cves_list_data_json: "{{ hosts_cves.msg.results.content['json']['data'] }}"
-#        hosts_cves_list_data_json: "{{ (hosts_cves.msg.results.content | from_json).data }}"
-
-    - name: Display system details
-      ansible.builtin.debug:
-        msg: "{{ (hosts_cves.results[0].content | from_json).data}}"
-#        msg: hosts_cves_list_data_json
+  - name: Print out all insights_ids
+    ansible.builtin.debug:
+      msg: "{{ host_list.json.results[0].id }}"
       
-#
-#    - name: Display system details
-#      ansible.builtin.debug:
-#        var: "{{ cve_list_data_json }}"
-        #var: "{{ cve_list_json | community.general.json_query('[data]') }}"
+  - name: Capture Red Hat Insights inventory id for use on a workflow
+    ansible.builtin.set_stats:
+      data:
+        insights_inventory_id_wf: "{{ host_list.json.results[0].id }}"
+    register: insights_inventory_id_wf
+
+  - name: Capture Red Hat Insights inventory id for use on a playbook    
+    ansible.builtin.set_fact:
+      insights_inventory_id: "{{ host_list.json.results[0].id }}"
+
+  - name: Get my list of CVEs
+    ansible.builtin.uri:
+      url: "{{ insights_api_url }}/vulnerability/v1/systems/{{ insights_inventory_id }}/cves?limit=30"
+      method: GET
+      user: "{{ insights_auth_user }}"
+      password: "{{ insights_auth_password }}"
+      validate_certs: no
+      force_basic_auth: yes
+      status_code: 200
+      return_content: yes 
+      headers:
+        Content-Type: "application/json"
+    register: cve_list
+    until: "cve_list.status == 200"
+    ignore_errors: true
+    retries: 40
+    delay: 10
+
+  - name: Set result json as fact
+    ansible.builtin.set_fact:
+      cve_list_data_json: "{{ (cve_list.content | from_json).data }}"
+
+#  - name: Print out cve_list_data_json
+#    ansible.builtin.debug:
+#      msg: "{{ cve_list_data_json }}"
+
+  - name: Create a list for each cve with a playbook
+    ansible.builtin.set_fact:
+      cves_with_pb: "{{ cves_with_pb + [{ 'cve_id' : item.id, 
+                                          'insights_id' : insights_inventory_id,
+                                          'hostname' : dns_name,
+                                          'impact' : item.attributes.impact }] }}"
+    loop: "{{ cve_list_data_json }}"
+    when: item.attributes.remediation == 2
+
+  - name: Generate playbooks to remediate vulnerabilities
+    ansible.builtin.uri:
+      url: "{{ insights_api_url }}/remediations/v1/playbook"
+      method: POST
+      user: "{{ insights_auth_user }}"
+      password: "{{ insights_auth_password }}"
+      validate_certs: no
+      force_basic_auth: yes
+      status_code: 200
+      return_content: yes 
+      headers:
+        Content-Type: "application/json"
+        accept: "text/vnd.yaml"
+        Connection: "keep-alive"
+      body_format: json
+      body: "{{ lookup('ansible.builtin.template','templates/pb_generator_body.j2') }}"
+    register: pbs_per_host
+    loop: "{{ cves_with_pb }}"
+
+  - name: print out cves_with_pb
+    ansible.builtin.debug:
+      msg: "{{ item.content }}"
+    loop: "{{ pbs_per_host.results }}"
+
+  - name: Insights | Create playbooks locally
+    ansible.builtin.copy:
+      dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      content: "{{ item.content }}"
+      mode: "0755"
+    delegate_to: localhost
+    loop: "{{ pbs_per_host.results }}"
+
+  - name: Run CVE remediation playbooks
+    ansible.builtin.import_playbook: 
+      file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    loop: "{{ pbs_per_host.results }}"
