@@ -67,8 +67,9 @@
     loop: "{{ pbs_per_host.results }}"
 
   - name: Run remediation playbooks
-      ansible.builtin.include_tasks: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-      delegate_to: localhost
+    ansible.builtin.include_tasks: 
+      file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    delegate_to: localhost
     loop: "{{ pbs_per_host.results }}"
 
 #
