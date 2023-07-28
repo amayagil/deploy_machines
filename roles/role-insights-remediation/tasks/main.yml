@@ -6,5 +6,7 @@
 - ansible.builtin.include_tasks: 
     file: insights-cves.yml
 
-- ansible.builtin.include_tasks: 
-    file: insights-run-cve-pb.yml
+- name: Run remediation playbooks
+  ansible.builtin.include_playbook: 
+    file: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+  loop: "{{ pbs_per_host.results }}"
