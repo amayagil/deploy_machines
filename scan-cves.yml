@@ -8,6 +8,7 @@
     insights_auth_password: "{{ rhsm_password  }}"
     insights_api_url: "https://console.redhat.com/api"
     cves: []
+    cves_with_pb: []
   
   tasks:
   - name: Get the list of registered hosts
