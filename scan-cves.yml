@@ -116,12 +116,8 @@
   - name: Generate one playbook for {{ dns_name }} host
     ansible.builtin.assemble:
       src: "{{ playbook_dir }}"
-      dest: "{{ playbook_dir }}/remediation-CVE.yml"
-
-  - name: ver contenido del pb
-    ansible.builtin.debug:
-      msg: "{{ lookup('ansible.builtin.file','{{ playbook_dir }}/remediation-CVE.yml') }}"
-      
+      dest: "/tmp/remediation-CVE.yml"
+    
 - name: Run CVE remediation playbook
   hosts: "{{ dns_name }}"
   gather_facts: true
@@ -129,7 +125,7 @@
   tasks:
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.fetch:
-      src: "{{ playbook_dir }}/remediation-CVE.yml"
+      src: "/tmp/remediation-CVE.yml"
       dest: /tmp/remediation-CVE.yml
 
 
