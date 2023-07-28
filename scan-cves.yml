@@ -133,11 +133,11 @@
 
   - name: File read
     debug:
-      msg: "{{ lookup('file','/tmp/rhel-demo1/remediation-CVE.yml') }}"
+      msg: "{{ lookup('file','/tmp/{{ dns_name }}/remediation-CVE.yml') }}"
       
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
-      cmd: ansible-playbook /tmp/{{ dns_name }}/tmp/remediation-CVE.yml
+      cmd: ansible-playbook /tmp/{{ dns_name }}/remediation-CVE.yml
       #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     #loop: "{{ pbs_per_host.results }}"
     
