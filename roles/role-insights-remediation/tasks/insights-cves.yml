@@ -56,9 +56,9 @@
   - name: print out cves_with_pb
     ansible.builtin.debug:
       #msg: "{{ pbs_per_host.content | split('\n') }}"
-      msg: "{{ item.results.content }}"
+      msg: "{{ item }}"
       #msg: "{{ item.item.number }} {{ item.content.split('\n') }}"
-    loop: "{{ pbs_per_host.content }}"
+    loop: "{{ pbs_per_host['content'] }}"
 
 #  - name: print my_playbooks stadard out
 #    loop: "{{ pbs_per_host['results'] }}"
@@ -67,7 +67,14 @@
 
   - name: Set result json as fact
     ansible.builtin.set_fact:
-      pbs_per_host_data_json: "{{ (pbs_per_host.content | from_json) }}"
+      pbs_per_host_data_json: "{{ (pbs_per_host['content'] | from_json) }}"
+
+  - name: Insights | Create playbooks locally
+    ansible.builtin.copy:
+      dest: "{{ playbook_dir }}/{{ inventory_hostname }}-remediate-CVEs.yml"
+      content: "{{ pbs_per_host['content'] }}"
+      mode: "0755"
+    delegate_to: localhost
 
 #  - name: Write the playbooks to the change task for this cve
 #    loop: "{{ my_playbooks['results'] }}"
