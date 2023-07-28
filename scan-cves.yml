@@ -132,13 +132,13 @@
   - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
-      dest: "/tmp/{{ dns_name }}/remediation-CVE.yml"
-      flat: yes
+      dest: "/tmp/{{ dns_name }}"
+      #flat: yes
     delegate_to: localhost
 
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
-      cmd: ansible-playbook /tmp/{{ dns_name }}/remediation-CVE.yml
+      cmd: ansible-playbook /tmp/{{ dns_name }}/tmp/{{ dns_name }}/remediation-CVE.yml
       #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     #loop: "{{ pbs_per_host.results }}"
     
