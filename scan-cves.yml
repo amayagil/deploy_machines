@@ -124,9 +124,10 @@
 
   tasks:
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
-    ansible.builtin.fetch:
+    ansible.builtin.copy:
       src: "/tmp/remediation-CVE.yml"
-      dest: /tmp/remediation-CVE.yml
+      dest: "/tmp/remediation-CVE.yml"
+    delegate_to: localhost
 
 
 #  - name: Run CVE remediation playbooks on "{{ dns_name }}"
