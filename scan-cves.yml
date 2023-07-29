@@ -128,7 +128,7 @@
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
       dest: "/tmp/{{ dns_name }}"
-      flat: yes
+      #flat: yes
     delegate_to: localhost
 
   - name: File read
