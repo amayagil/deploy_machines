@@ -117,7 +117,7 @@
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
 
----
+
 - name: Prepare machines for use with Red Hat
   hosts: "{{ dns_name }}"
   gather_facts: true
