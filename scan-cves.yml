@@ -72,7 +72,6 @@
                                           'insights_id' : insights_inventory_id,
                                           'hostname' : dns_name,
                                           'impact' : item.attributes.impact }] }}"
-      verbosity: 0
     loop: "{{ cve_list_data_json }}"
     when: item.attributes.remediation == 2
 
@@ -109,10 +108,7 @@
     ansible.builtin.copy:
       dest: "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
       content: "{{ item.content }}"
-#      dest: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
-#      content: "{{ pbs_per_host.content }}"
       mode: "0755"
-      verbosity: 0
     loop: "{{ pbs_per_host.results }}"
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
