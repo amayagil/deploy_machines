@@ -138,5 +138,5 @@
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
       #cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
-      cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }} /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml"
+      cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
     delegate_to: localhost
