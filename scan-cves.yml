@@ -128,12 +128,12 @@
     ansible.builtin.fetch:
       src: "/tmp/remediation-CVE.yml"
       dest: "/tmp/{{ dns_name }}"
-      #flat: yes
+      flat: yes
     delegate_to: localhost
 
-#  - name: File read
-#    debug:
-#      msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
+  - name: File read
+    debug:
+      msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
