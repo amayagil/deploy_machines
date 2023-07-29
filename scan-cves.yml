@@ -113,30 +113,31 @@
       mode: "0755"
     loop: "{{ pbs_per_host.results }}"
 
-  - name: Generate one playbook for {{ dns_name }} host
-    ansible.builtin.assemble:
-      src: "{{ playbook_dir }}"
-      dest: "/tmp/remediation-CVE.yml"
+#  - name: Generate one playbook for {{ dns_name }} host
+#    ansible.builtin.assemble:
+#      src: "{{ playbook_dir }}"
+#      dest: "/tmp/remediation-CVE.yml"
     
-- name: Run CVE remediation playbook
-  hosts: "{{ dns_name }}"
-  gather_facts: true
-
-  tasks:
-
-  - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
-    ansible.builtin.fetch:
-      src: "/tmp/remediation-CVE.yml"
-      dest: "/tmp/{{ dns_name }}"
-      #flat: yes
-    delegate_to: localhost
-
-  - name: File read
-    debug:
-      msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
+#- name: Run CVE remediation playbook
+#  hosts: "{{ dns_name }}"
+#  gather_facts: true
+#
+#  tasks:
+#
+#  - name: Fetch remediation playbook on "{{ dns_name }}" from localhost
+#    ansible.builtin.fetch:
+#      src: "/tmp/remediation-CVE.yml"
+#      dest: "/tmp/{{ dns_name }}"
+#      #flat: yes
+#    delegate_to: localhost
+#
+#  - name: File read
+#    debug:
+#      msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
-      #cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
-      cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
+      #cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }} /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
+      "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
