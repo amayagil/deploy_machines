@@ -117,8 +117,14 @@
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
 
-#  - name: Run Insights to update data on "{{ dns_name }}"
-#    ansible.builtin.shell:
-#      cmd: insights-client -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}"
-#    changed_when: false
-#    when: ansible_os_family == 'RedHat'
+---
+- name: Prepare machines for use with Red Hat
+  hosts: "{{ dns_name }}"
+  gather_facts: true
+
+  tasks:
+  - name: Run Insights to update data on "{{ dns_name }}"
+    ansible.builtin.shell:
+      cmd: insights-client 
+    changed_when: false
+    when: ansible_os_family == 'RedHat'
