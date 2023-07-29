@@ -122,4 +122,3 @@
       cmd: insights-client -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}"
     changed_when: false
     when: ansible_os_family == 'RedHat'
-    delegate_to: localhost
