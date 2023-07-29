@@ -13,7 +13,7 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: 'Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml clave pública ofrecida {{ azure_ssh_public_key }}'
+        msg: 'Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml'
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
 
     - name: Deploy Azure instance
