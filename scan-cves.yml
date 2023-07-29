@@ -135,16 +135,12 @@
     debug:
       msg: "{{ lookup('file','/tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml') }}"
 
-  - name: install ansible-playbook
-    ansible.builtin.shell:
-      cmd: "pip install --include-deps ansible"
+#  - name: install ansible-playbook
+#    ansible.builtin.shell:
+#      cmd: "pip install --include-deps ansible"
 
   - name: Run CVE remediation playbooks on "{{ dns_name }}"
     ansible.builtin.shell:
-      cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
-      #cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-    #loop: "{{ pbs_per_host.results }}"
-    
-#  ansible.builtin.import_playbook: "{{ playbook_dir }}/{{ dns_name }}-CVEs.yml"
-#  ignore_errors: true
-#  loop: "{{ pbs_per_host_wf.results }}"
+      #cmd: ansible-playbook /tmp/rhel-demo1/rhel-demo1/tmp/remediation-CVE.yml
+      cmd: ansible-playbook -i azure.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    delegate_to: localhost
