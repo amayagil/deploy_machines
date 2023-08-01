@@ -5,3 +5,7 @@ insights_auth_password: "{{ rhsm_password  }}"
 insights_api_url: "https://console.redhat.com/api"
 dns_name: "rhel-demo1"
 cves_with_pb: []
+# platform in which machines run to perform remediation
+# currently either azure, ec2, gcp, or none
+# MANDATORY
+cloud: "{{ type }}"
