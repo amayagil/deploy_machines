@@ -17,8 +17,8 @@
 
   - name: Print out all insights_ids
     ansible.builtin.debug:
-      msg: "{{ host_list.json }}"
-      #msg: "{{ host_list.json.results[0].id }}"
+      #msg: "{{ host_list.json }}"
+      msg: "{{ host_list.json.results[0].id }}"
       
   - name: Capture Red Hat Insights inventory id for use on a workflow
     ansible.builtin.set_stats:
