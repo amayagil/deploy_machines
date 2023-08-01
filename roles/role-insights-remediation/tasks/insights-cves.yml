@@ -30,6 +30,7 @@
       cves_with_pb: "{{ cves_with_pb + [{ 'cve_id' : item.id, 
                                           'insights_id' : insights_inventory_id,
                                           'hostname' : dns_name,
+                                          'cloud' : cloud,
                                           'impact' : item.attributes.impact,
                                           'advisories_list' : item.attributes.advisories_list,
                                           'known_exploit' : item.attributes.known_exploit }]"
