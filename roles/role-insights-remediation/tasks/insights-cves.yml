@@ -77,8 +77,7 @@
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
-      #cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-      cmd: ansible-playbook -i aws_ec2.yml -e "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
     when: 
