@@ -65,38 +65,8 @@
       mode: "0755"
     loop: "{{ pbs_per_host.results }}"
 
-  - name: Generate one playbook for {{ dns_name }} host
-    ansible.builtin.assemble:
-      src: "{{ playbook_dir }}"
-      dest: "{{ playbook_dir }}/remediation-CVE.yml"
-
-  - name: ver contenido del pb
-    ansible.builtin.debug:
-      msg: "{{ lookup('ansible.builtin.file','{{ playbook_dir }}/remediation-CVE.yml') }}"
-
-#  - name: Run CVE remediation playbooks
-#    ansible.builtin.shell: 
-#      cmd: ansible-playbook "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
-#    loop: "{{ pbs_per_host.results }}"
-
-#
-#  - name: Kick off a project sync
-#    ansible.builtin.uri:
-#      url: "https://{{ controller_url }}/api/v2/projects/{{ project_id }}/update/"
-#      headers:
-#        Authorization: "Bearer {{ new_token.json.token }}"
-#        Content-Type: "application/json"
-#      validate_certs: no
-#      follow_redirects: all
-#      return_content: no
-#      method: "POST"
-#      status_code: 202
-#
-#  - name: Pausing for 20 seconds to allow for the project sync up to finish
-#    ansible.builtin.pause:
-#      seconds: 20
-#
-#  - name: process my playbooks
-#    loop: "{{ chg_tkt_list }}"
-#    ansible.builtin.include_tasks:
-#      file: tasks/launch_playbooks.yml
+  - name: Run CVE remediation playbook on "{{ dns_name }}"
+    ansible.builtin.shell:
+      cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+    loop: "{{ pbs_per_host.results }}"
+    delegate_to: localhost
