@@ -18,7 +18,7 @@
   - name: Print out all insights_ids
     ansible.builtin.debug:
       #msg: "{{ host_list.json }}"
-      msg: "{{ host_list.json.results[0].id }}"
+      msg: "{{ host_list.json.results[0].id }} running on {{ host_list.json.results[0].provider_type }}"
       
   - name: Capture Red Hat Insights inventory id for use on a workflow
     ansible.builtin.set_stats:
@@ -29,3 +29,7 @@
   - name: Capture Red Hat Insights inventory id for use on a playbook    
     ansible.builtin.set_fact:
       insights_inventory_id: "{{ host_list.json.results[0].id }}"
+
+  - name: Capture the cloud the machine is running in for use on a playbook    
+    ansible.builtin.set_fact:
+      cloud: "{{ host_list.json.results[0].provider_type }}"

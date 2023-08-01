@@ -30,9 +30,9 @@
       cves_with_pb: "{{ cves_with_pb + [{ 'cve_id' : item.id, 
                                           'insights_id' : insights_inventory_id,
                                           'hostname' : dns_name,
-                                          'impact' : item.attributes.impact }],
+                                          'impact' : item.attributes.impact,
                                           'advisories_list' : item.attributes.advisories_list,
-                                          'known_exploit' : item.attributes.known_exploit }}"
+                                          'known_exploit' : item.attributes.known_exploit }]"
     loop: "{{ cve_list_data_json }}"
     when: item.attributes.remediation == 2
 
