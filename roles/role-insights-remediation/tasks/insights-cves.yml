@@ -27,7 +27,7 @@
 
   - name: Create a list for each cve with a playbook
     ansible.builtin.set_fact:
-      cves_with_pb: "{{ cves_with_pb + [{ 'cve_id' : item.id, 
+      cves_with_pb: "{{ cves_with_pb | default([]) + [{ 'cve_id' : item.id, 
                                           'insights_id' : insights_inventory_id,
                                           'hostname' : dns_name,
                                           'cloud' : cloud,
@@ -80,7 +80,7 @@
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
-      cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_ssh_private_key_file="{{ ssh_key_data }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_ssh_private_key_file="/runner/artifacts/{{ tower_job_id }}/ssh_key_data" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
     when: 
@@ -102,7 +102,7 @@
 
   - name: Run CVE remediation playbook on "{{ dns_name }}"
     ansible.builtin.shell:
-      cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_ssh_private_key_file="{{ ssh_key_data }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
+      cmd: ansible-playbook -i aws_ec2.yml -e ansible_user="{{ ansible_user }}" -e ansible_ssh_private_key_file="/runner/artifacts/{{ tower_job_id }}/ssh_key_data" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
     when: 

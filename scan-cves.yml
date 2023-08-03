@@ -8,7 +8,6 @@
     insights_auth_password: "{{ rhsm_password  }}"
     insights_api_url: "https://console.redhat.com/api"
     cves: []
-    cves_with_pb: []
   
   tasks:
   - name: Get the data of registered host
@@ -68,7 +67,7 @@
 
   - name: Create a list for each cve with a playbook
     ansible.builtin.set_fact:
-      cves_with_pb: "{{ cves_with_pb + [{ 'cve_id' : item.id, 
+      cves_with_pb: "{{ cves_with_pb | default([]) + [{ 'cve_id' : item.id, 
                                           'insights_id' : insights_inventory_id,
                                           'hostname' : dns_name,
                                           'impact' : item.attributes.impact }] }}"
@@ -116,7 +115,6 @@
       cmd: ansible-playbook -i azure_rm.yml -e ansible_user="{{ ansible_user }}" -e ansible_password="{{ ansible_password }}" "{{ playbook_dir }}/{{ item.item.cve_id }}-remediation-{{ item.item.hostname }}.yml"
     loop: "{{ pbs_per_host.results }}"
     delegate_to: localhost
-
 
 - name: Prepare machines for use with Red Hat
   hosts: "{{ dns_name }}"
