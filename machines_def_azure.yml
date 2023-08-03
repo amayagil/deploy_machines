@@ -35,6 +35,7 @@
   azure_image_sku: 9-lvm-gen2
   azure_os_type: linux
   azure_disk_type: "StandardSSD_LRS"
+  malware_detection: true
 #- name: rhel-demo2
 #  type: azure
 #  azure_image_offer: RHEL
