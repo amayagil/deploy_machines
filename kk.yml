@@ -1,0 +1,9 @@
+---
+- name: ver cosas
+  hosts: all
+  gather_facts: true
+
+  tasks:
+  - name: verlas
+    debug:
+      var: "{{ hostvar[inventory_hostname].ansible_facts }}"
