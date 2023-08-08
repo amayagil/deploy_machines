@@ -17,5 +17,5 @@
       groups: wheel, adm
       state: present
       password: "{{ 'redhat' | password_hash('sha512') }}"
-      ssh_key_file: "{{ lookup(ansible.builtin.file,'/tmp/key') }}"
+      ssh_key_file: "{{ lookup('ansible.builtin.file','/tmp/key') }}"
       append: yes
