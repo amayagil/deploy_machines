@@ -1,5 +1,7 @@
 ---
 # tasks file for role-insights-remediation
+- debug:
+    msg: "kk"
 - ansible.builtin.include_tasks: 
     file: insights-inventory.yml
 
