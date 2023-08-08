@@ -1,4 +1,4 @@
 ---
 group: "{{ cloud_provider }}"
-public_ip: ""
-public_hostname: ""
+public_ip: "{{ hostvars[inventory_hostname].public_ip }}"
+public_hostname: "{{ hostvars[inventory_hostname].computer_name }}"
