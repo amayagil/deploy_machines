@@ -8,7 +8,7 @@
     ansible.builtin.user:
       name: ansible
       shell: /bin/bash
-      groups: wheel
+      groups: wheel, adm
       state: present
       password: "{{ 'redhat' | password_hash('sha512') }}"
       append: yes
