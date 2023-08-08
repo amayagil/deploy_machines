@@ -6,4 +6,4 @@
   tasks:
   - name: verlas
     debug:
-      var: "{{ hostvars[inventory_hostname].ansible_facts }}"
+      var: "{{ ansible_facts }}"
