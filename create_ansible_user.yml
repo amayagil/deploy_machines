@@ -1,0 +1,14 @@
+---
+- name: Create ansible user in AWS machines
+  hosts: all
+  gather_facts: true
+
+  tasks:
+  - name: Create ansible user
+    ansible.builtin.user:
+      name: ansible
+      shell: /bin/bash
+      groups: wheel
+      state: present
+      password: "{{ 'redhat' | password_hash('sha512') }}"
+      append: yes
