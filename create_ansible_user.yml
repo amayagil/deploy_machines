@@ -4,6 +4,11 @@
   gather_facts: true
 
   tasks:
+  - name: Create key file
+    ansible.builtin.copy:
+      content: "{{ key_pair }}"
+      dest: /tmp/key
+
   - name: Create ansible user
     ansible.builtin.user:
       name: ansible
@@ -11,4 +16,5 @@
       groups: wheel, adm
       state: present
       password: "{{ 'redhat' | password_hash('sha512') }}"
+      ssh_key_file: "{{ lookup(ansible.builtin.file,'/tmp/key') }}"
       append: yes
