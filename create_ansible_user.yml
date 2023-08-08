@@ -9,6 +9,7 @@
       content: "{{ key_pair }}"
       dest: /tmp/key
       mode: '0600'
+    delegate_to: localhost
 
   - name: Create ansible user
     ansible.builtin.user:
