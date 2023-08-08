@@ -18,3 +18,11 @@
       user: ansible
       state: present
       key: "{{ key_pair }}"
+
+  - name: Add ansible to sudoers
+    ansible.builtin.lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: /usr/sbin/visudo -cf %s
