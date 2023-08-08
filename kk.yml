@@ -6,4 +6,4 @@
   tasks:
   - name: verlas
     debug:
-      var: hostvars[inventory_hostname].computer_name
+      var: hostvars[inventory_hostname].public_ip_name
