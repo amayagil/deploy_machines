@@ -8,6 +8,7 @@
     ansible.builtin.copy:
       content: "{{ key_pair }}"
       dest: /tmp/key
+      mode: 0600
 
   - name: Create ansible user
     ansible.builtin.user:
