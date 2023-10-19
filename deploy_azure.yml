@@ -37,8 +37,8 @@
         azure_image_sku: "{{ item.azure_image_sku }}"
         windows_admin_password: "{{ item.windows_admin_password }}"
         # User and pass if no keys are to be used
-        admin_username: ansible
-        admin_password: "redhat"
+        admin_username: "{{ item.admin_username }}"
+        admin_password: "{{ item.admin_password }}"
         ssh_password_enabled: true
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
