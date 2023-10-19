@@ -39,6 +39,7 @@
   # User and pass if no keys are to be used
   admin_username: ansible
   admin_password: "redhat"
+  ssh_password_enabled: true
 #- name: rhel-demo2
 #  type: azure
 #  azure_image_offer: RHEL
