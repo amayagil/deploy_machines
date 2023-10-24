@@ -13,7 +13,10 @@
   tasks:
     - name: ver parámetros
       debug:
-        msg: 'Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }} fichero de definiciones machines_def_{{ type }}.yml'
+        msg: 
+          - 'Nombre de máquina {{ item.name }} tipo OS {{ item.azure_os_type}} instancia {{ item.azure_image_offer }}. 
+          - Usuario {{ item.admin_username }} y password {{ item.admin_password }}. SSH habilitado {{ item.ssh_password_enabled }} 
+          - fichero de definiciones machines_def_{{ type }}.yml'
       loop: "{{ lookup('file', 'machines_def_' + type + '.yml') | from_yaml }}"
 
     - name: Deploy Azure instance
@@ -34,8 +37,8 @@
         azure_image_sku: "{{ item.azure_image_sku }}"
         windows_admin_password: "{{ item.windows_admin_password }}"
         # User and pass if no keys are to be used
-        admin_username: ansible
-        admin_password: "redhat"
+        admin_username: "{{ item.admin_username }}"
+        admin_password: "{{ item.admin_password }}"
         ssh_password_enabled: true
       ansible.builtin.include_role:
         name: ansible_ssa.general.instance
