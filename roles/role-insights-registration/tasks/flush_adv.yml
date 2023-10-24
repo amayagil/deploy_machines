@@ -1,0 +1,11 @@
+---
+- name: Flush remembered advisories
+  ansible.builtin.uri:
+    url: "{{ TBC_insights_api_url }}/api/vulnerability/v1/notifications/{{ org_id }}"
+    method: DELETE
+    user: "{{ insights_auth_user }}"
+    password: "{{ insights_auth_password }}"
+    validate_certs: no
+    force_basic_auth: yes
+    status_code: 200
+    return_content: yes
