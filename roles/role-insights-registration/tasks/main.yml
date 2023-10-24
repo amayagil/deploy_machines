@@ -1,5 +1,9 @@
 ---
 - include_tasks: 
+    file: flush_adv.yml
+  when: flush_adv
+  
+- include_tasks: 
     file: insights.yml
 
 - include_tasks: 

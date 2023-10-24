@@ -5,3 +5,4 @@ authmethod: BASIC
 display_name: "{{ inventory_hostname | default(omit, true) }}"
 proxy: "{{ insights_proxy | default(none, true) }}"
 malware_detection: true
+flush_adv: true
