@@ -10,7 +10,7 @@
     file: insights-cves-remediator.yml
 
 - ansible.builtin.include_tasks: 
-    file: insights-notificator.yml
+    file: notificator-tasks.yml
   vars:
     msg_tlg: "CVEs resolved on host {{ dns_name }}"
     msg_slack: "CVEs resolved on host {{ dns_name }}"
