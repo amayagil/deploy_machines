@@ -45,25 +45,33 @@
     set_fact:
       file_lines: "{{ lookup('file', '{{ fichero_datos }}').split('\n') }}"
 
-  - debug:
+  - name: ver lineas fichero
+    ansible.builtin.debug:
       var: file_lines
       verbosity: 1
     
   - name: get relevant list items
     set_fact:
-      titles: "{{ file_lines|select('search', '<th>')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
-      values: "{{ file_lines|select('search', '<td>')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
+      # titles: "{{ file_lines|select('search', '<th>')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
+      # values: "{{ file_lines|select('search', '<td>')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
+      titles: "{{ file_lines|select('search', '<th data-col=\"col')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
+      values: "{{ file_lines|select('search', '<span class=\"pae-table__txt-base pae-table__span-head\">')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
 
-  - debug:
+  - name: ver titulos
+    ansible.builtin.debug:
       var: titles
       verbosity: 1
       
-  - debug:
+  - name: ver valores
+    ansible.builtin.debug:
       var: values
       verbosity: 1
 
   - name: create the dict
     set_fact:
       title_values: "{{ dict(titles|zip(values)) }}"
-
-  - debug:
+  
+  - name: ver valores diccionario
+    ansible.builtin.debug:
+      var: title_values
+      verbosity: 1
