@@ -7,6 +7,7 @@
     url_puestos: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"
     job_list: ""
     fichero_datos: "/tmp/data.html"
+    file_info: ""
   
   tasks:
   # - name: verlas
@@ -33,6 +34,25 @@
   - name: Unir lineas                                                                                                                                                                         
     debug:                                                                                                                                                                         
       var: result | join()
+
+  - name: Obtener información del fichero
+    stat:
+      path: "{{ fichero_datos }}"
+    register: file_info
+
+  - name: crear el fichero si no existe previamente
+    ansible.builtin.file:  
+      path: "{{ fichero_datos }}"
+      state: touch
+      mode: u=rw,g=rw,o=rw
+    register: file_info
+    when: 
+      file_info.stat.exists == false
+
+  - name: ver contenido fichero
+    ansible.builtin.debug:
+      msg="{{ item }}"
+    loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
 
   - name: crear el fichero
     ansible.builtin.file:  
