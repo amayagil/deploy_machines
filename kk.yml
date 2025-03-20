@@ -26,29 +26,26 @@
       headers:
         Content-Type: "body_format"
 
-  - name: Print out all insights_ids
-    ansible.builtin.debug:
-      msg: "Listado de puestos: {{ job_list }}"
-
   - name: crear el fichero
     ansible.builtin.file:  
       path: "{{ fichero_datos }}"
       state: touch
-      mode: u=rw,g=r,o=r
+      mode: u=rw,g=rw,o=rw
 
   - name: guardar en fichero
     ansible.builtin.copy:
       content: "{{ job_list }}"
       dest: "{{ fichero_datos }}"
 
-  - name: read the html file
-    set_fact:
-      file_lines: "{{ lookup('file', '{{ fichero_datos }}').split() }}"
-      #file_lines: "{{ lookup('file', '{{ fichero_datos }}').split('\n') }}"
+  - name: ver contenido fichero
+    ansible.builtin.debug:
+      var: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
+      verbosity: 3
 
-  - name: ver fichero
-    debug:
-      msg: "{{ lookup('file', '{{ fichero_datos }}').split() }}"
+  - name: read the html file
+    ansible.builtin.set_fact:
+      file_lines: "{{ lookup('ansible.builtin.file', '{{ fichero_datos }}').split('<div class=\"pae-header\"') }}"
+      #file_lines: "{{ lookup('ansible.builtin.file', '{{ fichero_datos }}').split('\n') }}"
 
   - name: ver lineas fichero
     ansible.builtin.debug:
@@ -59,8 +56,8 @@
     set_fact:
       # titles: "{{ file_lines|select('search', '<th>')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
       # values: "{{ file_lines|select('search', '<td>')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
-      titles: "{{ file_lines|select('search', '<td data-content=')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
-      values: "{{ file_lines|select('search', '<span class=\"pae-table__txt-base pae-table__span-head\">')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
+      titles: "{{ file_lines|select('search', '<th data-col=\"col1\" class=\"pae-table__cell-header\"><span class=\"pae-table__txt-title\">')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
+      values: "{{ file_lines|select('search', '<td data-content=\"Cuerpo o escala\" data-col=\"col1\" data-function=\"fc-collapse-table\" class=\"pae-table__cell-body\"><span class=\"pae-table__txt-base pae-table__span-head\">')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
 
   - name: ver titulos
     ansible.builtin.debug:
