@@ -3,16 +3,21 @@
   hosts: localhost
   gather_facts: true
 
+  vars:
+    url_puestos: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"
+    job_list: ""
+    fichero_datos: "/tmp/html.data"
+  
   tasks:
   # - name: verlas
   #   debug:
   #     var: hostvars[inventory_hostname].public_ip_name
-
+    
   - name: Get the data of registered host
     register: job_list
     ignore_errors: true
     ansible.builtin.uri:
-      url: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"
+      url: "{{ url_puestos }}"
       method: GET
       validate_certs: no
       force_basic_auth: yes
@@ -24,3 +29,41 @@
   - name: Print out all insights_ids
     ansible.builtin.debug:
       msg: "Listado de puestos: {{ job_list }}"
+
+  - name: crear el fichero
+    ansible.builtin.file:  
+      path: "{{ fichero_datos }}"
+      state: touch
+      mode: u=rw,g=r,o=r
+
+  - name: guardar en fichero
+    ansible.builtin.copy:
+      content: "{{ job_list }}"
+      dest: "{{ fichero_datos }}"
+
+  - name: read the html file
+    set_fact:
+      file_lines: "{{ lookup('file', '{{ fichero_datos }}').split('\n') }}"
+
+  - debug:
+      var: file_lines
+      verbosity: 1
+    
+  - name: get relevant list items
+    set_fact:
+      titles: "{{ file_lines|select('search', '<th>')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
+      values: "{{ file_lines|select('search', '<td>')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
+
+  - debug:
+      var: titles
+      verbosity: 1
+      
+  - debug:
+      var: values
+      verbosity: 1
+
+  - name: create the dict
+    set_fact:
+      title_values: "{{ dict(titles|zip(values)) }}"
+
+  - debug:
