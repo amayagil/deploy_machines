@@ -1,9 +1,26 @@
 ---
 - name: ver cosas
-  hosts: all
+  hosts: localhost
   gather_facts: true
 
   tasks:
-  - name: verlas
-    debug:
-      var: hostvars[inventory_hostname].public_ip_name
+  # - name: verlas
+  #   debug:
+  #     var: hostvars[inventory_hostname].public_ip_name
+
+  - name: Get the data of registered host
+    register: job_list
+    ignore_errors: true
+    ansible.builtin.uri:
+      url: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"
+      method: GET
+      validate_certs: no
+      force_basic_auth: yes
+      status_code: 200
+      return_content: yes 
+      headers:
+        Content-Type: "body_format"
+
+  - name: Print out all insights_ids
+    ansible.builtin.debug:
+      msg: "Listado de puestos: {{ job_list }}"
