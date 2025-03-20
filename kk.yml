@@ -39,7 +39,7 @@
   - name: guardar en fichero
     ansible.builtin.copy:
       content: "{{ job_list }}"
-      dest: "{{ fichero_datos | to_json(indent=4, sort_keys=True) }}"
+      dest: "{{ fichero_datos }}"
 
   - name: read the html file
     set_fact:
