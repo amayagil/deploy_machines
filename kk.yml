@@ -54,21 +54,10 @@
       msg="{{ item }}"
     loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
 
-  - name: crear el fichero
-    ansible.builtin.file:  
-      path: "{{ fichero_datos }}"
-      state: touch
-      mode: u=rw,g=rw,o=rw
-
   - name: guardar en fichero
     ansible.builtin.copy:
       content: "{{ result | join() }}"
       dest: "{{ fichero_datos }}"
-
-  - name: ver contenido fichero
-    ansible.builtin.debug:
-      msg="{{ item }}"
-    loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
 
   - name: notificarme
     include_tasks:
