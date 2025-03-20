@@ -43,12 +43,16 @@
 
   - name: read the html file
     set_fact:
-      file_lines: "{{ lookup('file', '{{ fichero_datos }}').split('</td>\\r\\n\\t\\t\\t\\t') }}"
+      file_lines: "{{ lookup('file', '{{ fichero_datos }}').split() }}"
       #file_lines: "{{ lookup('file', '{{ fichero_datos }}').split('\n') }}"
+
+  - name: ver fichero
+    debug:
+      msg: "{{ lookup('file', '{{ fichero_datos }}').split() }}"
 
   - name: ver lineas fichero
     ansible.builtin.debug:
-      var: file_lines
+      msg: "{{ file_lines }}"
       verbosity: 1
     
   - name: get relevant list items
