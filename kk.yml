@@ -44,7 +44,7 @@
     ansible.builtin.file:  
       path: "{{ fichero_datos }}"
       state: touch
-      mode: u=rw,g=rw,o=rw
+      mode: u=rw,g=r,o=r
     register: file_info
     when: 
       file_info.stat.exists == false
@@ -58,7 +58,7 @@
     ansible.builtin.copy:
       content: "{{ result | join() }}"
       dest: "{{ fichero_datos }}"
-    when: file.info.content != result
+    when: lookup('file', '{{ fichero_datos }}') != result | join()
 
   - name: notificarme
     include_tasks:
