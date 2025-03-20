@@ -58,6 +58,7 @@
     ansible.builtin.copy:
       content: "{{ result | join() }}"
       dest: "{{ fichero_datos }}"
+    when: fichero_datos != result
 
   - name: notificarme
     include_tasks:
