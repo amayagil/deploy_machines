@@ -6,16 +6,14 @@
   vars:
     url_puestos: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"
     job_list: ""
-    fichero_datos: "/tmp/html.data"
+    fichero_datos: "/tmp/data.html"
   
   tasks:
   # - name: verlas
   #   debug:
   #     var: hostvars[inventory_hostname].public_ip_name
-    
+
   - name: Get the data of registered host
-    register: job_list
-    ignore_errors: true
     ansible.builtin.uri:
       url: "{{ url_puestos }}"
       method: GET
@@ -25,6 +23,16 @@
       return_content: yes 
       headers:
         Content-Type: "body_format"
+    register: html_page
+    ignore_errors: true
+
+  - name: obtener lineas de tabla
+    set_fact:
+      result: "{{ html_page.content.splitlines(True) | select('match', '^.*<\\s*\/?(td|table|tr|tbody|thead|th)\\b.*') | regex_replace('(\\s\\s)+', '') | replace('\\t','') }}" 
+
+  - name: Unir lineas                                                                                                                                                                         
+    debug:                                                                                                                                                                         
+      var: result | join()
 
   - name: crear el fichero
     ansible.builtin.file:  
@@ -34,46 +42,17 @@
 
   - name: guardar en fichero
     ansible.builtin.copy:
-      content: "{{ job_list }}"
+      content: "{{ result | join() }}"
       dest: "{{ fichero_datos }}"
 
   - name: ver contenido fichero
     ansible.builtin.debug:
-      var: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
-      verbosity: 3
+      msg="{{ item }}"
+    loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
 
-  - name: read the html file
-    ansible.builtin.set_fact:
-      file_lines: "{{ lookup('ansible.builtin.file', '{{ fichero_datos }}').split('<div class=\"pae-header\"') }}"
-      #file_lines: "{{ lookup('ansible.builtin.file', '{{ fichero_datos }}').split('\n') }}"
-
-  - name: ver lineas fichero
-    ansible.builtin.debug:
-      msg: "{{ file_lines }}"
-      verbosity: 1
-    
-  - name: get relevant list items
-    set_fact:
-      # titles: "{{ file_lines|select('search', '<th>')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
-      # values: "{{ file_lines|select('search', '<td>')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
-      titles: "{{ file_lines|select('search', '<th data-col=\"col1\" class=\"pae-table__cell-header\"><span class=\"pae-table__txt-title\">')|map('regex_replace', '<td>(.*)</td>', '\\1')|list }}"
-      values: "{{ file_lines|select('search', '<td data-content=\"Cuerpo o escala\" data-col=\"col1\" data-function=\"fc-collapse-table\" class=\"pae-table__cell-body\"><span class=\"pae-table__txt-base pae-table__span-head\">')|map('regex_replace', '<th>(.*)</th>', '\\1')|list }}"
-
-  - name: ver titulos
-    ansible.builtin.debug:
-      var: titles
-      verbosity: 1
-      
-  - name: ver valores
-    ansible.builtin.debug:
-      var: values
-      verbosity: 1
-
-  - name: create the dict
-    set_fact:
-      title_values: "{{ dict(titles|zip(values)) }}"
-  
-  - name: ver valores diccionario
-    ansible.builtin.debug:
-      var: title_values
-      verbosity: 1
+  - name: notificarme
+    include_tasks:
+      notificator_tasks.yml
+    vars:
+      msg_slack: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
+      msg_tlg: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
