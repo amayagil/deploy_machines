@@ -31,7 +31,7 @@
     set_fact:
       result: "{{ html_page.content.splitlines(True) | select('match', '^.*<\\s*\/?(td|table|tr|tbody|thead|th)\\b.*') | regex_replace('(\\s\\s)+', '') | replace('\\t','') }}" 
 
-  - name: Unir lineas                                                                                                                                                                         
+  - name: Ver contenido final                                                                                                                                                                         
     debug:                                                                                                                                                                         
       var: result | join()
 
@@ -49,20 +49,23 @@
     when: 
       file_info.stat.exists == false
 
-  - name: ver contenido fichero
-    ansible.builtin.debug:
-      msg="{{ item }}"
-    loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
+  # - name: ver contenido fichero por líneas
+  #   ansible.builtin.debug:
+  #     msg="{{ item }}"
+  #   loop: "{{ lookup('file', '{{ fichero_datos }}' ).splitlines() }}"
 
   - name: guardar en fichero
     ansible.builtin.copy:
       content: "{{ result | join() }}"
       dest: "{{ fichero_datos }}"
-    when: lookup('file', '{{ fichero_datos }}') != result | join()
+    when: lookup('file', fichero_datos, default='') != ( result | join() )
+    notify: notificarme
 
-  - name: notificarme
-    include_tasks:
-      notificator_tasks.yml
-    vars:
-      msg_slack: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
-      msg_tlg: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
+  handlers:
+    - name: notificarme
+      include_tasks:
+        notificator_tasks.yml
+      vars:
+        msg_slack: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
+        msg_tlg: "Nuevas convocatorias de funcionario, ve a {{ url_puestos }}"
+      when: lookup('file', fichero_datos, default='') != ( result | join() )
