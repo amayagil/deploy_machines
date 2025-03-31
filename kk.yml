@@ -1,7 +1,7 @@
 ---
 - name: ver cosas
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
 
   vars:
     url_puestos: "https://ips.redsara.es/IPSC/secure/buscarConvocatorias"

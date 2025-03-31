@@ -1,0 +1,120 @@
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [ver cosas] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "changed": false, "failed_modules": {"ansible.legacy.setup": {"cmd": "sysctl hw.model", "failed": true, "invocation": {"module_args": {"fact_path": "/etc/ansible/facts.d", "filter": [], "gather_subset": ["all"], "gather_timeout": 10}}, "msg": "[Errno 2] No such file or directory: b'sysctl'", "rc": 2, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}}, "msg": "The following modules failed to execute: ansible.legacy.setup\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
