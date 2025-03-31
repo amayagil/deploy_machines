@@ -31,9 +31,13 @@
     set_fact:
       result: "{{ html_page.content.splitlines(True) | select('match', '^.*<\\s*\/?(td|table|tr|tbody|thead|th)\\b.*') | regex_replace('(\\s\\s)+', '') | replace('\\t','') }}" 
 
+  - name: obtener puestos A1 sólo
+    set_fact:
+      aunos: "{{ result | select('search', '>([^<]*A1-[^<]*)<') | list }}"
+
   - name: Ver contenido final                                                                                                                                                                         
     debug:                                                                                                                                                                         
-      var: result | join()
+      var: aunos | join()
 
   - name: Obtener información del fichero
     stat:
