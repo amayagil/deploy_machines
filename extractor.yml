@@ -1,0 +1,91 @@
+---
+- name: Exportar arquitectura AAP 2.4 a estructura de directorios (IaC)
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    # 1. Datos de origen
+    aap_controller_host: "192.168.1.66"
+    aap_controller_user: "admin"
+    aap_controller_pass: "redhat"
+    aap_controller_verify_certs: false
+
+    # 2. Rutas
+    export_dir: "{{ playbook_dir }}/aap_configuration_as_code"
+    backup_filename: "aap_iac_backup.tar.gz"
+
+    # 3. Requerimientos técnicos
+    valid_tags: []
+
+  tasks:
+    - name: "Limpiar y asegurar que el directorio de salida existe"
+      ansible.builtin.file:
+        path: "{{ export_dir }}"
+        state: "{{ item }}"
+        mode: '0755'
+      loop: [absent, directory]
+
+    - name: "Generar Token de Autenticación (OAuth2)"
+      ansible.controller.token:
+        controller_host: "{{ aap_controller_host }}"
+        controller_username: "{{ aap_controller_user }}"
+        controller_password: "{{ aap_controller_pass }}"
+        validate_certs: "{{ aap_controller_verify_certs }}"
+        state: present
+      register: aap_token_result
+
+    - name: "Ejecutar EXPORTACIÓN REAL (API -> Disco)"
+      include_role:
+        name: infra.controller_configuration.filetree_create
+      vars:
+        controller_hostname: "{{ aap_controller_host }}"
+        controller_oauthtoken: "{{ aap_token_result.ansible_facts.controller_token }}"
+        controller_validate_certs: "{{ aap_controller_verify_certs }}"
+        output_path: "{{ export_dir }}"
+        query_controller_api: true
+        controller_configuration_organizations: "all"
+        controller_configuration_projects: "all"
+        controller_configuration_inventories: "all"
+        controller_configuration_credentials: "all"
+        controller_configuration_job_templates: "all"
+        controller_configuration_workflow_job_templates: "all"
+
+    - name: "Eliminar Token de Autenticación (Asegurando el borrado con credenciales)"
+      ansible.controller.token:
+        controller_host: "{{ aap_controller_host }}"
+        # Usamos credenciales para tener autoridad total sobre el borrado
+        controller_username: "{{ aap_controller_user }}"
+        controller_password: "{{ aap_controller_pass }}"
+        existing_token: "{{ aap_token_result.ansible_facts.controller_token }}"
+        validate_certs: "{{ aap_controller_verify_certs }}"
+        state: absent
+      # Mantenemos ignore_errors por si el token ya expiró o el Controller es lento
+      ignore_errors: true 
+
+    - name: "Validar que se han generado archivos"
+      ansible.builtin.find:
+        paths: "{{ export_dir }}"
+        recurse: yes
+      register: found_files
+
+    - name: "Crear archivo comprimido (IaC)"
+      community.general.archive:
+        path: "{{ export_dir }}"
+        dest: "{{ playbook_dir }}/{{ backup_filename }}"
+        format: gz
+        force_archive: true
+      register: archive_info
+
+    - name: "Verificar estructura del backup (.tar.gz)"
+      ansible.builtin.command: "tar -ztvf {{ archive_info.dest }}"
+      register: tar_content
+      changed_when: false
+
+    - name: "Resumen final"
+      ansible.builtin.debug:
+        msg:
+          - "Exportación completada."
+          - "Archivos generados: {{ found_files.matched }}"
+          - "Backup listo: {{ archive_info.dest }}"
+          - "--- LISTADO DE ARCHIVOS EN EL BACKUP ---"
+          - "{{ tar_content.stdout_lines }}"
