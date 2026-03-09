@@ -1,9 +1,9 @@
 # roles/aap_config_manager/vars/main.yml
 ---
 # Variables de conexión al Controller
-controller_hostname: "https://ansibol.cibeles.com"
+controller_hostname: "https://controller.com"
 controller_username: "admin"
-controller_password: "redhat"
+controller_password: "default"
 controller_validate_certs: false
 
 # Configuración de backup (Parametrizada)

@@ -1,21 +1,33 @@
-# roles/aap_config_manager/tasks/extract_tasks.yml
 ---
 - name: "Generar estructura de archivos desde la configuración del Controller (IaC)"
-  infra.controller_configuration.filetree_create:
-    controller_host: "{{ controller_hostname }}"
-    controller_username: "{{ controller_username | default('admin') }}"
-    controller_password: "{{ controller_password | mandatory('Falta definir controller_password. ¡Usa Vault!') }}"
-    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
-    output_path: "{{ backup_local_dir | mandatory('Define backup_local_dir en vars') }}"
-  
-  # Activamos el modo simulación si aap_dry_run es true
-  check_mode: "{{ aap_dry_run | default(false) | bool }}"
-  register: _filetree_output
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.filetree_create
+  vars:
+    # Variables de conexión (vienen del -e del comando)
+    # controller_hostname y controller_password se pasan automáticamente
+    output_path: "{{ backup_local_dir | default('./backups') }}"
+    query_controller_api: true
+    valid_tags: []
 
-- name: "Validar que el proceso de creación de archivos finalizó correctamente"
+    # Configuración de exportación completa
+    controller_configuration_organizations: "all"
+    controller_configuration_projects: "all"
+    controller_configuration_inventories: "all"
+    controller_configuration_credentials: "all"
+    controller_configuration_job_templates: "all"
+    controller_configuration_workflow_job_templates: "all"
+
+  # Registramos el resultado del include_role
+  register: _filetree_output
+  # Si es dry run, ignoramos errores para que el assert pueda darnos más info
+  ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
+
+- name: "Validar el resultado de la extracción (Modo: {{ 'Simulación' if aap_dry_run else 'Real' }})"
   ansible.builtin.assert:
     that:
-      - _filetree_output.changed or _filetree_output.msg is defined
-    fail_msg: "ERROR: El módulo filetree_create no devolvió una confirmación de éxito."
-  # En dry run, el assert siempre debe pasar si no hubo errores de conexión
-  ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
+      - _filetree_output is defined
+      - not _filetree_output.failed or (aap_dry_run | default(false) | bool)
+    fail_msg: |
+      ERROR: La extracción ha fallado. 
+      Detalles: {{ _filetree_output.msg | default('No hay mensaje de error disponible') }}
+    success_msg: "Validación completada: El flujo de CaC es consistente."

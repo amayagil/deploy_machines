@@ -1,0 +1,249 @@
+{
+    "plays": [
+        {
+            "__play_name": "AAP Configuration as Code (CaC) - Entry Point",
+            "name": "AAP Configuration as Code (CaC) - Entry Point",
+            "pattern": "localhost",
+            "play": "AAP Configuration as Code (CaC) - Entry Point",
+            "play_pattern": "localhost",
+            "play_uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000001",
+            "playbook": "/home/amaya/deploy_machines/cac_aap.yml",
+            "playbook_uuid": "307a2de1-30a2-49e1-8cb5-628660d4401c",
+            "tasks": [
+                {
+                    "__changed": false,
+                    "__duration": "0s",
+                    "__host": "localhost",
+                    "__number": 0,
+                    "__result": "Ok",
+                    "__task": "Validar que la acción sea correcta",
+                    "__task_action": "ansible.builtin.assert",
+                    "duration": 0.008533,
+                    "end": "2026-03-09T18:31:57.265690",
+                    "event_loop": null,
+                    "host": "localhost",
+                    "play": "AAP Configuration as Code (CaC) - Entry Point",
+                    "play_pattern": "localhost",
+                    "play_uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000001",
+                    "playbook": "/home/amaya/deploy_machines/cac_aap.yml",
+                    "playbook_uuid": "307a2de1-30a2-49e1-8cb5-628660d4401c",
+                    "remote_addr": "127.0.0.1",
+                    "res": {
+                        "_ansible_no_log": false,
+                        "_ansible_verbose_always": true,
+                        "changed": false,
+                        "msg": "All assertions passed"
+                    },
+                    "resolved_action": "ansible.builtin.assert",
+                    "role": "roles/role-aap-config-manager",
+                    "start": "2026-03-09T18:31:57.257157",
+                    "task": "Validar que la acción sea correcta",
+                    "task_action": "ansible.builtin.assert",
+                    "task_args": "",
+                    "task_path": "/home/amaya/deploy_machines/roles/role-aap-config-manager/tasks/main.yml:3",
+                    "task_uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000006",
+                    "uuid": "1f9d5f6e-94b4-477c-9ade-28e9084f84c0"
+                },
+                {
+                    "__changed": false,
+                    "__duration": "0s",
+                    "__host": "localhost",
+                    "__number": 1,
+                    "__result": "Ok",
+                    "__task": "Ejecutar flujo de tareas para extract",
+                    "__task_action": "ansible.builtin.include_tasks",
+                    "duration": 0.004892,
+                    "end": "2026-03-09T18:31:57.275201",
+                    "event_loop": null,
+                    "host": "localhost",
+                    "play": "AAP Configuration as Code (CaC) - Entry Point",
+                    "play_pattern": "localhost",
+                    "play_uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000001",
+                    "playbook": "/home/amaya/deploy_machines/cac_aap.yml",
+                    "playbook_uuid": "307a2de1-30a2-49e1-8cb5-628660d4401c",
+                    "remote_addr": "127.0.0.1",
+                    "res": {
+                        "changed": false,
+                        "include": "extract_tasks.yml",
+                        "include_args": {}
+                    },
+                    "resolved_action": null,
+                    "role": "roles/role-aap-config-manager",
+                    "start": "2026-03-09T18:31:57.270309",
+                    "task": "Ejecutar flujo de tareas para {{ aap_action }}",
+                    "task_action": "ansible.builtin.include_tasks",
+                    "task_args": "",
+                    "task_path": "/home/amaya/deploy_machines/roles/role-aap-config-manager/tasks/main.yml:9",
+                    "task_uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000007",
+                    "uuid": "82885902-560f-4a83-8d70-4fed41ea50d1"
+                }
+            ],
+            "uuid": "3ad324ad-e6cc-9bc0-d4c9-000000000001"
+        }
+    ],
+    "settings_entries": {
+        "ansible-navigator": {
+            "ansible": {
+                "cmdline": "-e 'aap_action=extract backup_base_path=./backups'",
+                "config": {
+                    "help": false
+                },
+                "doc": {
+                    "help": false,
+                    "plugin": {
+                        "type": "module"
+                    }
+                },
+                "inventory": {
+                    "help": false
+                },
+                "playbook": {
+                    "help": false,
+                    "path": "/home/amaya/deploy_machines/cac_aap.yml"
+                }
+            },
+            "ansible-builder": {
+                "help": false,
+                "workdir": "/home/amaya/deploy_machines"
+            },
+            "ansible-runner": {
+                "job-events": false
+            },
+            "app": "run",
+            "collection-doc-cache-path": "/home/amaya/.cache/ansible-navigator/collection_doc_cache.db",
+            "color": {
+                "enable": true,
+                "osc4": true
+            },
+            "editor": {
+                "command": "vi +{line_number} {filename}",
+                "console": true
+            },
+            "enable-prompts": false,
+            "exec": {
+                "command": "/bin/bash",
+                "shell": true
+            },
+            "execution-environment": {
+                "container-engine": "podman",
+                "enabled": true,
+                "image": "registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9:latest",
+                "pull": {
+                    "policy": "missing"
+                },
+                "volume-mounts": [
+                    {
+                        "dest": "/home/runner/.ansible/collections",
+                        "options": "Z",
+                        "src": "/home/amaya/.ansible/collections"
+                    }
+                ]
+            },
+            "format": "yaml",
+            "images": {
+                "details": [
+                    "everything"
+                ]
+            },
+            "logging": {
+                "append": true,
+                "file": "/home/amaya/deploy_machines/ansible-navigator.log",
+                "level": "warning"
+            },
+            "mode": "stdout",
+            "playbook-artifact": {
+                "enable": true,
+                "save-as": "{playbook_dir}/{playbook_name}-artifact-{time_stamp}.json"
+            },
+            "settings": {
+                "effective": false,
+                "sample": false,
+                "schema": "json",
+                "sources": false
+            },
+            "time-zone": "UTC"
+        }
+    },
+    "settings_sources": {
+        "ansible-navigator.ansible-builder.help": "Defaults",
+        "ansible-navigator.ansible-builder.workdir": "Defaults",
+        "ansible-navigator.ansible-lint.config": "Not set",
+        "ansible-navigator.ansible-lint.lintables": "Not set",
+        "ansible-navigator.ansible-runner.artifact-dir": "Not set",
+        "ansible-navigator.ansible-runner.job-events": "Defaults",
+        "ansible-navigator.ansible-runner.rotate-artifacts-count": "Not set",
+        "ansible-navigator.ansible-runner.timeout": "Not set",
+        "ansible-navigator.ansible.cmdline": "Command line",
+        "ansible-navigator.ansible.config.help": "Defaults",
+        "ansible-navigator.ansible.config.path": "Not set",
+        "ansible-navigator.ansible.doc.help": "Defaults",
+        "ansible-navigator.ansible.doc.plugin.name": "Not set",
+        "ansible-navigator.ansible.doc.plugin.type": "Defaults",
+        "ansible-navigator.ansible.inventory.entries": "Not set",
+        "ansible-navigator.ansible.inventory.help": "Defaults",
+        "ansible-navigator.ansible.playbook.help": "Defaults",
+        "ansible-navigator.ansible.playbook.path": "Command line",
+        "ansible-navigator.app": "Command line",
+        "ansible-navigator.collection-doc-cache-path": "Defaults",
+        "ansible-navigator.color.enable": "Defaults",
+        "ansible-navigator.color.osc4": "Defaults",
+        "ansible-navigator.editor.command": "Defaults",
+        "ansible-navigator.editor.console": "Defaults",
+        "ansible-navigator.enable-prompts": "Defaults",
+        "ansible-navigator.exec.command": "Defaults",
+        "ansible-navigator.exec.shell": "Defaults",
+        "ansible-navigator.execution-environment.container-engine": "Automatically determined",
+        "ansible-navigator.execution-environment.container-options": "Not set",
+        "ansible-navigator.execution-environment.enabled": "Defaults",
+        "ansible-navigator.execution-environment.environment-variables.pass": "Not set",
+        "ansible-navigator.execution-environment.environment-variables.set": "Not set",
+        "ansible-navigator.execution-environment.image": "Settings file",
+        "ansible-navigator.execution-environment.pull.arguments": "Not set",
+        "ansible-navigator.execution-environment.pull.policy": "Settings file",
+        "ansible-navigator.execution-environment.volume-mounts": "Settings file",
+        "ansible-navigator.format": "Defaults",
+        "ansible-navigator.images.details": "Defaults",
+        "ansible-navigator.inventory-columns": "Not set",
+        "ansible-navigator.logging.append": "Defaults",
+        "ansible-navigator.logging.file": "Defaults",
+        "ansible-navigator.logging.level": "Defaults",
+        "ansible-navigator.mode": "Command line",
+        "ansible-navigator.playbook-artifact.enable": "Defaults",
+        "ansible-navigator.playbook-artifact.replay": "Not set",
+        "ansible-navigator.playbook-artifact.save-as": "Defaults",
+        "ansible-navigator.settings.effective": "Defaults",
+        "ansible-navigator.settings.sample": "Defaults",
+        "ansible-navigator.settings.schema": "Defaults",
+        "ansible-navigator.settings.sources": "Defaults",
+        "ansible-navigator.time-zone": "Defaults",
+        "settings_file_path": "/home/amaya/deploy_machines/ansible-navigator.yml",
+        "settings_file_source": "Search path"
+    },
+    "status": "failed",
+    "status_color": 9,
+    "stdout": [
+        "\u001b[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that\u001b[0m",
+        "\u001b[1;35mthe implicit localhost does not match 'all'\u001b[0m",
+        "",
+        "PLAY [AAP Configuration as Code (CaC) - Entry Point] ***************************",
+        "",
+        "TASK [roles/role-aap-config-manager : Validar que la acción sea correcta] ******",
+        "\u001b[0;32mok: [localhost] => {\u001b[0m",
+        "\u001b[0;32m    \"changed\": false,\u001b[0m",
+        "\u001b[0;32m    \"msg\": \"All assertions passed\"\u001b[0m",
+        "\u001b[0;32m}\u001b[0m",
+        "",
+        "TASK [roles/role-aap-config-manager : Ejecutar flujo de tareas para extract] ***",
+        "\u001b[0;31mERROR! couldn't resolve module/action 'infra.controller_configuration.filetree_create'. This often indicates a misspelling, missing collection, or incorrect module path.\u001b[0m",
+        "\u001b[0;31m\u001b[0m",
+        "\u001b[0;31mThe error appears to be in '/home/amaya/deploy_machines/roles/role-aap-config-manager/tasks/extract_tasks.yml': line 3, column 3, but may\u001b[0m",
+        "\u001b[0;31mbe elsewhere in the file depending on the exact syntax problem.\u001b[0m",
+        "\u001b[0;31m\u001b[0m",
+        "\u001b[0;31mThe offending line appears to be:\u001b[0m",
+        "\u001b[0;31m\u001b[0m",
+        "\u001b[0;31m---\u001b[0m",
+        "\u001b[0;31m- name: \"Generar estructura de archivos desde la configuración del Controller (IaC)\"\u001b[0m",
+        "\u001b[0;31m  ^ here\u001b[0m"
+    ],
+    "version": "2.0.0"
+}

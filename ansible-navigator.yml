@@ -1,0 +1,10 @@
+ansible-navigator:
+  execution-environment:
+    image: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9:latest
+    pull:
+      policy: missing
+    volume-mounts:
+      - src: "/home/amaya/.ansible/collections"
+        dest: "/home/runner/.ansible/collections" # No tocar esto, es la clave
+        options: "Z"
+  mode: stdout
