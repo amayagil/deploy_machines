@@ -1,22 +1,35 @@
 ---
-# roles/role-aap-config-manager/tasks/inject_tasks.yml
-
-- name: "Obtener token para la inyección"
+- name: "Inyección: Obtener token de acceso"
   ansible.builtin.include_tasks: manage_token.yml
   vars:
     token_state: present
 
-- name: "Inyectar configuración en el Controller (CaC)"
+- name: "Cargar archivos de backup en memoria (Filetree -> Variables)"
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.filetree_read
+  vars:
+    data_path: "{{ backup_local_dir | default('./backups') }}"
+    # Usamos el prefijo app_ que funcionó el viernes
+    app_orgs_vars: "organizations"
+    app_projects_vars: "projects"
+    app_inv_vars: "inventories"
+    app_creds_vars: "credentials"
+    app_jt_vars: "job_templates"
+    app_wfjt_vars: "workflow_job_templates"
+    app_ee_vars: "execution_environments"
+    app_inv_sources_vars: "inventory_sources"
+    app_notifications_vars: "notification_templates"
+    app_schedules_vars: "schedules"
+    app_labels_vars: "labels"
+
+- name: "Inyectar configuración en el Controller (Variables -> API)"
   ansible.builtin.include_role:
     name: infra.controller_configuration.dispatch
   vars:
     controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
     controller_hostname: "{{ controller_hostname }}"
     controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
-    controller_configs_dir: "{{ backup_local_dir | default('./backups') }}"
     query_controller_api: true
-
-  # Quitamos check_mode de aquí porque no está permitido.
   register: _dispatch_output
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
 
@@ -24,10 +37,9 @@
   ansible.builtin.include_tasks: manage_token.yml
   vars:
     token_state: absent
-  when: _aap_token_result is defined and not (ansible_check_mode)
+  when:
+    - _aap_token_result is defined
+    - not ansible_check_mode
 
-- name: "Validar el resultado de la inyección"
-  ansible.builtin.assert:
-    that:
-      - _dispatch_output is defined
-    fail_msg: "ERROR: La inyección ha fallado."
+- name: "Inyección: Mostrar resumen"
+  ansible.builtin.include_tasks: summary.yml

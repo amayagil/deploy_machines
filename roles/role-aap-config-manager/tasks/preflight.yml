@@ -1,5 +1,9 @@
 ---
 # roles/aap_config_manager/tasks/preflight.yml
+# 0. Obterner fecha para el resumen
+- name: "Obtener la fecha actual para el resumen"
+  ansible.builtin.setup:
+    filter: "ansible_date_time"
 
 # 1. Validación de Conectividad
 - name: "Pre-vuelo: Intentar conexión con el Controller"
