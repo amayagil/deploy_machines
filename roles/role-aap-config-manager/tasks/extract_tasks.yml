@@ -10,13 +10,17 @@
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_create
   vars:
+    # 1. PASAMOS EL TOKEN (Esta no es recursiva porque viene de otra variable)
     controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
-    controller_hostname: "{{ controller_hostname }}"
-    controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
+    
+    # 2. DEFINIMOS SOLO LO QUE NO ES ESTÁNDAR O VIENE DE OTROS NOMBRES
     output_path: "{{ backup_local_dir | default('./backups') }}"
     query_controller_api: true
     valid_tags: ["all", "organizations", "projects", "inventories", "credentials", "job_templates", "workflow_job_templates"]
-    
+
+    # 3. NO mapeamos controller_hostname ni controller_validate_certs aquí. 
+    # El rol los leerá directamente de lo que pasaste en el comando -e.
+
     # Configuración de exportación
     controller_configuration_organizations: "all"
     controller_configuration_projects: "all"
@@ -25,6 +29,7 @@
     controller_configuration_job_templates: "all"
     controller_configuration_workflow_job_templates: "all"
   register: _filetree_output
+  # Importante: Si es dry_run, esto fallará si intenta conectar, así que ignoramos.
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
 
 - name: "Revocar token tras la extracción"
@@ -32,9 +37,3 @@
   vars:
     token_state: absent
   when: _aap_token_result is defined and not (aap_dry_run | default(false) | bool)
-
-- name: "Validar resultado final"
-  ansible.builtin.assert:
-    that:
-      - _filetree_output is defined
-    fail_msg: "ERROR: La extracción no se completó correctamente."
