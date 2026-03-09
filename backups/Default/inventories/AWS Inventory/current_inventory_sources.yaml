@@ -1,0 +1,15 @@
+---
+controller_inventory_sources:
+  - name: "AWS Source"
+    description: ""
+    organization: "Default"
+    source: "ec2"
+    limit: ""
+    source_path: ""
+    source_vars:
+      compose:
+        public_ip: public_ip_address
+    inventory: "AWS Inventory"
+    update_on_launch: "True"
+    overwrite: "True"
+    credential: "AWS Credential"

@@ -1,0 +1,18 @@
+---
+controller_projects:
+  - name: "EDA"
+    description: ""
+    organization: "Demo Org"
+    scm_type: "git"
+    scm_url: "https://github.com/amayagil/event-driven-automation.git"
+    scm_credential: "amaya-scm"
+    scm_branch: ""
+    scm_clean: "False"
+    scm_delete_on_update: "False"
+    scm_update_on_launch: "True"
+    scm_update_cache_timeout: "0"
+    scm_refspec: ""
+    allow_override: "False"
+    update_project: "False"
+    timeout: "0"
+...

@@ -10,4 +10,3 @@
     existing_token: "{{ _aap_token_result.ansible_facts.controller_token | default(omit) }}"
     state: "{{ token_state | default('present') }}"
   register: _aap_token_result
-  when: not (aap_dry_run | default(false) | bool)

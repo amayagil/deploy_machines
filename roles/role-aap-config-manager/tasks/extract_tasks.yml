@@ -11,7 +11,7 @@
     name: infra.controller_configuration.filetree_create
   vars:
     # 1. PASAMOS EL TOKEN (Esta no es recursiva porque viene de otra variable)
-    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
+    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token }}"
     
     # 2. DEFINIMOS SOLO LO QUE NO ES ESTÁNDAR O VIENE DE OTROS NOMBRES
     output_path: "{{ backup_local_dir | default('./backups') }}"

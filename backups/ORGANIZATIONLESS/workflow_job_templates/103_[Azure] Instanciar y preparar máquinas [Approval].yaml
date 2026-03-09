@@ -1,0 +1,64 @@
+---
+controller_workflows:
+  - name: "[Azure] Instanciar y preparar máquinas [Approval]"
+    description: !unsafe ''
+    organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+    simplified_workflow_nodes:
+      - identifier: "74f8561f-3226-47ef-9cbc-0395761da0d6"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "Creation confirmation copy copy"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "babe3d24-e4bc-4074-bf78-b6bd0090a959"
+      - identifier: "1030d697-ade8-42f6-89a2-bb8b5641fa6b"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[Azure] Notificator"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "babe3d24-e4bc-4074-bf78-b6bd0090a959"
+      - identifier: "1aa01531-6e2f-441f-857f-1424335e92f1"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[Azure] Deploy Machines"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "e4700a0c-a98f-4107-a1bf-9d98d9f1c997"
+      - identifier: "8f74a7f4-2939-43ab-b84c-17eb6bb312b0"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[Azure] Register Machines to Red Hat Services"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+      - identifier: "e4700a0c-a98f-4107-a1bf-9d98d9f1c997"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "Azure source (RHEL)"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "8f74a7f4-2939-43ab-b84c-17eb6bb312b0"
+      - identifier: "babe3d24-e4bc-4074-bf78-b6bd0090a959"
+        workflow_job_template: "[Azure] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "Azure source (RHEL)"
+        limit: ""
+        organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "True"
+        success_nodes:
+          - "1aa01531-6e2f-441f-857f-1424335e92f1"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars:
+      msg_slack: Approval is waiting... \nhttps://controller.cibeles.me/#/workflow_approvals
+      mgs_tlg: Approval is waiting... <a href=\"https://controller.cibeles.me/#/workflow_approvals\">Approve or deny</a>
+    survey_enabled: false
+...

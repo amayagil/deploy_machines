@@ -1,0 +1,17 @@
+---
+controller_groups:
+  - name: "clients"
+    description: ""
+    inventory: "NUC Inventory"
+    hosts:
+      - spazzina
+      - sporcizia
+      - target1
+  - name: "servers"
+    description: ""
+    inventory: "NUC Inventory"
+    hosts:
+      - ahub
+      - ansibol
+      - eda
+...

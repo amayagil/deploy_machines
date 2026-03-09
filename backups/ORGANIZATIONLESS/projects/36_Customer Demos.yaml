@@ -1,0 +1,18 @@
+---
+controller_projects:
+  - name: "Customer Demos"
+    description: ""
+    organization: "ToDo: The project 'Customer Demos' must have an organization"
+    scm_type: "git"
+    scm_url: "https://github.com/amayagil/demo.git"
+    scm_credential: "amaya-scm"
+    scm_branch: ""
+    scm_clean: "True"
+    scm_delete_on_update: "False"
+    scm_update_on_launch: "True"
+    scm_update_cache_timeout: "0"
+    scm_refspec: ""
+    allow_override: "False"
+    update_project: "False"
+    timeout: "0"
+...

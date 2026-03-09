@@ -1,0 +1,69 @@
+---
+controller_workflows:
+  - name: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
+    description: !unsafe ''
+    organization: "Demo Org"
+    simplified_workflow_nodes:
+      - identifier: "c90bf0ac-38e1-4094-8547-4807285d1d64"
+        workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
+        unified_job_template: "[NUC] Customer Demo - Comprobar paquete"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          paquete: httpd
+        success_nodes:
+          - "767e92de-0d74-4235-83dc-3df6bb70ffb3"
+          - "cca11019-4401-49b9-bdde-9f59bb01f19f"
+      - identifier: "124b0681-9fb5-449b-b5e0-31129745c596"
+        workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
+        unified_job_template: "[NUC] Customer Demo - Install and deploy Apache"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          server_name: sporcizia
+          first_line: Hola!
+          second_line: Caracola
+      - identifier: "767e92de-0d74-4235-83dc-3df6bb70ffb3"
+        workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
+        unified_job_template: "Permitir Apache"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "124b0681-9fb5-449b-b5e0-31129745c596"
+      - identifier: "cca11019-4401-49b9-bdde-9f59bb01f19f"
+        workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
+        unified_job_template: "[NUC] Customer Demo - Notificator"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""{{ server_name }}""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars:
+      msg_slack: Approval waiting in order to install Apache...\nhttps://controller.cibeles.me/#/workflow_approvals
+      msg_tlg: Approval waiting in order to install Apache... <a href=\"https://controller.cibeles.me/#/workflow_approvals\">Approve or deny</a>
+      isWorkflow: True
+    survey_enabled: true
+    survey_spec:
+      name: ""
+      spec:
+        - max: 1024
+          min: 0
+          type: multiplechoice
+          choices:
+            - !unsafe "sporcizia"
+            - !unsafe "target1"
+            - !unsafe "spazzina"
+          required: True
+          variable: server_name
+          new_question: True
+          question_name: !unsafe "Which server you want to deploy?"
+      description: ""
+...

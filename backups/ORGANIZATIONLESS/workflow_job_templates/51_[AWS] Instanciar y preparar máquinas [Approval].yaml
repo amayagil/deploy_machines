@@ -1,0 +1,56 @@
+---
+controller_workflows:
+  - name: "[AWS] Instanciar y preparar máquinas [Approval]"
+    description: !unsafe ''
+    organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+    simplified_workflow_nodes:
+      - identifier: "c03ff55a-82be-4093-b448-323659ce88b5"
+        workflow_job_template: "[AWS] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[AWS] Deploy Machines"
+        limit: ""
+        organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
+      - identifier: "c95b2583-5ceb-4585-9781-1b00da12fac3"
+        workflow_job_template: "[AWS] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[AWS] Notificator"
+        limit: ""
+        organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "c03ff55a-82be-4093-b448-323659ce88b5"
+      - identifier: "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
+        workflow_job_template: "[AWS] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[AWS] Register Machines to Red Hat Services"
+        limit: ""
+        organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "72ceda0f-80bc-48cd-a013-fd4a3203dfdc"
+      - identifier: "74f8561f-3226-47ef-9cbc-0395761da0d6"
+        workflow_job_template: "[AWS] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "Creation confirmation"
+        limit: ""
+        organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "c03ff55a-82be-4093-b448-323659ce88b5"
+      - identifier: "72ceda0f-80bc-48cd-a013-fd4a3203dfdc"
+        workflow_job_template: "[AWS] Instanciar y preparar máquinas [Approval]"
+        unified_job_template: "[AWS] Create ansible user"
+        limit: ""
+        organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars:
+      msg_slack: Approval is waiting... \nhttps://controller.cibeles.me/#/workflow_approvals
+      mgs_tlg: Approval is waiting... <a href=\"https://controller.cibeles.me/#/workflow_approvals\">Approve or deny</a>
+    survey_enabled: false
+...

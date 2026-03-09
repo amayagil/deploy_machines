@@ -1,0 +1,44 @@
+---
+controller_workflows:
+  - name: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC"
+    description: !unsafe ''
+    organization: "Windows Demo Org"
+    simplified_workflow_nodes:
+      - identifier: "Remove Azure Instance - win-dc-1"
+        workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC"
+        unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-dc-1
+        success_nodes:
+          - "Remove Azure Network"
+      - identifier: "Remove Azure Instance - win-cli-1"
+        workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC"
+        unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-cli-1
+        success_nodes:
+          - "Remove Azure Network"
+      - identifier: "Remove Azure Network"
+        workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC"
+        unified_job_template: "[JT][WIN DEMO] Remove Azure Network"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "True"
+        extra_data:
+          private_network: windows-network
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars: ""
+    survey_enabled: false
+...

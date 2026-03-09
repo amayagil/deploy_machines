@@ -1,0 +1,13 @@
+---
+controller_inventory_sources:
+  - name: "Azure source (win)"
+    description: ""
+    organization: "Default"
+    source: "azure_rm"
+    limit: ""
+    source_path: ""
+    source_vars:
+      plain_host_names: true
+    inventory: "Azure Win Inventory"
+    update_on_launch: "False"
+    overwrite: "True"

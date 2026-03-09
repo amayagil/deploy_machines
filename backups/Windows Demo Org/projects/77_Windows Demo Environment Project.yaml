@@ -1,0 +1,17 @@
+---
+controller_projects:
+  - name: "Windows Demo Environment Project"
+    description: "Windows Demo Environment Project"
+    organization: "Windows Demo Org"
+    scm_type: "git"
+    scm_url: "https://gitlab.com/cfernand/ansible-windows-demo.git"
+    scm_branch: "main"
+    scm_clean: "True"
+    scm_delete_on_update: "True"
+    scm_update_on_launch: "False"
+    scm_update_cache_timeout: "0"
+    scm_refspec: ""
+    allow_override: "False"
+    update_project: "False"
+    timeout: "0"
+...

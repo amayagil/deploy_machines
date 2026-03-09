@@ -1,0 +1,8 @@
+---
+controller_inventories:
+  - name: "Automation Controller Inventory"
+    description: "Automation Controller Inventory"
+    organization: "Windows Demo Org"
+    host_filter: ""
+    prevent_instance_group_fallback: False
+...

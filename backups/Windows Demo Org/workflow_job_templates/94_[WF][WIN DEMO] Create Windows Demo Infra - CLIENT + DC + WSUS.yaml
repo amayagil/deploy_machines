@@ -1,0 +1,164 @@
+---
+controller_workflows:
+  - name: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+    description: !unsafe ''
+    organization: "Windows Demo Org"
+    simplified_workflow_nodes:
+      - identifier: "Windows Project"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "Windows Demo Environment Project"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Create Azure Network"
+      - identifier: "Deploy Windows Server Update Services"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Windows Server Update Services"
+        limit: "win-wsus-1"
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          wsus_products: Windows Server 2016, Windows Server 2019, Microsoft Server operating system-21H2, Microsoft Defender Antivirus
+        success_nodes:
+          - "Configure Windows Firewall"
+      - identifier: "Deploy Azure Instance - win-cli-3"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-cli-3
+          dc_role: client
+          windows_so_version: Windows Server 2016 Datacenter
+        success_nodes:
+          - "Azure WinDemo Inventory"
+      - identifier: "Azure WinDemo Inventory"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "ToDo: The node is pointing to a deleted Job Template"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "True"
+        success_nodes:
+          - "Deploy Windows Myrtille"
+      - identifier: "Create WSUS Group Policy"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Create WSUS Group Policy"
+        limit: "win-dc-1"
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Join Windows Client to a WSUS"
+      - identifier: "Deploy Azure Instance - win-dc-1"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-dc-1
+          dc_role: domain
+          windows_so_version: Windows Server 2022 Datacenter
+        success_nodes:
+          - "Azure WinDemo Inventory"
+      - identifier: "Deploy Windows Myrtille"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Windows Myrtille"
+        limit: "win-dc-1"
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Deploy Windows Domain Controller"
+      - identifier: "Deploy Azure Instance - win-wsus-1"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-wsus-1
+          dc_role: wsus
+          windows_so_version: Windows Server 2022 Datacenter
+        success_nodes:
+          - "Azure WinDemo Inventory"
+      - identifier: "Deploy Azure Instance - win-cli-2"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-cli-2
+          dc_role: client
+          windows_so_version: Windows Server 2019 Datacenter
+        success_nodes:
+          - "Azure WinDemo Inventory"
+      - identifier: "Deploy Windows Domain Controller"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Windows Domain Controller"
+        limit: "win-dc-1"
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Join Windows Client to a Domain"
+      - identifier: "Configure Windows Firewall"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Configure Windows Firewall"
+        limit: "win-wsus-1,win-cli-1,win-cli-2,win-cli-3"
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Create WSUS Group Policy"
+      - identifier: "Create Azure Network"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Create Azure Network"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          private_network: windows-network
+        success_nodes:
+          - "Deploy Azure Instance - win-dc-1"
+          - "Deploy Azure Instance - win-wsus-1"
+          - "Deploy Azure Instance - win-cli-1"
+          - "Deploy Azure Instance - win-cli-2"
+          - "Deploy Azure Instance - win-cli-3"
+      - identifier: "Join Windows Client to a Domain"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Join Windows Client to a Domain"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Deploy Windows Server Update Services"
+      - identifier: "Deploy Azure Instance - win-cli-1"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-cli-1
+          dc_role: client
+          windows_so_version: Windows Server 2022 Datacenter
+        success_nodes:
+          - "Azure WinDemo Inventory"
+      - identifier: "Join Windows Client to a WSUS"
+        workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS"
+        unified_job_template: "[JT][WIN DEMO] Join Windows Client to a WSUS"
+        limit: ""
+        organization: "Windows Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          register_with_wsus: yes
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars: ""
+    survey_enabled: false
+...

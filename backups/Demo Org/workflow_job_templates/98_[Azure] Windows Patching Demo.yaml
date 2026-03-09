@@ -1,0 +1,90 @@
+---
+controller_workflows:
+  - name: "[Azure] Windows Patching Demo"
+    description: !unsafe ''
+    organization: "Demo Org"
+    simplified_workflow_nodes:
+      - identifier: "0ed56dcb-8d64-47e6-a57b-933821f81942"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "Windows Demo Environment Project"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "1abf8f86-2d92-4355-a288-6e5844d3adc8"
+      - identifier: "6fe113c5-cdf4-4917-b17e-5428f5309763"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[JT][WIN DEMO] Install Windows Updates"
+        limit: "winny"
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "461e1688-3b51-4d50-8601-18a330b36897"
+      - identifier: "346e1d19-32bc-4ab5-822a-1efb8b0a186b"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[Azure] Notificator"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          msg_slack: !unsafe "Azure instances created in {{ resource_group }}"
+          msg_tlg: !unsafe "Azure instances created in {{ resource_group }}"
+        success_nodes:
+          - "ad563d9d-2334-4d22-81ef-ad6b78454714"
+      - identifier: "461e1688-3b51-4d50-8601-18a330b36897"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[Azure] Notificator"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          msg_slack: !unsafe "Patches and updates applied to {{ type | capitalize  }}"
+          msg_tlg: !unsafe "Patches and updates applied to {{ type | capitalize  }}"
+      - identifier: "1abf8f86-2d92-4355-a288-6e5844d3adc8"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[JT][WIN DEMO] Create Azure Network"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          private_network: windows-network
+        success_nodes:
+          - "5c9e84a8-3e41-40e7-b46e-eba27585f904"
+      - identifier: "5c9e84a8-3e41-40e7-b46e-eba27585f904"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "Azure source (win)"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "346e1d19-32bc-4ab5-822a-1efb8b0a186b"
+      - identifier: "ad563d9d-2334-4d22-81ef-ad6b78454714"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
+        limit: ""
+        organization: "Demo Org"
+        all_parents_must_converge: "False"
+        extra_data:
+          instance_name: win-demo
+          dc_role: client
+          windows_so_version: Windows Server 2016 Datacenter
+        success_nodes:
+          - "c1e59220-3c8e-4b4d-a789-2502bdd299ce"
+      - identifier: "c1e59220-3c8e-4b4d-a789-2502bdd299ce"
+        workflow_job_template: "[Azure] Windows Patching Demo"
+        unified_job_template: "[JT][WIN DEMO] Send Windows Updates Report"
+        limit: "winny"
+        organization: "Demo Org"
+        all_parents_must_converge: "True"
+        success_nodes:
+          - "6fe113c5-cdf4-4917-b17e-5428f5309763"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars: ""
+    survey_enabled: false
+...

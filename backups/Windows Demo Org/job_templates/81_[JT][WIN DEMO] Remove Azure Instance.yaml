@@ -1,0 +1,61 @@
+---
+controller_templates:
+  - name: "[JT][WIN DEMO] Remove Azure Instance"
+    description: ""
+    organization: "Windows Demo Org"
+    project: "Windows Demo Environment Project"
+    inventory: "Automation Controller Inventory"
+    playbook: "playbooks/azure-remove-instance.yml"
+    scm_branch: ""
+    forks: 0
+    limit: ""
+    verbosity: 0
+    job_type: "run"
+    job_slice_count: 1
+    use_fact_cache: false
+    credentials:
+      - "Azure Resource Group"
+    allow_simultaneous: true
+    ask_scm_branch_on_launch: false
+    ask_diff_mode_on_launch: false
+    ask_tags_on_launch: false
+    ask_skip_tags_on_launch: false
+    ask_job_type_on_launch: false
+    ask_verbosity_on_launch: false
+    ask_variables_on_launch: false
+    ask_inventory_on_launch: false
+    ask_limit_on_launch: false
+    ask_credential_on_launch: false
+    ask_execution_environment_on_launch: false
+    ask_labels_on_launch: false
+    ask_forks_on_launch: false
+    ask_job_slice_count_on_launch: false
+    ask_timeout_on_launch: false
+    ask_instance_groups_on_launch: false
+    extra_vars:
+      remove: yes
+    job_tags: ""
+    force_handlers: false
+    skip_tags: ""
+    start_at_task: ""
+    timeout: 0
+    execution_environment: "Azure Execution Environment"
+    host_config_key: ""
+    survey_enabled: true
+    survey_spec:
+      name: ""
+      spec:
+        - max: 1024
+          min: 0
+          type: text
+          required: True
+          variable: instance_name
+          new_question: True
+          question_name: 'AZURE INSTANCE NAME'
+          question_description: !unsafe "Azure Instance Name"
+      description: ""
+    become_enabled: false
+    diff_mode: false
+    webhook_service: ""
+    prevent_instance_group_fallback: false
+...

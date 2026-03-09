@@ -1,0 +1,54 @@
+---
+controller_templates:
+  - name: "[AWS] Destroy Machines"
+    description: ""
+    organization: "Default"
+    project: "Cloud Machines - GH"
+    inventory: "Demo Inventory"
+    playbook: "destroy_aws.yml"
+    scm_branch: ""
+    forks: 0
+    limit: ""
+    verbosity: 0
+    job_type: "run"
+    job_slice_count: 1
+    use_fact_cache: false
+    credentials:
+      - "AWS Credential"
+      - "ec2 credential"
+    allow_simultaneous: false
+    ask_scm_branch_on_launch: false
+    ask_diff_mode_on_launch: false
+    ask_tags_on_launch: false
+    ask_skip_tags_on_launch: false
+    ask_job_type_on_launch: false
+    ask_verbosity_on_launch: false
+    ask_variables_on_launch: false
+    ask_inventory_on_launch: false
+    ask_limit_on_launch: false
+    ask_credential_on_launch: false
+    ask_execution_environment_on_launch: false
+    ask_labels_on_launch: false
+    ask_forks_on_launch: false
+    ask_job_slice_count_on_launch: false
+    ask_timeout_on_launch: false
+    ask_instance_groups_on_launch: false
+    extra_vars:
+      destroy: True
+      ec2_region: eu-central-1
+      type: ec2
+      instance_name: !unsafe "{{ item.name }}"
+      ec2_key_pair: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyZFrPemBWyuo2GnSdgaE7rDHOgk8AlRUv8NZkwP1hNeUyyyKF23cVyIs3bTyNj++50XwazfV7BjYFyZt8rAeepEQfPz2QRC76UyN3ZoaT7IxNvKEhvPU3wsZwZZ7n6HtB+Nk2y9oZK2F2zJdgvG1i4c7XPro6rioXJVvhgm28On1h/rA79Ln470FoOS4gpeXZw+vQt/7bPxRPGuSN8mK0wwKR2AUQZJoSENlXI2+B9dTUG2OA7h+ptdOJzsuY5kZfnmEHSc5vtwyiI0NdAVOxmvY/75uxsej2/ZplmlkLvbiORUsomLip78IoTwQV7IUq6TSw7q7vu4qmEnIKW0SqK/Zg2j+qw0tr572ylcX4ouCbuK4YQpeEqidrU2kSVrnhL3IoKM1gtGu9cYxZ8ab1ZcBZwvG1prS9jcXI1Y/9zh9/BEiIwqXV7dIN2qCeIaTZoWGpEFuFN73KQ79zY+M+xPK8MT+xJ6Ph81/HJUAsoX0GKqv3OMhOZUYV3q+iqOemPlAlu8CloA56SeKNbDWd7pS9HkV1vt6x+AUMf4PhxHYwgF7c+h0B4PyPQJL3lw6axB7k1p4b/EGggyTttK9SV1oROfUX4o8yQGED8c4/1TYAsLsBFxLdEIsT4wpif428HHNoVI3SBRy2NgpJYZUSuvGGRqJ/2E/YoIMrNd80Vw== amaya@redhat.com
+    job_tags: ""
+    force_handlers: false
+    skip_tags: ""
+    start_at_task: ""
+    timeout: 0
+    execution_environment: "Ansible SSA EE"
+    host_config_key: ""
+    survey_enabled: false
+    become_enabled: true
+    diff_mode: false
+    webhook_service: ""
+    prevent_instance_group_fallback: false
+...
