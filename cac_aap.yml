@@ -1,0 +1,20 @@
+---
+- name: "AAP Configuration as Code (CaC) - Entry Point"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  # Forzamos la búsqueda en la carpeta local que Navigator mapea automáticamente
+  collections:
+    - infra.controller_configuration
+
+  # Cargamos las variables de configuración del rol (donde están tus credenciales y rutas)
+  vars_files:
+    - roles/role-aap-config-manager/vars/main.yml
+
+  roles:
+    - role: roles/role-aap-config-manager
+      vars:
+        # La acción se define por línea de comandos, por defecto extrae.
+        # valores admitidos: extract, inject
+        aap_action: "{{ aap_action | default('extract') }}"

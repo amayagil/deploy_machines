@@ -1,0 +1,24 @@
+# roles/aap_config_manager/vars/main.yml
+---
+# Variables de conexión al Controller
+controller_hostname: "https://ansibol.cibeles.com"
+controller_username: "admin"
+controller_password: "redhat"
+controller_validate_certs: false
+
+# Configuración de backup (Parametrizada)
+aap_action: "extract"
+cleanup_after_export: false
+
+# Directorio raíz y nombre de carpeta
+backup_base_path: "/tmp"
+backup_folder_name: "aap_backup"
+
+# Construcción dinámica de rutas
+backup_local_dir: "{{ backup_base_path }}/{{ backup_folder_name }}"
+backup_output_file: "{{ backup_base_path }}/aap_config_{{ ansible_date_time.date }}.tar.gz"
+
+# Control de simulación (Dry Run)
+# Si es true, Ansible no realizará cambios reales
+aap_dry_run: false
+ansible_check_mode_markers: false # Oculta los tags [CHECK MODE] en la salida del resumen

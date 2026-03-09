@@ -1,0 +1,25 @@
+---
+- name: "Validar existencia de datos para la acción: {{ aap_action }}"
+  ansible.builtin.stat:
+    path: "{{ (aap_action == 'inject') | ternary(base_dir, backup_local_dir) | mandatory('Falta ruta de datos') }}"
+  register: _data_stat
+
+- name: "Verificar integridad de la ruta"
+  ansible.builtin.assert:
+    that:
+      - _data_stat.stat.exists
+      - _data_stat.stat.isdir
+    fail_msg: "ERROR: La ruta de datos no existe o no es un directorio."
+
+- name: "Validar presencia de archivos YAML"
+  ansible.builtin.find:
+    paths: "{{ (aap_action == 'inject') | ternary(base_dir, backup_local_dir) }}"
+    patterns: "*.yaml"
+    recurse: yes
+  register: _found_yaml
+
+- name: "Error si no hay archivos de configuración"
+  ansible.builtin.assert:
+    that:
+      - _found_yaml.matched > 0
+    fail_msg: "ERROR: No se han encontrado archivos .yaml en la ruta especificada."

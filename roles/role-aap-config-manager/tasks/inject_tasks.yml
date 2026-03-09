@@ -1,0 +1,17 @@
+---
+# roles/aap_config_manager/tasks/inject_tasks.yml
+
+- name: "Inyección: Ejecutar Pre-vuelo"
+  ansible.builtin.include_tasks: preflight.yml
+
+- name: "Inyección: Validar archivos de origen"
+  ansible.builtin.include_tasks: validate.yml
+
+- name: "Inyección: Ejecutar carga de datos (Dispatch)"
+  ansible.builtin.include_tasks: inject_logic.yml
+
+- name: "Inyección: Limpieza de sesión"
+  ansible.builtin.include_tasks: cleanup.yml
+
+- name: "Inyección: Resumen de ejecución"
+  ansible.builtin.include_tasks: summary.yml

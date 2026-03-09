@@ -1,0 +1,26 @@
+---
+# roles/aap_config_manager/tasks/summary.yml
+
+- name: "Resumen Final de la Operación CaC"
+  ansible.builtin.debug:
+    msg:
+      - "------------------------------------------"
+      - "ESTADO: {{ (aap_dry_run | bool) | ternary('AVISO: MODO SIMULACIÓN', 'OPERACIÓN EXITOSA') }}"
+      - "ACCIÓN: {{ aap_action | upper }}"
+      - "USUARIO: {{ controller_username }} (System Admin: OK)"
+      
+      # Lógica para EXTRACCIÓN
+      - "{{ (aap_action == 'extract' and not aap_dry_run) | ternary('Archivo: ' + backup_output_file, omit) }}"
+      - "{{ (aap_action == 'extract' and not aap_dry_run) | ternary('Tamaño: ' + (_backup_stat.stat.size / 1024) | round(2) | string + ' KB', omit) }}"
+      
+      # Lógica para INYECCIÓN (Conteo de objetos procesados)
+      - "{{ (aap_action == 'inject') | ternary('Objetos procesados: ' + (_dispatch_result.results | default([]) | length | string), omit) }}"
+      
+      # Aviso específico para Dry Run
+      - "{{ (aap_dry_run | bool) | ternary('SIMULACIÓN: No se han realizado cambios persistentes en el destino.', omit) }}"
+      
+      - "Fecha: {{ ansible_date_time.iso8601 }}"
+      - "------------------------------------------"
+  # Aquí definimos la variable para limpiar la salida del debug
+  vars:
+    ansible_check_mode_markers: false

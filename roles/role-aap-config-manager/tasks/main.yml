@@ -1,0 +1,10 @@
+# roles/aap_config_manager/tasks/main.yml
+---
+- name: "Validar que la acción sea correcta"
+  ansible.builtin.assert:
+    that:
+      - aap_action in ['extract', 'inject']
+    fail_msg: "La variable 'aap_action' debe ser 'extract' o 'inject'."
+
+- name: "Ejecutar flujo de tareas para {{ aap_action }}"
+  ansible.builtin.include_tasks: "{{ aap_action }}_tasks.yml"

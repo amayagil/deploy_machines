@@ -1,0 +1,19 @@
+---
+- name: "Crear archivo comprimido (tar.gz)"
+  ansible.builtin.archive:
+    path: "{{ backup_local_dir }}/*.yaml"
+    dest: "{{ backup_output_file }}"
+    format: gz
+  register: _archive_info
+
+- name: "Verificar estructura del backup (.tar.gz)"
+  ansible.builtin.stat:
+    path: "{{ backup_output_file }}"
+  register: _backup_stat
+
+- name: "Validar tamaño del archivo comprimido"
+  ansible.builtin.assert:
+    that:
+      - _backup_stat.stat.exists
+      - _backup_stat.stat.size > 0
+    fail_msg: "ERROR: El archivo .tar.gz no se creó correctamente o está vacío."

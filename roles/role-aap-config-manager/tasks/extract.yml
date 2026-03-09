@@ -1,0 +1,22 @@
+---
+# roles/aap_config_manager/tasks/extract.yml
+
+- name: "Flujo de Extracción: Pre-flight checks"
+  ansible.builtin.include_tasks: preflight.yml
+
+- name: "Flujo de Extracción: Exportación base"
+  ansible.builtin.include_tasks: extract_tasks.yml
+
+- name: "Flujo de Extracción: Validación de archivos"
+  ansible.builtin.include_tasks: validate.yml
+  when: not (aap_dry_run | default(false) | bool)
+
+- name: "Flujo de Extracción: Compresión (.tar.gz)"
+  ansible.builtin.include_tasks: compress.yml
+  when: not (aap_dry_run | default(false) | bool)
+
+- name: "Flujo de Extracción: Limpieza de tokens"
+  ansible.builtin.include_tasks: cleanup.yml
+
+- name: "Flujo de Extracción: Reporte final"
+  ansible.builtin.include_tasks: summary.yml

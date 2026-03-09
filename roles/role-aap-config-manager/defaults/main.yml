@@ -1,0 +1,6 @@
+# roles/aap_config_manager/defaults/main.yml
+---
+aap_action: "extract"
+output_path: "./backup"
+base_dir: "./data"
+controller_validate_certs: false
