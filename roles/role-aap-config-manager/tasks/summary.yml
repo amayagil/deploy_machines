@@ -1,26 +1,39 @@
 ---
-# roles/aap_config_manager/tasks/summary.yml
+# roles/role-aap-config-manager/tasks/summary.yml
 
-- name: "Resumen Final de la Operación CaC"
-  ansible.builtin.debug:
-    msg:
+- name: "Resumen Universal de Operación CaC"
+  vars:
+    # 1. ¿Estamos en modo check?
+    is_check: "{{ ansible_check_mode or aap_dry_run | default(false) | bool }}"
+    
+    # 2. ¿Ha fallado algún objeto de la inyección?
+    # Filtramos la lista de resultados buscando cualquier 'failed: true'
+    failed_list: "{{ _dispatch_output.results | default([]) | selectattr('failed', 'defined') | selectattr('failed', 'equalto', true) | list }}"
+    has_errors: "{{ _dispatch_output.failed | default(false) or (failed_list | length > 0) }}"
+
+    # 3. Definición del mensaje de estado
+    status_text: >-
+      {{
+        'AVISO: MODO SIMULACIÓN' if is_check else 
+        ('ALERTA: OPERACIÓN CON ERRORES' if has_errors else 'OPERACIÓN EXITOSA')
+      }}
+
+    # 4. Construcción de la lista de mensajes (filtrando vacíos con select('ne', ''))
+    summary_list:
       - "------------------------------------------"
-      - "ESTADO: {{ (aap_dry_run | bool) | ternary('AVISO: MODO SIMULACIÓN', 'OPERACIÓN EXITOSA') }}"
+      - "ESTADO: {{ status_text }}"
       - "ACCIÓN: {{ aap_action | upper }}"
-      - "USUARIO: {{ controller_username }} (System Admin: OK)"
+      - "USUARIO: {{ controller_username | default('admin') }} (Host: {{ controller_hostname }})"
       
-      # Lógica para EXTRACCIÓN
-      - "{{ (aap_action == 'extract' and not aap_dry_run) | ternary('Archivo: ' + backup_output_file, omit) }}"
-      - "{{ (aap_action == 'extract' and not aap_dry_run) | ternary('Tamaño: ' + (_backup_stat.stat.size / 1024) | round(2) | string + ' KB', omit) }}"
+      # Solo si la acción es INJECT
+      - "{{ ('Objetos procesados: ' + (_dispatch_output.results | default([]) | length | string)) if aap_action == 'inject' else '' }}"
+      - "{{ ('ERRORES EN OBJETOS: ' + (failed_list | length | string)) if (aap_action == 'inject' and has_errors) else '' }}"
       
-      # Lógica para INYECCIÓN (Conteo de objetos procesados)
-      - "{{ (aap_action == 'inject') | ternary('Objetos procesados: ' + (_dispatch_output.results | default([]) | length | string), omit) }}"
-      
-      # Aviso específico para Dry Run
-      - "{{ (aap_dry_run | bool) | ternary('SIMULACIÓN: No se han realizado cambios persistentes en el destino.', omit) }}"
+      # Solo si la acción es EXTRACT
+      - "{{ ('Archivo: ' + (backup_output_file | default('N/A'))) if (aap_action == 'extract' and not is_check) else '' }}"
       
       - "Fecha: {{ ansible_date_time.iso8601 }}"
       - "------------------------------------------"
-  # Aquí definimos la variable para limpiar la salida del debug
-  vars:
-    ansible_check_mode_markers: false
+
+  ansible.builtin.debug:
+    msg: "{{ summary_list | select('ne', '') | list }}"

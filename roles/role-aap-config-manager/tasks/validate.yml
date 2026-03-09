@@ -1,7 +1,8 @@
 ---
 - name: "Validar existencia de datos para la acción: {{ aap_action }}"
   ansible.builtin.stat:
-    path: "{{ (aap_action == 'inject') | ternary(base_dir, backup_local_dir) | mandatory('Falta ruta de datos') }}"
+    # Usamos backup_local_dir para ambas acciones o aseguramos un fallback
+    path: "{{ backup_local_dir | default('./backups') }}"
   register: _data_stat
 
 - name: "Verificar integridad de la ruta"
@@ -13,7 +14,7 @@
 
 - name: "Validar presencia de archivos YAML"
   ansible.builtin.find:
-    paths: "{{ (aap_action == 'inject') | ternary(base_dir, backup_local_dir) }}"
+    paths: "{{ backup_local_dir | default('./backups') }}"
     patterns: "*.yaml"
     recurse: yes
   register: _found_yaml

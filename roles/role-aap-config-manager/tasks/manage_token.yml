@@ -1,12 +1,21 @@
----
-# roles/role-aap-config-manager/tasks/manage_token.yml
+# roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-- name: "Gestionar Token de Autenticación (OAuth2) - Estado: {{ token_state | default('present') }}"
-  ansible.controller.token:
-    controller_host: "{{ controller_hostname }}"
-    controller_username: "{{ controller_username | default('admin') }}"
-    controller_password: "{{ controller_password | mandatory }}"
-    validate_certs: "{{ controller_validate_certs | default(false) }}"
-    existing_token: "{{ _aap_token_result.ansible_facts.controller_token | default(omit) }}"
-    state: "{{ token_state | default('present') }}"
-  register: _aap_token_result
+- name: "Cargar archivos de backup en memoria"
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.filetree_read
+  vars:
+    data_path: "{{ backup_local_dir | default('./backups') }}"
+    # IMPORTANTE: Para tu estructura plana, le decimos que las organizaciones están en la raíz
+    dir_orgs_vars: "."
+    orgs: "."
+    # Mantenemos el resto estándar
+    dir_projects_vars: "projects"
+    dir_inv_vars: "inventories"
+    dir_creds_vars: "credentials"
+    dir_jt_vars: "job_templates"
+    dir_wfjt_vars: "workflow_job_templates"
+    dir_ee_vars: "execution_environments"
+    dir_inv_sources_vars: "inventory_sources"
+    dir_notifications_vars: "notification_templates"
+    dir_schedules_vars: "schedules"
+    dir_labels_vars: "labels"

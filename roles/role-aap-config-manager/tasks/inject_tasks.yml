@@ -1,45 +1,56 @@
 ---
-- name: "Inyección: Obtener token de acceso"
+# 1. Registro de estado para el resumen
+- name: "Inyección: Verificar existencia del directorio de backup"
+  ansible.builtin.stat:
+    path: "{{ backup_local_dir | default('./backups') }}"
+  register: _backup_stat
+
+- name: "Inyección: Inicializar variables de reporte"
+  ansible.builtin.set_fact:
+    backup_output_file: "N/A (Modo Inyección)"
+  when: aap_action == 'inject'
+
+# 2. Gestión de acceso
+- name: "Inyección: Obtener token"
   ansible.builtin.include_tasks: manage_token.yml
   vars:
     token_state: present
 
-- name: "Cargar archivos de backup en memoria (Filetree -> Variables)"
+# 3. Carga de archivos (Bloque Estándar Universal)
+- name: "Cargar archivos de backup en memoria"
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_read
   vars:
     data_path: "{{ backup_local_dir | default('./backups') }}"
-    # Usamos el prefijo app_ que funcionó el viernes
-    app_orgs_vars: "organizations"
-    app_projects_vars: "projects"
-    app_inv_vars: "inventories"
-    app_creds_vars: "credentials"
-    app_jt_vars: "job_templates"
-    app_wfjt_vars: "workflow_job_templates"
-    app_ee_vars: "execution_environments"
-    app_inv_sources_vars: "inventory_sources"
-    app_notifications_vars: "notification_templates"
-    app_schedules_vars: "schedules"
-    app_labels_vars: "labels"
+    # Mapeo explícito de directorios (Rutas)
+    dir_orgs_vars: "organizations"
+    dir_projects_vars: "projects"
+    dir_inv_vars: "inventories"
+    dir_creds_vars: "credentials"
+    dir_jt_vars: "job_templates"
+    dir_wfjt_vars: "workflow_job_templates"
+    dir_ee_vars: "execution_environments"
+    dir_inv_sources_vars: "inventory_sources"
+    dir_notifications_vars: "notification_templates"
+    dir_schedules_vars: "schedules"
+    dir_labels_vars: "labels"
+    # Alias internos (Para compatibilidad con el core del rol)
+    orgs: "."
+    projects: "projects"
+    inv: "inventories"
+    creds: "credentials"
+    jt: "job_templates"
+    wfjt: "workflow_job_templates"
 
-- name: "Inyectar configuración en el Controller (Variables -> API)"
+# 4. Inyección vía API
+- name: "Inyectar configuración en el Controller"
   ansible.builtin.include_role:
     name: infra.controller_configuration.dispatch
   vars:
-    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
+    controller_oauthtoken: "{{ controller_token | default('simulated_token') }}"
     controller_hostname: "{{ controller_hostname }}"
-    controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
+    # IMPORTANTE: No re-definimos controller_validate_certs aquí para evitar 
+    # el error de recursividad infinita. El rol ya la toma del entorno global (-e).
     query_controller_api: true
   register: _dispatch_output
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
-
-- name: "Revocar token tras la inyección"
-  ansible.builtin.include_tasks: manage_token.yml
-  vars:
-    token_state: absent
-  when:
-    - _aap_token_result is defined
-    - not ansible_check_mode
-
-- name: "Inyección: Mostrar resumen"
-  ansible.builtin.include_tasks: summary.yml

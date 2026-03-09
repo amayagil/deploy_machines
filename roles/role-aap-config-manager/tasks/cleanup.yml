@@ -1,14 +1,8 @@
-- name: "Eliminar Token de Autenticación (Asegurando el borrado con credenciales)"
-  ansible.controller.token:
-    controller_host: "{{ aap_controller_host }}"
-    # Usamos credenciales para tener autoridad total sobre el borrado
-    controller_username: "{{ aap_controller_user }}"
-    controller_password: "{{ aap_controller_pass }}"
-    existing_token: "{{ aap_token_result.ansible_facts.controller_token }}"
-    validate_certs: "{{ aap_controller_verify_certs }}"
-    state: absent
-    # Mantenemos ignore_errors por si el token ya expiró o el Controller es lento
-  ignore_errors: true 
+---
+- name: "Eliminar Token de Autenticación"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: absent
 
 - name: "Eliminar archivos temporales (Opcional)"
   ansible.builtin.file:
