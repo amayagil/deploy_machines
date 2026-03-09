@@ -1,17 +1,33 @@
 ---
-# roles/aap_config_manager/tasks/inject_tasks.yml
+# roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-- name: "Inyección: Ejecutar Pre-vuelo"
-  ansible.builtin.include_tasks: preflight.yml
+- name: "Obtener token para la inyección"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: present
 
-- name: "Inyección: Validar archivos de origen"
-  ansible.builtin.include_tasks: validate.yml
+- name: "Inyectar configuración en el Controller (CaC)"
+  ansible.builtin.include_role:
+    name: infra.controller_configuration.dispatch
+  vars:
+    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
+    controller_hostname: "{{ controller_hostname }}"
+    controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
+    controller_configs_dir: "{{ backup_local_dir | default('./backups') }}"
+    query_controller_api: true
 
-- name: "Inyección: Ejecutar carga de datos (Dispatch)"
-  ansible.builtin.include_tasks: inject_logic.yml
+  # Quitamos check_mode de aquí porque no está permitido.
+  register: _dispatch_output
+  ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
 
-- name: "Inyección: Limpieza de sesión"
-  ansible.builtin.include_tasks: cleanup.yml
+- name: "Revocar token tras la inyección"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: absent
+  when: _aap_token_result is defined and not (ansible_check_mode)
 
-- name: "Inyección: Resumen de ejecución"
-  ansible.builtin.include_tasks: summary.yml
+- name: "Validar el resultado de la inyección"
+  ansible.builtin.assert:
+    that:
+      - _dispatch_output is defined
+    fail_msg: "ERROR: La inyección ha fallado."

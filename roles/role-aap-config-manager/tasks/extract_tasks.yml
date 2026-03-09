@@ -1,33 +1,40 @@
 ---
-- name: "Generar estructura de archivos desde la configuración del Controller (IaC)"
+# roles/role-aap-config-manager/tasks/extract_tasks.yml
+
+- name: "Obtener token para la extracción"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: present
+
+- name: "Generar estructura de archivos desde el Controller (IaC)"
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_create
   vars:
-    # Variables de conexión (vienen del -e del comando)
-    # controller_hostname y controller_password se pasan automáticamente
+    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token | default('simulated_token') }}"
+    controller_hostname: "{{ controller_hostname }}"
+    controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
     output_path: "{{ backup_local_dir | default('./backups') }}"
     query_controller_api: true
-    valid_tags: []
-
-    # Configuración de exportación completa
+    valid_tags: ["all", "organizations", "projects", "inventories", "credentials", "job_templates", "workflow_job_templates"]
+    
+    # Configuración de exportación
     controller_configuration_organizations: "all"
     controller_configuration_projects: "all"
     controller_configuration_inventories: "all"
     controller_configuration_credentials: "all"
     controller_configuration_job_templates: "all"
     controller_configuration_workflow_job_templates: "all"
-
-  # Registramos el resultado del include_role
   register: _filetree_output
-  # Si es dry run, ignoramos errores para que el assert pueda darnos más info
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
 
-- name: "Validar el resultado de la extracción (Modo: {{ 'Simulación' if aap_dry_run else 'Real' }})"
+- name: "Revocar token tras la extracción"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: absent
+  when: _aap_token_result is defined and not (aap_dry_run | default(false) | bool)
+
+- name: "Validar resultado final"
   ansible.builtin.assert:
     that:
       - _filetree_output is defined
-      - not _filetree_output.failed or (aap_dry_run | default(false) | bool)
-    fail_msg: |
-      ERROR: La extracción ha fallado. 
-      Detalles: {{ _filetree_output.msg | default('No hay mensaje de error disponible') }}
-    success_msg: "Validación completada: El flujo de CaC es consistente."
+    fail_msg: "ERROR: La extracción no se completó correctamente."

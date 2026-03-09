@@ -1,27 +1,17 @@
 ---
-# roles/aap_config_manager/tasks/inject.yml
+# roles/aap_config_manager/tasks/inject_tasks.yml
 
-- name: "Inyectar configuración en el Controller de destino (IaC)"
-  infra.controller_configuration.dispatch:
-    # Filtros mandatory para evitar ejecuciones fallidas por falta de datos
-    controller_host: "{{ controller_hostname | mandatory('Falta definir controller_hostname en vars') }}"
-    controller_username: "{{ controller_username | default('admin') }}"
-    controller_password: "{{ controller_password | mandatory('Falta definir controller_password') }}"
-    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
-    
-    # Transformamos el contenido del archivo en objetos de datos procesables
-    configuration: "{{ lookup('file', item) | from_yaml }}"
-  
-  # Recorremos toda la estructura jerárquica de archivos YAML
-  with_fileglob:
-    - "{{ base_dir | mandatory('Define base_dir en vars') }}/**/*.yaml"
-  
-  register: _dispatch_result
-  # Permite continuar con la migración aunque un objeto falle (si así se configura)
-  ignore_errors: "{{ ignore_injection_errors | default(false) | bool }}"
+- name: "Inyección: Ejecutar Pre-vuelo"
+  ansible.builtin.include_tasks: preflight.yml
 
-# Notificación visual del modo Dry Run
-- name: "AVISO: Ejecución en modo SIMULACIÓN (Dry Run)"
-  ansible.builtin.debug:
-    msg: "Se ha ejecutado en modo check. No se han realizado cambios reales en el Controller."
-  when: aap_dry_run | bool
+- name: "Inyección: Validar archivos de origen"
+  ansible.builtin.include_tasks: validate.yml
+
+- name: "Inyección: Ejecutar carga de datos (Dispatch)"
+  ansible.builtin.include_tasks: inject_logic.yml
+
+- name: "Inyección: Limpieza de sesión"
+  ansible.builtin.include_tasks: cleanup.yml
+
+- name: "Inyección: Resumen de ejecución"
+  ansible.builtin.include_tasks: summary.yml
