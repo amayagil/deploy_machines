@@ -16,41 +16,45 @@
   vars:
     token_state: present
 
-# 3. Carga de archivos (Bloque Estándar Universal)
+# 3. Carga de archivos (Bloque Universal para Estructura Plana)
 - name: "Cargar archivos de backup en memoria"
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_read
   vars:
     data_path: "{{ backup_local_dir | default('./backups') }}"
-    # Mapeo explícito de directorios (Rutas)
-    dir_orgs_vars: "organizations"
-    dir_projects_vars: "projects"
-    dir_inv_vars: "inventories"
-    dir_creds_vars: "credentials"
-    dir_jt_vars: "job_templates"
-    dir_wfjt_vars: "workflow_job_templates"
-    dir_ee_vars: "execution_environments"
-    dir_inv_sources_vars: "inventory_sources"
-    dir_notifications_vars: "notification_templates"
-    dir_schedules_vars: "schedules"
-    dir_labels_vars: "labels"
-    # Alias internos (Para compatibilidad con el core del rol)
+    # Forzamos organización a vacío para que busque en la raíz del data_path
     orgs: "."
-    projects: "projects"
-    inv: "inventories"
-    creds: "credentials"
-    jt: "job_templates"
-    wfjt: "workflow_job_templates"
+    dir_orgs_vars: "{{ data_path }}"
+    
+    # MATAR el modo cascada y las rutas jerárquicas por defecto
+    controller_configuration_filetree_read_cascading: false
+    filetree_read_base_dir: ""
+    filetree_read_orgs_dir: ""
+    filetree_read_env_dir: ""
+
+    # VACIAR PREFIJOS: Para que lea 'current_*.yaml' y también '1_*.yaml', '2_*.yaml', etc.
+    filetree_controller_patch_prefix: ""
+    filetree_read_patch_prefix: ""
+
+    # SOBREESCRITURA DE RUTAS: Apuntamos directamente a tus carpetas
+    # Esto evita que el rol busque en 'env/common/...'
+    filetree_controller_settings: "{{ data_path }}"
+    filetree_controller_organizations: "{{ data_path }}"
+    filetree_controller_execution_environments: "{{ data_path }}"
+    filetree_controller_credential_types: "{{ data_path }}"
+    filetree_controller_projects: "{{ data_path }}/*/projects"
+    filetree_controller_credentials: "{{ data_path }}/*/credentials"
+    filetree_controller_templates: "{{ data_path }}/*/job_templates"
+    filetree_controller_workflow_job_templates: "{{ data_path }}/*/workflow_job_templates"
+    filetree_controller_inventories: "{{ data_path }}/*/inventories"
+    filetree_controller_schedules: "{{ data_path }}/schedules"
 
 # 4. Inyección vía API
 - name: "Inyectar configuración en el Controller"
   ansible.builtin.include_role:
     name: infra.controller_configuration.dispatch
   vars:
-    controller_oauthtoken: "{{ controller_token | default('simulated_token') }}"
-    controller_hostname: "{{ controller_hostname }}"
-    # IMPORTANTE: No re-definimos controller_validate_certs aquí para evitar 
-    # el error de recursividad infinita. El rol ya la toma del entorno global (-e).
+    controller_oauthtoken: "{{ controller_token }}"
     query_controller_api: true
   register: _dispatch_output
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
