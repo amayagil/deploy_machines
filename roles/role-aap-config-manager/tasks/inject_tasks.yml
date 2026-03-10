@@ -1,34 +1,30 @@
 ---
-# 1. Validación
-- name: "Inyección: Validar directorio"
+# 1. Validación de Seguridad
+- name: "Inyección: Validar directorio de backup"
   ansible.builtin.stat:
     path: "{{ backup_local_dir | default('./backups') }}"
   register: _backup_stat
 
 - name: "Inyección: Fail si no existe"
   ansible.builtin.fail:
-    msg: "Directorio no encontrado"
+    msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe."
   when: not _backup_stat.stat.exists
 
-# 2. Reset de Facts y Gestión de Token (Garantiza que controller_token exista)
-- name: "Inyección: Inicializar facts y obtener Token"
-  block:
-    - ansible.builtin.set_fact:
-        controller_settings: []
-        controller_organizations: []
-        controller_projects: []
-        controller_credentials: []
-        controller_templates: []
-        controller_workflows: []
-        controller_schedules: []
-    
-    - ansible.builtin.include_tasks: manage_token.yml
-      vars: { token_state: present }
+# 2. Reset de Facts (Para evitar el error |= de los backups)
+- name: "Inyección: Limpiar variables de configuración"
+  ansible.builtin.set_fact:
+    controller_settings: []
+    controller_organizations: []
+    controller_projects: []
+    controller_credentials: []
+    controller_templates: []
+    controller_workflows: []
+    controller_schedules: []
 
-# 3. CARGA UNIVERSAL RECURSIVA
+# 3. CARGA UNIVERSAL (Recursiva)
 - name: "Cargar archivos de backup en memoria"
   ansible.builtin.include_role:
-    name: infra.controller_configuration.filetree_read
+    name: "infra.controller_configuration.filetree_read"
   vars:
     dir_orgs_vars: "{{ backup_local_dir | default('./backups') }}"
     orgs: "."
@@ -39,7 +35,7 @@
     filetree_read_env_dir: ""
     filetree_controller_patch_prefix: ""
     filetree_read_patch_prefix: ""
-    # Rutas recursivas
+    # Mapeo recursivo universal a la raíz
     filetree_controller_settings: "{{ dir_orgs_vars }}"
     filetree_controller_organizations: "{{ dir_orgs_vars }}"
     filetree_controller_projects: "{{ dir_orgs_vars }}"
@@ -49,15 +45,25 @@
     filetree_controller_inventories: "{{ dir_orgs_vars }}"
     filetree_controller_schedules: "{{ dir_orgs_vars }}"
 
-# 4. INYECCIÓN
+# 4. GESTIÓN DE ACCESO (Tarea independiente antes de la carga)
+- name: "Inyección: Ejecutar proceso de autenticación"
+  ansible.builtin.include_tasks: manage_token.yml
+  vars:
+    token_state: present
+
+# 5. INYECCIÓN VÍA API
 - name: "Inyectar configuración en el Controller"
   ansible.builtin.include_role:
-    name: infra.controller_configuration.dispatch
+    name: "infra.controller_configuration.dispatch"
   vars:
     controller_oauthtoken: "{{ controller_token }}"
     controller_hostname: "{{ controller_hostname }}"
-    controller_username: "{{ controller_username | default('admin') }}"
-    controller_password: "{{ controller_password }}"
     controller_validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
     query_controller_api: true
+    # Forzamos que intente seguir aunque algo falle
+    ignore_errors: yes
+    # Intentamos desactivar el asincronismo que genera el "Wait for management"
+    controller_configuration_async: false
+  # Importante: ignore_errors va a nivel de tarea, no solo en vars
+  ignore_errors: yes
   register: _dispatch_output

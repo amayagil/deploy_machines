@@ -1,17 +1,24 @@
 ---
 # roles/role-aap-config-manager/tasks/manage_token.yml
 
-- name: "Token: Gestionar autenticación en el Controller"
-  infra.controller_configuration.token:
-    controller_hostname: "{{ controller_hostname }}"
+- name: "Token: Obtener token de sesión"
+  awx.awx.token:
+    controller_host: "{{ controller_hostname }}"
     controller_username: "{{ controller_username | default('admin') }}"
     controller_password: "{{ controller_password }}"
-    controller_validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
+    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
+    state: present
   register: _token_output
 
-- name: "Validar que el token se ha generado correctamente"
+- name: "Token: Establecer la variable controller_token"
+  ansible.builtin.set_fact:
+    # Probamos las dos claves más comunes en AAP/AWX
+    controller_token: "{{ _token_output.ansible_facts.controller_token if _token_output.ansible_facts is defined else _token_output.token }}"
+    cacheable: yes
+
+- name: "Validar que el token existe"
   ansible.builtin.assert:
     that:
       - controller_token is defined
       - controller_token | length > 0
-    msg: "ERROR CRÍTICO: No se pudo obtener el token de autenticación en {{ controller_hostname }}. Revisa credenciales y conectividad."
+    msg: "ERROR: No se ha podido extraer el token del objeto de salida."
