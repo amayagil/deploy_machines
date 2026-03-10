@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "b30df6c5-4c5d-453e-ad03-fd012012b1c6"
         workflow_job_template: "[Azure] Destruir y desregistrar máquinas"
         unified_job_template: "[Azure] Unregister Machines to Red Hat Services"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         always_nodes:
@@ -15,7 +15,7 @@ controller_workflows:
       - identifier: "e407dd5a-1622-40b7-9fbf-7d815bc7139f"
         workflow_job_template: "[Azure] Destruir y desregistrar máquinas"
         unified_job_template: "[Azure] Destroy Machines"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         success_nodes:
@@ -23,7 +23,7 @@ controller_workflows:
       - identifier: "02341c1e-ea55-4569-ad22-a9f73b8a7e88"
         workflow_job_template: "[Azure] Destruir y desregistrar máquinas"
         unified_job_template: "[Azure] Notificator"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         extra_data:
@@ -31,7 +31,7 @@ controller_workflows:
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

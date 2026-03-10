@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "c90bf0ac-38e1-4094-8547-4807285d1d64"
         workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
         unified_job_template: "[NUC] Customer Demo - Comprobar paquete"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -18,7 +18,7 @@ controller_workflows:
       - identifier: "124b0681-9fb5-449b-b5e0-31129745c596"
         workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
         unified_job_template: "[NUC] Customer Demo - Install and deploy Apache"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -28,7 +28,7 @@ controller_workflows:
       - identifier: "767e92de-0d74-4235-83dc-3df6bb70ffb3"
         workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
         unified_job_template: "Permitir Apache"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         success_nodes:
@@ -36,13 +36,13 @@ controller_workflows:
       - identifier: "cca11019-4401-49b9-bdde-9f59bb01f19f"
         workflow_job_template: "[NUC] Customer Demo - Verificar, Instalar y Desplegar Apache"
         unified_job_template: "[NUC] Customer Demo - Notificator"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""{{ server_name }}""
+    limit:  "{{ server_name }}"
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

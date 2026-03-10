@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "Windows Project"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "Windows Demo Environment Project"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         success_nodes:
@@ -15,7 +15,7 @@ controller_workflows:
       - identifier: "Create Azure Network"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "[JT][WIN DEMO] Create Azure Network"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -26,7 +26,7 @@ controller_workflows:
       - identifier: "Deploy Azure Instance - win-dc-1"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -38,7 +38,7 @@ controller_workflows:
       - identifier: "Deploy Azure Instance - win-cli-1"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -50,7 +50,7 @@ controller_workflows:
       - identifier: "Azure WinDemo Inventory"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "ToDo: The node is pointing to a deleted Job Template"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "True"
         success_nodes:
@@ -74,13 +74,13 @@ controller_workflows:
       - identifier: "Join Windows Client to a Domain"
         workflow_job_template: "[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC"
         unified_job_template: "[JT][WIN DEMO] Join Windows Client to a Domain"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

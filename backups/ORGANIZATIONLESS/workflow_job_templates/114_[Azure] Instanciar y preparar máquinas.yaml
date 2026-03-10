@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "1030d697-ade8-42f6-89a2-bb8b5641fa6b"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "[Azure] Notificator"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         success_nodes:
@@ -15,7 +15,7 @@ controller_workflows:
       - identifier: "1aa01531-6e2f-441f-857f-1424335e92f1"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "[Azure] Deploy Machines"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         success_nodes:
@@ -23,13 +23,13 @@ controller_workflows:
       - identifier: "8f74a7f4-2939-43ab-b84c-17eb6bb312b0"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "[Azure] Register Machines to Red Hat Services"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
       - identifier: "e4700a0c-a98f-4107-a1bf-9d98d9f1c997"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "Azure source (RHEL)"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         success_nodes:
@@ -37,7 +37,7 @@ controller_workflows:
       - identifier: "babe3d24-e4bc-4074-bf78-b6bd0090a959"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "Azure source (RHEL)"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
         all_parents_must_converge: "True"
         success_nodes:
@@ -45,7 +45,7 @@ controller_workflows:
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

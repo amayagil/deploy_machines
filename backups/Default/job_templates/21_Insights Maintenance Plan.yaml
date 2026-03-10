@@ -8,7 +8,7 @@ controller_templates:
     playbook: "open-demo-860e63f1-16e8-4725-a0f6-bf35d488b8d4.yml"
     scm_branch: ""
     forks: 0
-    limit: ""
+    limit: null
     verbosity: 0
     job_type: "run"
     job_slice_count: 1

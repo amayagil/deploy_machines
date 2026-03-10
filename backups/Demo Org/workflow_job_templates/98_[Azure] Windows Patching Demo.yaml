@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "0ed56dcb-8d64-47e6-a57b-933821f81942"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "Windows Demo Environment Project"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         success_nodes:
@@ -23,7 +23,7 @@ controller_workflows:
       - identifier: "346e1d19-32bc-4ab5-822a-1efb8b0a186b"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "[Azure] Notificator"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -34,7 +34,7 @@ controller_workflows:
       - identifier: "461e1688-3b51-4d50-8601-18a330b36897"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "[Azure] Notificator"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -43,7 +43,7 @@ controller_workflows:
       - identifier: "1abf8f86-2d92-4355-a288-6e5844d3adc8"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "[JT][WIN DEMO] Create Azure Network"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -53,7 +53,7 @@ controller_workflows:
       - identifier: "5c9e84a8-3e41-40e7-b46e-eba27585f904"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "Azure source (win)"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         success_nodes:
@@ -61,7 +61,7 @@ controller_workflows:
       - identifier: "ad563d9d-2334-4d22-81ef-ad6b78454714"
         workflow_job_template: "[Azure] Windows Patching Demo"
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
-        limit: ""
+        limit: null
         organization: "Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -81,7 +81,7 @@ controller_workflows:
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

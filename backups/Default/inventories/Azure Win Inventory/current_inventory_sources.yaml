@@ -4,7 +4,7 @@ controller_inventory_sources:
     description: ""
     organization: "Default"
     source: "azure_rm"
-    limit: ""
+    limit: null
     source_path: ""
     source_vars:
       plain_host_names: true

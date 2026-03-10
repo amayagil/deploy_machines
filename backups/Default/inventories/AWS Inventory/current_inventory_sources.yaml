@@ -4,7 +4,7 @@ controller_inventory_sources:
     description: ""
     organization: "Default"
     source: "ec2"
-    limit: ""
+    limit: null
     source_path: ""
     source_vars:
       compose:

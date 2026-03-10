@@ -8,7 +8,7 @@ controller_templates:
     playbook: "playbooks/windows-firewall.yml"
     scm_branch: ""
     forks: 0
-    limit: ""
+    limit: null
     verbosity: 0
     job_type: "run"
     job_slice_count: 1

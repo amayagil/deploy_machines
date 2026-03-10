@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "6976b8b7-15f1-4621-bf77-26ae0cf88bcc"
         workflow_job_template: "[AWS] Destruir y desregistrar máquinas"
         unified_job_template: "Unregister AWS Machines from Red Hat Services"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[AWS] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         always_nodes:
@@ -15,7 +15,7 @@ controller_workflows:
       - identifier: "582b9356-ec08-41e7-b3b0-a670080a2061"
         workflow_job_template: "[AWS] Destruir y desregistrar máquinas"
         unified_job_template: "[AWS] Destroy Machines"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[AWS] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
         success_nodes:
@@ -23,13 +23,13 @@ controller_workflows:
       - identifier: "fe3df7b9-4450-4cce-9574-b6d00aefcb11"
         workflow_job_template: "[AWS] Destruir y desregistrar máquinas"
         unified_job_template: "[AWS] Notificator"
-        limit: ""
+        limit: null
         organization: "ToDo: The WF '[AWS] Destruir y desregistrar máquinas' must belong to an organization"
         all_parents_must_converge: "False"
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

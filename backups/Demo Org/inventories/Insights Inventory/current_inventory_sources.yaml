@@ -4,7 +4,7 @@ controller_inventory_sources:
     description: ""
     organization: "Default"
     source: "insights"
-    limit: ""
+    limit: null
     source_path: ""
     source_vars:
       get_tags: true

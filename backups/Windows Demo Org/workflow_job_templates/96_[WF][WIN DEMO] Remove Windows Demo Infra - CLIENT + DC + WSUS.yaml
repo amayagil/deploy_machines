@@ -7,7 +7,7 @@ controller_workflows:
       - identifier: "Remove Azure Instance - win-dc-1"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -17,7 +17,7 @@ controller_workflows:
       - identifier: "Remove Azure Instance - win-wsus-1"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -27,7 +27,7 @@ controller_workflows:
       - identifier: "Remove Azure Instance - win-cli-1"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -37,7 +37,7 @@ controller_workflows:
       - identifier: "Remove Azure Instance - win-cli-2"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -47,7 +47,7 @@ controller_workflows:
       - identifier: "Remove Azure Instance - win-cli-3"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "False"
         extra_data:
@@ -57,7 +57,7 @@ controller_workflows:
       - identifier: "Remove Azure Network"
         workflow_job_template: "[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS"
         unified_job_template: "[JT][WIN DEMO] Remove Azure Network"
-        limit: ""
+        limit: null
         organization: "Windows Demo Org"
         all_parents_must_converge: "True"
         extra_data:
@@ -65,7 +65,7 @@ controller_workflows:
     ask_variables_on_launch: "False"
     allow_simultaneous: "False"
     scm_branch: ""
-    limit: ""
+    limit: null
     ask_limit_on_launch: false
     ask_inventory_on_launch: false
     webhook_service: ""

@@ -1,5 +1,5 @@
 ---
-# 1. Validación de Seguridad (El Stat que no puede faltar)
+# 1. Validación de Seguridad (El Stat indispensable)
 - name: "Inyección: Verificar existencia del directorio de backup"
   ansible.builtin.stat:
     path: "{{ backup_local_dir | default('./backups') }}"
@@ -7,56 +7,63 @@
 
 - name: "Inyección: Validar que el directorio existe y es accesible"
   ansible.builtin.fail:
-    msg: "ERROR: El directorio de backup '{{ backup_local_dir | default('./backups') }}' no existe o no es un directorio."
+    msg: "ERROR: El directorio '{{ backup_local_dir | default('./backups') }}' no existe o no es accesible."
   when: not _backup_stat.stat.exists or not _backup_stat.stat.isdir
 
-- name: "Inyección: Inicializar variables de reporte"
+# 2. Inicialización y Reset de Tipos (Evita el bug |= de Python)
+- name: "Inyección: Inicializar variables y limpiar facts de configuración"
   ansible.builtin.set_fact:
     backup_output_file: "N/A (Modo Inyección)"
-  when: aap_action == 'inject'
+    # Forzamos que las variables del rol empiecen como listas vacías para evitar errores de tipos
+    controller_settings: []
+    controller_organizations: []
+    controller_projects: []
+    controller_credentials: []
+    controller_templates: []
+    controller_workflows: []
+    controller_schedules: []
 
-# 2. Gestión de acceso
-- name: "Inyección: Obtener token"
+# 3. Gestión de acceso
+- name: "Inyección: Obtener token de autenticación"
   ansible.builtin.include_tasks: manage_token.yml
   vars:
     token_state: present
 
-# 3. Carga de archivos (BLOQUE UNIVERSAL PARA ESTRUCTURA PLANA)
+# 4. Carga de archivos (BLOQUE UNIVERSAL PLANO)
 - name: "Cargar archivos de backup en memoria"
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_read
   vars:
-    data_path: "{{ backup_local_dir | default('./backups') }}"
-    # Anulamos la búsqueda jerárquica /env/common/
+    dir_orgs_vars: "{{ backup_local_dir | default('./backups') }}"
+    orgs: "."
     controller_configuration_filetree_read_cascading: false
     filetree_read_base_dir: ""
     filetree_read_orgs_dir: ""
     filetree_read_env_dir: ""
-    
-    # Prefijos vacíos para leer 1_*, current_*, etc.
     filetree_controller_patch_prefix: ""
     filetree_read_patch_prefix: ""
 
-    # Mapeo directo a tus carpetas detectadas en el tree
-    filetree_controller_settings: "{{ data_path }}"
-    filetree_controller_organizations: "{{ data_path }}"
-    filetree_controller_execution_environments: "{{ data_path }}"
-    filetree_controller_credential_types: "{{ data_path }}"
-    filetree_controller_projects: "{{ data_path }}/*/projects"
-    filetree_controller_credentials: "{{ data_path }}/*/credentials"
-    filetree_controller_templates: "{{ data_path }}/*/job_templates"
-    filetree_controller_workflow_job_templates: "{{ data_path }}/*/workflow_job_templates"
-    filetree_controller_inventories: "{{ data_path }}/*/inventories"
-    filetree_controller_schedules: "{{ data_path }}/schedules"
+    # Mapeo directo a tu estructura (Sobreescribimos las rutas internas)
+    filetree_controller_settings: "{{ dir_orgs_vars }}"
+    filetree_controller_organizations: "{{ dir_orgs_vars }}"
+    filetree_controller_execution_environments: "{{ dir_orgs_vars }}"
+    filetree_controller_credential_types: "{{ dir_orgs_vars }}"
+    filetree_controller_projects: "{{ dir_orgs_vars }}/*/projects"
+    filetree_controller_credentials: "{{ dir_orgs_vars }}/*/credentials"
+    filetree_controller_templates: "{{ dir_orgs_vars }}/*/job_templates"
+    
+    # COMENTAMOS LOS CONFLICTIVOS PARA DEPURAR EL ERROR |=
+    # filetree_controller_workflow_job_templates: "{{ dir_orgs_vars }}/*/workflow_job_templates"
+    # filetree_controller_schedules: "{{ dir_orgs_vars }}/schedules"
 
-# 4. Inyección vía API (DISPATCH)
+# 5. Inyección vía API (DISPATCH)
 - name: "Inyectar configuración en el Controller"
   ansible.builtin.include_role:
     name: infra.controller_configuration.dispatch
   vars:
     controller_oauthtoken: "{{ controller_token }}"
     controller_hostname: "{{ controller_hostname }}"
-    # Forzamos booleano para evitar el error de tipos (bool vs str)
+    # Fix crítico: asegurar que validate_certs sea booleano puro
     controller_validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
     query_controller_api: true
   register: _dispatch_output
