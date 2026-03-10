@@ -9,5 +9,5 @@ controller_inventory_sources:
     source_vars:
       plain_host_names: true
     inventory: "Azure Win Inventory"
-    update_on_launch: "False"
-    overwrite: "True"
+    update_on_launch: False
+    overwrite: True

@@ -23,6 +23,6 @@ controller_inventory_sources:
         separator: ''
       plain_host_names: true
     inventory: "Azure RHEL Inventory"
-    update_on_launch: "False"
-    overwrite: "True"
+    update_on_launch: False
+    overwrite: True
     credential: "Azure Credentials"

@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "Windows Demo Environment Project"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Create Azure Network"
       - identifier: "Deploy Windows Server Update Services"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Windows Server Update Services"
         limit: "win-wsus-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           wsus_products: Windows Server 2016, Windows Server 2019, Microsoft Server operating system-21H2, Microsoft Defender Antivirus
         success_nodes:
@@ -27,7 +27,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-cli-3
           dc_role: client
@@ -39,7 +39,7 @@ controller_workflows:
         unified_job_template: "ToDo: The node is pointing to a deleted Job Template"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "True"
+        all_parents_must_converge: True
         success_nodes:
           - "Deploy Windows Myrtille"
       - identifier: "Create WSUS Group Policy"
@@ -47,7 +47,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Create WSUS Group Policy"
         limit: "win-dc-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Join Windows Client to a WSUS"
       - identifier: "Deploy Azure Instance - win-dc-1"
@@ -55,7 +55,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-dc-1
           dc_role: domain
@@ -67,7 +67,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Windows Myrtille"
         limit: "win-dc-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Deploy Windows Domain Controller"
       - identifier: "Deploy Azure Instance - win-wsus-1"
@@ -75,7 +75,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-wsus-1
           dc_role: wsus
@@ -87,7 +87,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-cli-2
           dc_role: client
@@ -99,7 +99,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Windows Domain Controller"
         limit: "win-dc-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Join Windows Client to a Domain"
       - identifier: "Configure Windows Firewall"
@@ -107,7 +107,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Configure Windows Firewall"
         limit: "win-wsus-1,win-cli-1,win-cli-2,win-cli-3"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Create WSUS Group Policy"
       - identifier: "Create Azure Network"
@@ -115,7 +115,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Create Azure Network"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           private_network: windows-network
         success_nodes:
@@ -129,7 +129,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Join Windows Client to a Domain"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Deploy Windows Server Update Services"
       - identifier: "Deploy Azure Instance - win-cli-1"
@@ -137,7 +137,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-cli-1
           dc_role: client
@@ -149,11 +149,11 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Join Windows Client to a WSUS"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           register_with_wsus: yes
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

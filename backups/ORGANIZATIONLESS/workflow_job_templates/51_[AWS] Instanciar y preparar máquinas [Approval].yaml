@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "[AWS] Deploy Machines"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
       - identifier: "c95b2583-5ceb-4585-9781-1b00da12fac3"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[AWS] Notificator"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "c03ff55a-82be-4093-b448-323659ce88b5"
       - identifier: "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
@@ -25,7 +25,7 @@ controller_workflows:
         unified_job_template: "[AWS] Register Machines to Red Hat Services"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "72ceda0f-80bc-48cd-a013-fd4a3203dfdc"
       - identifier: "74f8561f-3226-47ef-9cbc-0395761da0d6"
@@ -33,7 +33,7 @@ controller_workflows:
         unified_job_template: "Creation confirmation"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "c03ff55a-82be-4093-b448-323659ce88b5"
       - identifier: "72ceda0f-80bc-48cd-a013-fd4a3203dfdc"
@@ -41,9 +41,9 @@ controller_workflows:
         unified_job_template: "[AWS] Create ansible user"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas [Approval]' must belong to an organization"
-        all_parents_must_converge: "False"
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+        all_parents_must_converge: False
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

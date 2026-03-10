@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "Windows Demo Environment Project"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "1abf8f86-2d92-4355-a288-6e5844d3adc8"
       - identifier: "6fe113c5-cdf4-4917-b17e-5428f5309763"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Install Windows Updates"
         limit: "winny"
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "461e1688-3b51-4d50-8601-18a330b36897"
       - identifier: "346e1d19-32bc-4ab5-822a-1efb8b0a186b"
@@ -25,7 +25,7 @@ controller_workflows:
         unified_job_template: "[Azure] Notificator"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           msg_slack: !unsafe "Azure instances created in {{ resource_group }}"
           msg_tlg: !unsafe "Azure instances created in {{ resource_group }}"
@@ -36,7 +36,7 @@ controller_workflows:
         unified_job_template: "[Azure] Notificator"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           msg_slack: !unsafe "Patches and updates applied to {{ type | capitalize  }}"
           msg_tlg: !unsafe "Patches and updates applied to {{ type | capitalize  }}"
@@ -45,7 +45,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Create Azure Network"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           private_network: windows-network
         success_nodes:
@@ -55,7 +55,7 @@ controller_workflows:
         unified_job_template: "Azure source (win)"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "346e1d19-32bc-4ab5-822a-1efb8b0a186b"
       - identifier: "ad563d9d-2334-4d22-81ef-ad6b78454714"
@@ -63,7 +63,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-demo
           dc_role: client
@@ -75,11 +75,11 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Send Windows Updates Report"
         limit: "winny"
         organization: "Demo Org"
-        all_parents_must_converge: "True"
+        all_parents_must_converge: True
         success_nodes:
           - "6fe113c5-cdf4-4917-b17e-5428f5309763"
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

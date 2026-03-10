@@ -13,6 +13,6 @@ controller_inventory_sources:
       compose:
         ansible_host: insights_tags['insights-client']['public_ip']
     inventory: "Insights Inventory"
-    update_on_launch: "True"
-    overwrite: "True"
+    update_on_launch: True
+    overwrite: True
     credential: "Insights - Amaya Creds"

@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "Windows Demo Environment Project"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Create Azure Network"
       - identifier: "Create Azure Network"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Create Azure Network"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           private_network: windows-network
         success_nodes:
@@ -28,7 +28,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-dc-1
           dc_role: domain
@@ -40,7 +40,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-cli-1
           dc_role: client
@@ -52,7 +52,7 @@ controller_workflows:
         unified_job_template: "ToDo: The node is pointing to a deleted Job Template"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "True"
+        all_parents_must_converge: True
         success_nodes:
           - "Deploy Windows Myrtille"
       - identifier: "Deploy Windows Myrtille"
@@ -60,7 +60,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Windows Myrtille"
         limit: "win-dc-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Deploy Windows Domain Controller"
       - identifier: "Deploy Windows Domain Controller"
@@ -68,7 +68,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Deploy Windows Domain Controller"
         limit: "win-dc-1"
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "Join Windows Client to a Domain"
       - identifier: "Join Windows Client to a Domain"
@@ -76,9 +76,9 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Join Windows Client to a Domain"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+        all_parents_must_converge: False
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

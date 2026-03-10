@@ -7,12 +7,12 @@ controller_projects:
     scm_url: "https://cloud.redhat.com"
     scm_credential: "Insights - Amaya Creds"
     scm_branch: ""
-    scm_clean: "False"
-    scm_delete_on_update: "False"
-    scm_update_on_launch: "False"
+    scm_clean: False
+    scm_delete_on_update: False
+    scm_update_on_launch: False
     scm_update_cache_timeout: "0"
     scm_refspec: ""
-    allow_override: "False"
-    update_project: "False"
+    allow_override: False
+    update_project: False
     timeout: "0"
 ...

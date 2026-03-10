@@ -1,10 +1,10 @@
 ---
 controller_settings:
   - settings:
-      ACTIVITY_STREAM_ENABLED: "true"
-      ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: "false"
-      ORG_ADMINS_CAN_SEE_ALL_USERS: "true"
-      MANAGE_ORGANIZATION_AUTH: "true"
+      ACTIVITY_STREAM_ENABLED: true
+      ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: false
+      ORG_ADMINS_CAN_SEE_ALL_USERS: true
+      MANAGE_ORGANIZATION_AUTH: true
       TOWER_URL_BASE: "https://towerhost"
       REMOTE_HOST_HEADERS:
         - REMOTE_ADDR
@@ -66,13 +66,13 @@ controller_settings:
       GALAXY_TASK_ENV:
         GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
         ANSIBLE_FORCE_COLOR: 'false'
-      INSIGHTS_TRACKING_STATE: "true"
-      PROJECT_UPDATE_VVV: "false"
-      AWX_ROLES_ENABLED: "true"
-      AWX_COLLECTIONS_ENABLED: "true"
-      AWX_SHOW_PLAYBOOK_LINKS: "false"
-      AWX_MOUNT_ISOLATED_PATHS_ON_K8S: "false"
-      GALAXY_IGNORE_CERTS: "true"
+      INSIGHTS_TRACKING_STATE: true
+      PROJECT_UPDATE_VVV: false
+      AWX_ROLES_ENABLED: true
+      AWX_COLLECTIONS_ENABLED: true
+      AWX_SHOW_PLAYBOOK_LINKS: false
+      AWX_MOUNT_ISOLATED_PATHS_ON_K8S: false
+      GALAXY_IGNORE_CERTS: true
       STDOUT_MAX_BYTES_DISPLAY: "1048576"
       EVENT_STDOUT_MAX_BYTES_DISPLAY: "1024"
       MAX_WEBSOCKET_EVENT_RATE: "30"
@@ -96,55 +96,55 @@ controller_settings:
         - job_events
         - system_tracking
         - broadcast_websocket
-      LOG_AGGREGATOR_INDIVIDUAL_FACTS: "false"
-      LOG_AGGREGATOR_ENABLED: "false"
+      LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
+      LOG_AGGREGATOR_ENABLED: false
       LOG_AGGREGATOR_TOWER_UUID: ""
       LOG_AGGREGATOR_PROTOCOL: "https"
       LOG_AGGREGATOR_TCP_TIMEOUT: "5"
-      LOG_AGGREGATOR_VERIFY_CERT: "true"
+      LOG_AGGREGATOR_VERIFY_CERT: true
       LOG_AGGREGATOR_LEVEL: "INFO"
       LOG_AGGREGATOR_MAX_DISK_USAGE_GB: "1"
       LOG_AGGREGATOR_ACTION_MAX_DISK_USAGE_GB: "1"
       LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: "/var/lib/awx"
-      LOG_AGGREGATOR_RSYSLOGD_DEBUG: "false"
+      LOG_AGGREGATOR_RSYSLOGD_DEBUG: false
       API_400_ERROR_LOG_FORMAT: "status {status_code} received by user {user_name} attempting to access {url_path} from {remote_addr}"
       AUTOMATION_ANALYTICS_LAST_GATHER: "2026-03-09T16:38:28.755782Z"
       AUTOMATION_ANALYTICS_LAST_ENTRIES: "{"config": "2025-10-31T18:12:07.909Z", "counts": "2025-10-31T18:12:07.909Z", "cred_type_counts": "2025-10-31T18:12:07.909Z", "instance_info": "2025-10-31T18:12:07.909Z", "inventory_counts": "2025-10-31T18:12:07.909Z", "org_counts": "2025-10-31T18:12:07.909Z", "projects_by_scm_type": "2025-10-31T18:12:07.909Z", "query_info": "2025-10-31T18:12:07.909Z", "events_table": "2026-03-09T16:38:28.755Z", "unified_job_template_table": "2025-10-31T18:12:07.909Z", "unified_jobs_table": "2026-03-09T16:38:28.755Z", "workflow_job_node_table": "2026-03-09T16:38:28.755Z", "workflow_job_template_node_table": "2025-10-31T18:12:07.909Z", "host_metric_table": "2026-03-04T11:48:38.691Z", "host_metric_table_full": "2025-10-31T18:12:17.137Z", "host_metric_summary_monthly_table": "2025-10-31T18:12:07.909Z"}"
       AUTOMATION_ANALYTICS_GATHER_INTERVAL: "14400"
-      IS_K8S: "false"
+      IS_K8S: false
       BULK_JOB_MAX_LAUNCH: "100"
       BULK_HOST_MAX_CREATE: "100"
-      UI_NEXT: "false"
+      UI_NEXT: false
       SUBSCRIPTION_USAGE_MODEL: "unique_managed_hosts"
       CLEANUP_HOST_METRICS_LAST_TS: "2026-03-05T15:57:34.272788Z"
       HOST_METRIC_SUMMARY_TASK_LAST_TS: "2026-03-05T16:27:37.486979Z"
       SESSION_COOKIE_AGE: "1800"
       SESSIONS_PER_USER: "-1"
-      DISABLE_LOCAL_AUTH: "false"
-      AUTH_BASIC_ENABLED: "true"
+      DISABLE_LOCAL_AUTH: false
+      AUTH_BASIC_ENABLED: true
       OAUTH2_PROVIDER:
         ACCESS_TOKEN_EXPIRE_SECONDS: 31536000000
         AUTHORIZATION_CODE_EXPIRE_SECONDS: 600
         REFRESH_TOKEN_EXPIRE_SECONDS: 2628000
-      ALLOW_OAUTH2_FOR_EXTERNAL_USERS: "false"
+      ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
       LOGIN_REDIRECT_OVERRIDE: ""
-      ALLOW_METRICS_FOR_ANONYMOUS_USERS: "false"
+      ALLOW_METRICS_FOR_ANONYMOUS_USERS: false
       PENDO_TRACKING_STATE: "detailed"
       CUSTOM_LOGIN_INFO: ""
       CUSTOM_LOGO: ""
       MAX_UI_JOB_EVENTS: "4000"
-      UI_LIVE_UPDATES_ENABLED: "true"
+      UI_LIVE_UPDATES_ENABLED: true
       AUTHENTICATION_BACKENDS:
         - awx.sso.backends.TACACSPlusBackend
         - awx.main.backends.AWXModelBackend
       SOCIAL_AUTH_ORGANIZATION_MAP: "null"
       SOCIAL_AUTH_TEAM_MAP: "null"
       SOCIAL_AUTH_USER_FIELDS: "null"
-      SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL: "false"
+      SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL: false
       AUTH_LDAP_SERVER_URI: ""
       AUTH_LDAP_BIND_DN: ""
       AUTH_LDAP_BIND_PASSWORD: ""
-      AUTH_LDAP_START_TLS: "false"
+      AUTH_LDAP_START_TLS: false
       AUTH_LDAP_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -169,7 +169,7 @@ controller_settings:
       AUTH_LDAP_1_SERVER_URI: ""
       AUTH_LDAP_1_BIND_DN: ""
       AUTH_LDAP_1_BIND_PASSWORD: ""
-      AUTH_LDAP_1_START_TLS: "false"
+      AUTH_LDAP_1_START_TLS: false
       AUTH_LDAP_1_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -195,7 +195,7 @@ controller_settings:
       AUTH_LDAP_2_SERVER_URI: ""
       AUTH_LDAP_2_BIND_DN: ""
       AUTH_LDAP_2_BIND_PASSWORD: ""
-      AUTH_LDAP_2_START_TLS: "false"
+      AUTH_LDAP_2_START_TLS: false
       AUTH_LDAP_2_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -221,7 +221,7 @@ controller_settings:
       AUTH_LDAP_3_SERVER_URI: ""
       AUTH_LDAP_3_BIND_DN: ""
       AUTH_LDAP_3_BIND_PASSWORD: ""
-      AUTH_LDAP_3_START_TLS: "false"
+      AUTH_LDAP_3_START_TLS: false
       AUTH_LDAP_3_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -247,7 +247,7 @@ controller_settings:
       AUTH_LDAP_4_SERVER_URI: ""
       AUTH_LDAP_4_BIND_DN: ""
       AUTH_LDAP_4_BIND_PASSWORD: ""
-      AUTH_LDAP_4_START_TLS: "false"
+      AUTH_LDAP_4_START_TLS: false
       AUTH_LDAP_4_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -273,7 +273,7 @@ controller_settings:
       AUTH_LDAP_5_SERVER_URI: ""
       AUTH_LDAP_5_BIND_DN: ""
       AUTH_LDAP_5_BIND_PASSWORD: ""
-      AUTH_LDAP_5_START_TLS: "false"
+      AUTH_LDAP_5_START_TLS: false
       AUTH_LDAP_5_CONNECTION_OPTIONS:
         OPT_REFERRALS: 0
         OPT_NETWORK_TIMEOUT: 30
@@ -361,8 +361,8 @@ controller_settings:
       SOCIAL_AUTH_OIDC_KEY: "null"
       SOCIAL_AUTH_OIDC_SECRET: ""
       SOCIAL_AUTH_OIDC_OIDC_ENDPOINT: ""
-      SOCIAL_AUTH_OIDC_VERIFY_SSL: "true"
-      SAML_AUTO_CREATE_OBJECTS: "true"
+      SOCIAL_AUTH_OIDC_VERIFY_SSL: true
+      SAML_AUTO_CREATE_OBJECTS: true
       SOCIAL_AUTH_SAML_CALLBACK_URL: "https://towerhost/sso/complete/saml/"
       SOCIAL_AUTH_SAML_METADATA_URL: "https://towerhost/sso/metadata/saml/"
       SOCIAL_AUTH_SAML_SP_ENTITY_ID: ""

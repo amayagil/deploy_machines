@@ -10,6 +10,6 @@ controller_inventory_sources:
       compose:
         public_ip: public_ip_address
     inventory: "AWS Inventory"
-    update_on_launch: "True"
-    overwrite: "True"
+    update_on_launch: True
+    overwrite: True
     credential: "AWS Credential"

@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "[AWS] Deploy Machines"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "dd120e3d-df51-4bf9-ab30-5ba815f4d90e"
       - identifier: "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[AWS] Register Machines to Red Hat Services"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "c95b2583-5ceb-4585-9781-1b00da12fac3"
       - identifier: "c95b2583-5ceb-4585-9781-1b00da12fac3"
@@ -25,17 +25,17 @@ controller_workflows:
         unified_job_template: "[AWS] Notificator"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
       - identifier: "dd120e3d-df51-4bf9-ab30-5ba815f4d90e"
         workflow_job_template: "[AWS] Instanciar y preparar máquinas"
         unified_job_template: "[AWS] Create ansible user"
         limit: null
         organization: "ToDo: The WF '[AWS] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "79ce2a01-4b09-4b35-ab53-e2df6da285ce"
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-dc-1
         success_nodes:
@@ -19,7 +19,7 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Remove Azure Instance"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           instance_name: win-cli-1
         success_nodes:
@@ -29,11 +29,11 @@ controller_workflows:
         unified_job_template: "[JT][WIN DEMO] Remove Azure Network"
         limit: null
         organization: "Windows Demo Org"
-        all_parents_must_converge: "True"
+        all_parents_must_converge: True
         extra_data:
           private_network: windows-network
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

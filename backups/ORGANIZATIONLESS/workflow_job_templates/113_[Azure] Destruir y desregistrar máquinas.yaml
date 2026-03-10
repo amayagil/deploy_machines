@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "[Azure] Unregister Machines to Red Hat Services"
         limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         always_nodes:
           - "e407dd5a-1622-40b7-9fbf-7d815bc7139f"
       - identifier: "e407dd5a-1622-40b7-9fbf-7d815bc7139f"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[Azure] Destroy Machines"
         limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "02341c1e-ea55-4569-ad22-a9f73b8a7e88"
       - identifier: "02341c1e-ea55-4569-ad22-a9f73b8a7e88"
@@ -25,11 +25,11 @@ controller_workflows:
         unified_job_template: "[Azure] Notificator"
         limit: null
         organization: "ToDo: The WF '[Azure] Destruir y desregistrar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         extra_data:
           type: azure
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false

@@ -9,7 +9,7 @@ controller_workflows:
         unified_job_template: "[Azure] Notificator"
         limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "e4700a0c-a98f-4107-a1bf-9d98d9f1c997"
       - identifier: "1aa01531-6e2f-441f-857f-1424335e92f1"
@@ -17,7 +17,7 @@ controller_workflows:
         unified_job_template: "[Azure] Deploy Machines"
         limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "1030d697-ade8-42f6-89a2-bb8b5641fa6b"
       - identifier: "8f74a7f4-2939-43ab-b84c-17eb6bb312b0"
@@ -25,13 +25,13 @@ controller_workflows:
         unified_job_template: "[Azure] Register Machines to Red Hat Services"
         limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
       - identifier: "e4700a0c-a98f-4107-a1bf-9d98d9f1c997"
         workflow_job_template: "[Azure] Instanciar y preparar máquinas"
         unified_job_template: "Azure source (RHEL)"
         limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "False"
+        all_parents_must_converge: False
         success_nodes:
           - "8f74a7f4-2939-43ab-b84c-17eb6bb312b0"
       - identifier: "babe3d24-e4bc-4074-bf78-b6bd0090a959"
@@ -39,11 +39,11 @@ controller_workflows:
         unified_job_template: "Azure source (RHEL)"
         limit: null
         organization: "ToDo: The WF '[Azure] Instanciar y preparar máquinas' must belong to an organization"
-        all_parents_must_converge: "True"
+        all_parents_must_converge: True
         success_nodes:
           - "1aa01531-6e2f-441f-857f-1424335e92f1"
-    ask_variables_on_launch: "False"
-    allow_simultaneous: "False"
+    ask_variables_on_launch: False
+    allow_simultaneous: False
     scm_branch: ""
     limit: null
     ask_limit_on_launch: false
