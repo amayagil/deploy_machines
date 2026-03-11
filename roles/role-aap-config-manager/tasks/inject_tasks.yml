@@ -1,5 +1,5 @@
 ---
-# 1. VALIDACIÓN Y PREPARACIÓN DE ARCHIVOS EN DISCO
+# 1. VALIDACIÓN
 - name: "Inyección: Validar directorio de backup"
   ansible.builtin.stat:
     path: "{{ backup_local_dir | default('./backups') }}"
@@ -10,16 +10,7 @@
     msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe."
   when: not _backup_stat.stat.exists
 
-- name: "Normalización: Renombrar archivos current_*.yaml al estándar"
-  ansible.builtin.shell: |
-    find {{ backup_local_dir }} -name "current_organization.yaml" -exec rename "current_organization.yaml" "organizations.yaml" {} +
-    find {{ backup_local_dir }} -name "current_hosts.yaml" -exec rename "current_hosts.yaml" "hosts.yaml" {} +
-    find {{ backup_local_dir }} -name "current_inventory_sources.yaml" -exec rename "current_inventory_sources.yaml" "inventory_sources.yaml" {} +
-  args:
-    executable: /bin/bash
-  failed_when: false
-
-# 2. NORMALIZACIÓN NATIVA (Idempotente)
+# 2. NORMALIZACIÓN (Limpieza de IDs estricta)
 - name: "Normalización: Buscar todos los archivos YAML"
   ansible.builtin.find:
     paths: "{{ backup_local_dir }}"
@@ -27,35 +18,15 @@
     recurse: yes
   register: _all_yaml_files
 
-- name: "Normalización: Limpiar ruidos (IDs y guiones YAML)"
+- name: "Normalización: Eliminar IDs internos de AAP"
   ansible.builtin.replace:
     path: "{{ item.path }}"
-    # Elimina tanto los IDs como los separadores --- que rompen la carga
-    regexp: '^id: \d+\n|^---\n'
+    # Elimina líneas como "  id: 45" pero respeta cosas como "id: azure_resource_group"
+    regexp: '^\s*id: \d+\s*\n'
     replace: ''
   loop: "{{ _all_yaml_files.files }}"
   loop_control:
     label: "Limpiando {{ item.path | basename }}"
-
-- name: "Normalización: Asegurar cabeceras estructurales"
-  ansible.builtin.blockinfile:
-    path: "{{ item.0.path }}"
-    block: "{{ item.1.header }}:"
-    marker: "# {mark} ANSIBLE MANAGED HEADER"
-    insertbefore: BOF
-    state: present
-  loop: "{{ _all_yaml_files.files | product([
-      {'dir': 'job_templates', 'header': 'controller_templates'},
-      {'dir': 'projects', 'header': 'controller_projects'},
-      {'dir': 'organizations', 'header': 'controller_organizations'},
-      {'dir': 'inventories', 'header': 'controller_inventories'},
-      {'dir': 'credentials', 'header': 'controller_credentials'},
-      {'dir': 'workflow_job_templates', 'header': 'controller_workflows'},
-      {'dir': 'users', 'header': 'controller_user_accounts'}
-    ]) | list }}"
-  when: item.1.dir in item.0.path
-  loop_control:
-    label: "Cabecera {{ item.1.header }} en {{ item.0.path | basename }}"
 
 # 3. CARGA DINÁMICA DE ARCHIVOS EN MEMORIA
 - name: "Inyección: Inicializar listas de configuración"
@@ -72,15 +43,17 @@
   ansible.builtin.include_tasks: load_and_map.yml
   loop: "{{ _all_yaml_files.files }}"
   loop_control:
-    label: "Cargando {{ item.path | basename }}"
+    label: "Procesando {{ item.path | basename }}"
 
-- name: "DEBUG: Conteo de objetos detectados"
+- name: "DEBUG: Conteo de objetos listos para inyectar"
   ansible.builtin.debug:
     msg: 
       - "Organizaciones: {{ filetree_controller_organizations | length }}"
-      - "Templates: {{ filetree_controller_templates | length }}"
+      - "Inventarios: {{ filetree_controller_inventories | length }}"
       - "Proyectos: {{ filetree_controller_projects | length }}"
       - "Credenciales: {{ filetree_controller_credentials | length }}"
+      - "Job Templates: {{ filetree_controller_templates | length }}"
+      - "Workflows: {{ filetree_controller_workflows | length }}"
 
 # 4. GESTIÓN DE ACCESO Y COMPATIBILIDAD
 - name: "Inyección: Obtener Token"
@@ -101,7 +74,6 @@
     - { role: "inventories", var: "controller_inventories" }
     - { role: "job_templates", var: "controller_templates" }
     - { role: "workflow_job_templates", var: "controller_workflows" }
-  # Esta es la forma segura de hacer el lookup dinámico
   when: 
     - vars['filetree_' ~ item.var] is defined
     - vars['filetree_' ~ item.var] | length > 0

@@ -1,32 +1,31 @@
 ---
-# roles/role-aap-config-manager/tasks/process_item.yml
+- name: "Preparar datos para: {{ item.role }}"
+  ansible.builtin.set_fact:
+    _current_loop_data: "{{ lookup('vars', 'filetree_' ~ item.var, default=[]) }}"
 
-- name: "Procesamiento de objeto: {{ item.role }}"
-  block:
-    - name: "Preparar variable para: {{ item.role }}"
-      ansible.builtin.set_fact:
-        "{{ item.var }}": "{{ lookup('vars', 'filetree_' ~ item.var) }}"
+- name: "DEBUG: Host objetivo para {{ item.role }}"
+  ansible.builtin.debug:
+    msg: "Atacando host base: https://{{ controller_hostname }} (La colección auto-descubrirá la ruta /api/controller/)"
+  when: _current_loop_data | length > 0
 
-    - name: "Ejecutar rol infra.controller_configuration.{{ item.role }}"
-      ansible.builtin.include_role:
-        name: "infra.controller_configuration.{{ item.role }}"
-      vars:
-        # Forzamos la URL completa con el prefijo 2.6
-        controller_host: "https://{{ controller_hostname_final }}"
-        controller_hostname: "{{ controller_hostname_final }}"
-        controller_oauthtoken: "{{ controller_token }}"
-        controller_validate_certs: "{{ controller_validate_certs | default(false) }}"
-        # Intentamos forzar síncrono una vez más
-        controller_configuration_async: false
+- name: "Inyectar datos y control de async en memoria global"
+  ansible.builtin.set_fact:
+    "{{ item.var }}": "{{ _current_loop_data }}"
+    # Apagamos el async a nivel de host para evitar jobs en segundo plano
+    "controller_configuration_{{ item.role }}_async": false
+  when: _current_loop_data | length > 0
 
-  rescue:
-    - name: "Aviso: Error de validación en {{ item.role }} (Probable bug de ruta en AAP 2.6)"
-      ansible.builtin.debug:
-        msg: "El rol reportó un error, pero el objeto probablemente se creó (ver changed=1). Continuando..."
-      when: "'could not be found at /api/v2/' in ansible_failed_result.msg | default('')"
-
-    - name: "Limpiar archivos asíncronos residuales si falló la validación"
-      ansible.builtin.file:
-        path: "/home/runner/.ansible_async/"
-        state: absent
-      failed_when: false
+- name: "Ejecutar rol infra.controller_configuration.{{ item.role }}"
+  ansible.builtin.include_role:
+    name: "infra.controller_configuration.{{ item.role }}"
+  vars:
+    controller_configuration_async: false
+    # LA CLAVE ABSOLUTA: Solo la IP cruda, sin paths añadidos.
+    controller_host: "https://{{ controller_hostname }}"
+    controller_oauthtoken: "{{ controller_token }}" 
+    controller_validate_certs: false
+    
+    # Vaciamos user/pass para asegurar el uso del token
+    controller_username: ""
+    controller_password: ""
+  when: _current_loop_data | length > 0
