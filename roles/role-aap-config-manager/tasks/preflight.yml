@@ -1,19 +1,34 @@
 ---
 # roles/aap_config_manager/tasks/preflight.yml
-# 0. Obterner fecha para el resumen
+
+# Obterner fecha para el resumen
 - name: "Obtener la fecha actual para el resumen"
   ansible.builtin.setup:
     filter: "ansible_date_time"
 
+# Establecer la base de la API de forma dinámica
+- name: "Establecer la base de la API según acción y versión"
+  set_fact:
+    # Decidimos qué versión mirar según la acción:
+    # Para 'inject' miro la versión target
+    # Para 'extract' miro la versión source
+    _current_version: "{{ (aap_action == 'inject') | ternary(controller_target_version, controller_source_version) }}"
+
+- name: "Calcular URL base final"
+  set_fact:
+    # Aplicamos el prefijo solo si la versión detectada es 2.6+
+    controller_api_base: "{{ (_current_version is version('2.6', '>=')) | ternary(controller_hostname ~ '/api/controller', controller_hostname) }}"
+
 # 1. Validación de Conectividad
 - name: "Pre-vuelo: Intentar conexión con el Controller"
   ansible.builtin.uri:
-    url: "https://{{ controller_hostname }}/api/v2/ping/"
+    url: "https://{{ controller_api_base }}/api/v2/ping/"
     method: GET
     user: "{{ controller_username | default('admin') }}"
     password: "{{ controller_password }}"
     force_basic_auth: true
     validate_certs: "{{ controller_validate_certs | default(false) }}"
+    status_code: 200
   register: _ping_check
   # IMPORTANTE: check_mode: false permite que la tarea corra en modo simulado
   check_mode: false
@@ -29,7 +44,7 @@
 # 2. Validación de Autenticación
 - name: "Pre-vuelo: Validar Credenciales"
   ansible.builtin.uri:
-    url: "https://{{ controller_hostname }}/api/v2/me/"
+    url: "https://{{ controller_api_base }}/api/v2/me/"
     method: GET
     user: "{{ controller_username }}"
     password: "{{ controller_password }}"

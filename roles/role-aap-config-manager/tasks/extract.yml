@@ -1,5 +1,9 @@
 ---
 # roles/aap_config_manager/tasks/extract.yml
+- name: "Configurar Base para Extracción (Legacy)"
+  set_fact:
+    # En 2.4 no se añade nada al hostname
+    current_controller_api_base: "{{ controller_hostname }}"
 
 - name: "Flujo de Extracción: Pre-flight checks"
   ansible.builtin.include_tasks: preflight.yml

@@ -22,3 +22,7 @@ backup_output_file: "{{ backup_base_path }}/aap_config_{{ ansible_date_time.date
 # Si es true, Ansible no realizará cambios reales
 aap_dry_run: false
 ansible_check_mode_markers: false # Oculta los tags [CHECK MODE] en la salida del resumen
+
+# Versión del AAP target para compatibilidad
+controller_target_version: "2.6"
+controller_source_version: "2.4"

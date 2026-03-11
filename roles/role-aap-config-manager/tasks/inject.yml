@@ -1,6 +1,11 @@
 ---
 # roles/aap_config_manager/tasks/inject_tasks.yml
 
+- name: "Configurar Base para Inyección (Modern)"
+  set_fact:
+    # En 2.6+ se añade el prefijo del Gateway
+    current_controller_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(controller_hostname ~ '/api/controller', controller_hostname) }}"
+
 - name: "Inyección: Ejecutar Pre-vuelo"
   ansible.builtin.include_tasks: preflight.yml
 
