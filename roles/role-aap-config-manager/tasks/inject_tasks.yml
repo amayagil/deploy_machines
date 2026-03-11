@@ -1,4 +1,6 @@
 ---
+# roles/role-aap-config-manager/tasks/inject_tasks.yml
+
 # 1. VALIDACIÓN
 - name: "Inyección: Validar directorio de backup"
   ansible.builtin.stat:
@@ -21,7 +23,6 @@
 - name: "Normalización: Eliminar IDs internos de AAP"
   ansible.builtin.replace:
     path: "{{ item.path }}"
-    # Elimina líneas como "  id: 45" pero respeta cosas como "id: azure_resource_group"
     regexp: '^\s*id: \d+\s*\n'
     replace: ''
   loop: "{{ _all_yaml_files.files }}"
@@ -55,15 +56,10 @@
       - "Job Templates: {{ filetree_controller_templates | length }}"
       - "Workflows: {{ filetree_controller_workflows | length }}"
 
-# 4. GESTIÓN DE ACCESO Y COMPATIBILIDAD
+# 4. GESTIÓN DE ACCESO Y EJECUCIÓN
 - name: "Inyección: Obtener Token"
   ansible.builtin.include_tasks: manage_token.yml
 
-- name: "Setup: Perfil de compatibilidad para AAP 2.6+"
-  ansible.builtin.set_fact:
-    controller_hostname_final: "{{ (controller_target_version is version('2.6', '>=')) | ternary(controller_api_base, controller_hostname) }}"
-
-# 5. EJECUCIÓN DE ROLES (Inyección Real)
 - name: "Inyección: Configurar objetos en Controller"
   ansible.builtin.include_tasks: process_item.yml
   loop:
@@ -74,6 +70,3 @@
     - { role: "inventories", var: "controller_inventories" }
     - { role: "job_templates", var: "controller_templates" }
     - { role: "workflow_job_templates", var: "controller_workflows" }
-  when: 
-    - vars['filetree_' ~ item.var] is defined
-    - vars['filetree_' ~ item.var] | length > 0

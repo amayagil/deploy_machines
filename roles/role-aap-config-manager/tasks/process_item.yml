@@ -1,31 +1,33 @@
 ---
+# roles/role-aap-config-manager/tasks/process_item.yml
+
 - name: "Preparar datos para: {{ item.role }}"
   ansible.builtin.set_fact:
     _current_loop_data: "{{ lookup('vars', 'filetree_' ~ item.var, default=[]) }}"
 
-- name: "DEBUG: Host objetivo para {{ item.role }}"
-  ansible.builtin.debug:
-    msg: "Atacando host base: https://{{ controller_hostname }} (La colección auto-descubrirá la ruta /api/controller/)"
-  when: _current_loop_data | length > 0
-
-- name: "Inyectar datos y control de async en memoria global"
+- name: "Inyectar datos"
   ansible.builtin.set_fact:
     "{{ item.var }}": "{{ _current_loop_data }}"
-    # Apagamos el async a nivel de host para evitar jobs en segundo plano
-    "controller_configuration_{{ item.role }}_async": false
   when: _current_loop_data | length > 0
 
 - name: "Ejecutar rol infra.controller_configuration.{{ item.role }}"
   ansible.builtin.include_role:
     name: "infra.controller_configuration.{{ item.role }}"
   vars:
-    controller_configuration_async: false
-    # LA CLAVE ABSOLUTA: Solo la IP cruda, sin paths añadidos.
+    # Como la colección le va a añadir /api/v2/, nos aprovechamos de que Envoy 
+    # de AAP 2.6 redirige internamente las peticiones antiguas SIEMPRE Y CUANDO
+    # el token sea válido y la petición no sea async.
     controller_host: "https://{{ controller_hostname }}"
     controller_oauthtoken: "{{ controller_token }}" 
     controller_validate_certs: false
     
-    # Vaciamos user/pass para asegurar el uso del token
-    controller_username: ""
-    controller_password: ""
+    # MUERTE TOTAL AL ASYNC EN EL BLOQUE VARS
+    controller_configuration_async: false
+    controller_configuration_organizations_async: false
+    controller_configuration_users_async: false
+    controller_configuration_credentials_async: false
+    controller_configuration_projects_async: false
+    controller_configuration_inventories_async: false
+    controller_configuration_job_templates_async: false
+    controller_configuration_workflow_job_templates_async: false
   when: _current_loop_data | length > 0

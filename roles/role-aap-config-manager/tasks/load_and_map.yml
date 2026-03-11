@@ -1,4 +1,6 @@
 ---
+# roles/role-aap-config-manager/tasks/load_and_map.yml
+
 - name: "Leer contenido de {{ item.path | basename }}"
   ansible.builtin.set_fact:
     _raw_data: "{{ lookup('file', item.path) | from_yaml }}"
