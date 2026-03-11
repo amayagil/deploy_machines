@@ -1,5 +1,5 @@
 ---
-# 1. Validación de Seguridad
+# 1. VALIDACIÓN Y PREPARACIÓN DE ARCHIVOS EN DISCO
 - name: "Inyección: Validar directorio de backup"
   ansible.builtin.stat:
     path: "{{ backup_local_dir | default('./backups') }}"
@@ -11,24 +11,53 @@
   when: not _backup_stat.stat.exists
 
 - name: "Normalización: Renombrar archivos current_*.yaml al estándar"
-  shell: |
+  ansible.builtin.shell: |
     find {{ backup_local_dir }} -name "current_organization.yaml" -exec rename "current_organization.yaml" "organizations.yaml" {} +
-    find {{ backup_local_dir }} -name "current_settings.yaml" -exec rename "current_settings.yaml" "settings.yaml" {} +
-    find {{ backup_local_dir }} -name "current_credential_types.yaml" -exec rename "current_credential_types.yaml" "credential_types.yaml" {} +
     find {{ backup_local_dir }} -name "current_hosts.yaml" -exec rename "current_hosts.yaml" "hosts.yaml" {} +
     find {{ backup_local_dir }} -name "current_inventory_sources.yaml" -exec rename "current_inventory_sources.yaml" "inventory_sources.yaml" {} +
   args:
     executable: /bin/bash
-  failed_when: false # Por si ya están renombrados
+  failed_when: false
 
-# 2. CARGA DINÁMICA DE ARCHIVOS
-- name: "Inyección: Buscar todos los archivos YAML en el backup"
+# 2. NORMALIZACIÓN NATIVA (Idempotente)
+- name: "Normalización: Buscar todos los archivos YAML"
   ansible.builtin.find:
     paths: "{{ backup_local_dir }}"
     patterns: "*.yaml,*.yml"
     recurse: yes
-  register: _found_files
+  register: _all_yaml_files
 
+- name: "Normalización: Limpiar ruidos (IDs y guiones YAML)"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    # Elimina tanto los IDs como los separadores --- que rompen la carga
+    regexp: '^id: \d+\n|^---\n'
+    replace: ''
+  loop: "{{ _all_yaml_files.files }}"
+  loop_control:
+    label: "Limpiando {{ item.path | basename }}"
+
+- name: "Normalización: Asegurar cabeceras estructurales"
+  ansible.builtin.blockinfile:
+    path: "{{ item.0.path }}"
+    block: "{{ item.1.header }}:"
+    marker: "# {mark} ANSIBLE MANAGED HEADER"
+    insertbefore: BOF
+    state: present
+  loop: "{{ _all_yaml_files.files | product([
+      {'dir': 'job_templates', 'header': 'controller_templates'},
+      {'dir': 'projects', 'header': 'controller_projects'},
+      {'dir': 'organizations', 'header': 'controller_organizations'},
+      {'dir': 'inventories', 'header': 'controller_inventories'},
+      {'dir': 'credentials', 'header': 'controller_credentials'},
+      {'dir': 'workflow_job_templates', 'header': 'controller_workflows'},
+      {'dir': 'users', 'header': 'controller_user_accounts'}
+    ]) | list }}"
+  when: item.1.dir in item.0.path
+  loop_control:
+    label: "Cabecera {{ item.1.header }} en {{ item.0.path | basename }}"
+
+# 3. CARGA DINÁMICA DE ARCHIVOS EN MEMORIA
 - name: "Inyección: Inicializar listas de configuración"
   ansible.builtin.set_fact:
     filetree_controller_organizations: []
@@ -40,22 +69,29 @@
     filetree_controller_workflows: []
 
 - name: "Inyección: Cargar y acumular contenido de archivos"
-  include_tasks: load_and_map.yml
-  loop: "{{ _found_files.files }}"
+  ansible.builtin.include_tasks: load_and_map.yml
+  loop: "{{ _all_yaml_files.files }}"
   loop_control:
-    label: "{{ item.path }}"
+    label: "Cargando {{ item.path | basename }}"
 
-# 3. GESTIÓN DE ACCESO
+- name: "DEBUG: Conteo de objetos detectados"
+  ansible.builtin.debug:
+    msg: 
+      - "Organizaciones: {{ filetree_controller_organizations | length }}"
+      - "Templates: {{ filetree_controller_templates | length }}"
+      - "Proyectos: {{ filetree_controller_projects | length }}"
+      - "Credenciales: {{ filetree_controller_credentials | length }}"
+
+# 4. GESTIÓN DE ACCESO Y COMPATIBILIDAD
 - name: "Inyección: Obtener Token"
   ansible.builtin.include_tasks: manage_token.yml
 
-# 4. SETUP COMPATIBILIDAD 2.6
 - name: "Setup: Perfil de compatibilidad para AAP 2.6+"
   ansible.builtin.set_fact:
     controller_hostname_final: "{{ (controller_target_version is version('2.6', '>=')) | ternary(controller_api_base, controller_hostname) }}"
 
-# 5. INYECCIÓN (Bucle de roles síncrono)
-- name: "Inyección: Configurar objetos"
+# 5. EJECUCIÓN DE ROLES (Inyección Real)
+- name: "Inyección: Configurar objetos en Controller"
   ansible.builtin.include_tasks: process_item.yml
   loop:
     - { role: "organizations", var: "controller_organizations" }
@@ -65,4 +101,7 @@
     - { role: "inventories", var: "controller_inventories" }
     - { role: "job_templates", var: "controller_templates" }
     - { role: "workflow_job_templates", var: "controller_workflows" }
-  when: lookup('vars', 'filetree_' ~ item.var, default=[]) | length > 0
+  # Esta es la forma segura de hacer el lookup dinámico
+  when: 
+    - vars['filetree_' ~ item.var] is defined
+    - vars['filetree_' ~ item.var] | length > 0
