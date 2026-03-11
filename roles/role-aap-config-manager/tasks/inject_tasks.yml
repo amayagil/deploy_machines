@@ -5,65 +5,64 @@
     path: "{{ backup_local_dir | default('./backups') }}"
   register: _backup_stat
 
-- name: "Inyección: Fail si no existe"
+- name: "Inyección: Fallo si no existe"
   ansible.builtin.fail:
     msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe."
   when: not _backup_stat.stat.exists
 
-# 2. Reset de Facts (Para evitar el error |= de los backups)
-- name: "Inyección: Limpiar variables de configuración"
+- name: "Normalización: Renombrar archivos current_*.yaml al estándar"
+  shell: |
+    find {{ backup_local_dir }} -name "current_organization.yaml" -exec rename "current_organization.yaml" "organizations.yaml" {} +
+    find {{ backup_local_dir }} -name "current_settings.yaml" -exec rename "current_settings.yaml" "settings.yaml" {} +
+    find {{ backup_local_dir }} -name "current_credential_types.yaml" -exec rename "current_credential_types.yaml" "credential_types.yaml" {} +
+    find {{ backup_local_dir }} -name "current_hosts.yaml" -exec rename "current_hosts.yaml" "hosts.yaml" {} +
+    find {{ backup_local_dir }} -name "current_inventory_sources.yaml" -exec rename "current_inventory_sources.yaml" "inventory_sources.yaml" {} +
+  args:
+    executable: /bin/bash
+  failed_when: false # Por si ya están renombrados
+
+# 2. CARGA DINÁMICA DE ARCHIVOS
+- name: "Inyección: Buscar todos los archivos YAML en el backup"
+  ansible.builtin.find:
+    paths: "{{ backup_local_dir }}"
+    patterns: "*.yaml,*.yml"
+    recurse: yes
+  register: _found_files
+
+- name: "Inyección: Inicializar listas de configuración"
   ansible.builtin.set_fact:
-    controller_settings: []
-    controller_organizations: []
-    controller_projects: []
-    controller_credentials: []
-    controller_templates: []
-    controller_workflows: []
-    controller_schedules: []
+    filetree_controller_organizations: []
+    filetree_controller_user_accounts: []
+    filetree_controller_credentials: []
+    filetree_controller_projects: []
+    filetree_controller_inventories: []
+    filetree_controller_templates: []
+    filetree_controller_workflows: []
 
-# 3. CARGA UNIVERSAL (Recursiva)
-- name: "Cargar archivos de backup en memoria"
-  ansible.builtin.include_role:
-    name: "infra.controller_configuration.filetree_read"
-  vars:
-    dir_orgs_vars: "{{ backup_local_dir | default('./backups') }}"
-    orgs: "."
-    controller_configuration_filetree_read_cascading: false
-    controller_configuration_filetree_read_jinja_render: false
-    filetree_read_base_dir: ""
-    filetree_read_orgs_dir: ""
-    filetree_read_env_dir: ""
-    filetree_controller_patch_prefix: ""
-    filetree_read_patch_prefix: ""
-    # Mapeo recursivo universal a la raíz
-    filetree_controller_settings: "{{ dir_orgs_vars }}"
-    filetree_controller_organizations: "{{ dir_orgs_vars }}"
-    filetree_controller_projects: "{{ dir_orgs_vars }}"
-    filetree_controller_credentials: "{{ dir_orgs_vars }}"
-    filetree_controller_templates: "{{ dir_orgs_vars }}"
-    filetree_controller_workflow_job_templates: "{{ dir_orgs_vars }}"
-    filetree_controller_inventories: "{{ dir_orgs_vars }}"
-    filetree_controller_schedules: "{{ dir_orgs_vars }}"
+- name: "Inyección: Cargar y acumular contenido de archivos"
+  include_tasks: load_and_map.yml
+  loop: "{{ _found_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
 
-# 4. GESTIÓN DE ACCESO (Tarea independiente antes de la carga)
-- name: "Inyección: Ejecutar proceso de autenticación"
+# 3. GESTIÓN DE ACCESO
+- name: "Inyección: Obtener Token"
   ansible.builtin.include_tasks: manage_token.yml
-  vars:
-    token_state: present
 
-# 5. INYECCIÓN VÍA API
-- name: "Inyectar configuración en el Controller"
-  ansible.builtin.include_role:
-    name: "infra.controller_configuration.dispatch"
-  vars:
-    controller_oauthtoken: "{{ controller_token }}"
-    controller_hostname: "{{ controller_hostname }}"
-    controller_validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
-    query_controller_api: true
-    # Forzamos que intente seguir aunque algo falle
-    ignore_errors: yes
-    # Intentamos desactivar el asincronismo que genera el "Wait for management"
-    controller_configuration_async: false
-  # Importante: ignore_errors va a nivel de tarea, no solo en vars
-  ignore_errors: yes
-  register: _dispatch_output
+# 4. SETUP COMPATIBILIDAD 2.6
+- name: "Setup: Perfil de compatibilidad para AAP 2.6+"
+  ansible.builtin.set_fact:
+    controller_hostname_final: "{{ (controller_target_version is version('2.6', '>=')) | ternary(controller_api_base, controller_hostname) }}"
+
+# 5. INYECCIÓN (Bucle de roles síncrono)
+- name: "Inyección: Configurar objetos"
+  ansible.builtin.include_tasks: process_item.yml
+  loop:
+    - { role: "organizations", var: "controller_organizations" }
+    - { role: "users", var: "controller_user_accounts" }
+    - { role: "credentials", var: "controller_credentials" }
+    - { role: "projects", var: "controller_projects" }
+    - { role: "inventories", var: "controller_inventories" }
+    - { role: "job_templates", var: "controller_templates" }
+    - { role: "workflow_job_templates", var: "controller_workflows" }
+  when: lookup('vars', 'filetree_' ~ item.var, default=[]) | length > 0

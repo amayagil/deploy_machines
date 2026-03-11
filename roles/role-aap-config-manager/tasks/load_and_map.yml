@@ -1,0 +1,20 @@
+---
+# roles/role-aap-config-manager/tasks/load_and_map.yml
+
+- name: "Cargar archivo {{ item.path }}"
+  ansible.builtin.include_vars:
+    file: "{{ item.path }}"
+    name: "_file_content"
+  ignore_errors: yes
+
+- name: "Acumular datos en las listas globales"
+  ansible.builtin.set_fact:
+    # Concatenamos la lista actual con lo nuevo que venga en el archivo
+    filetree_controller_organizations: "{{ filetree_controller_organizations + (_file_content.controller_organizations | default([])) }}"
+    filetree_controller_user_accounts: "{{ filetree_controller_user_accounts + (_file_content.controller_user_accounts | default([])) }}"
+    filetree_controller_credentials: "{{ filetree_controller_credentials + (_file_content.controller_credentials | default([])) }}"
+    filetree_controller_projects: "{{ filetree_controller_projects + (_file_content.controller_projects | default([])) }}"
+    filetree_controller_inventories: "{{ filetree_controller_inventories + (_file_content.controller_inventories | default([])) }}"
+    filetree_controller_templates: "{{ filetree_controller_templates + (_file_content.controller_templates | default([])) }}"
+    filetree_controller_workflows: "{{ filetree_controller_workflows + (_file_content.controller_workflow_job_templates | default([])) }}"
+  when: _file_content is defined

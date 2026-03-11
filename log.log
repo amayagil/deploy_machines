@@ -1,0 +1,1020 @@
+[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that[0m
+[1;35mthe implicit localhost does not match 'all'[0m
+
+PLAY [AAP Configuration as Code (CaC) - Entry Point] ***************************
+
+TASK [roles/role-aap-config-manager : Validar que la acción sea correcta] ******
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Ejecutar flujo de tareas para inject] ****
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/inject.yml for localhost[0m
+
+TASK [roles/role-aap-config-manager : Configurar Base para Inyección (Modern)] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Ejecutar Pre-vuelo] ***********
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/preflight.yml for localhost[0m
+
+TASK [roles/role-aap-config-manager : Obtener la fecha actual para el resumen] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Establecer la base de la API según acción y versión] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Calcular URL base final] *****************
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Intentar conexión con el Controller] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Validar alcance del Host] *****
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Obtener Token de sesión] ******
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Confirmar Identidad] **********
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Validar perfil con Token] *****
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Pre-vuelo: Verificar permisos de Superusuario] ***
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Inyección: Validar archivos de origen] ***
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/validate.yml for localhost[0m
+
+TASK [roles/role-aap-config-manager : Validar existencia de datos para la acción: inject] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : DEBUG: Ver ruta de búsqueda de datos] ****
+[0;32mok: [localhost] => {[0m
+[0;32m    "msg": "Buscando datos en: /home/amaya/amaya-stuff/repos/deploy_machines/backups"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Verificar integridad de la ruta] *********
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Validar presencia de archivos YAML] ******
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Error si no hay archivos de configuración] ***
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Inyección: Ejecutar carga de datos (Dispatch)] ***
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/inject_tasks.yml for localhost[0m
+
+TASK [roles/role-aap-config-manager : Inyección: Validar directorio de backup] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Fallo si no existe] ***********
+[0;36mskipping: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Normalización: Renombrar archivos current_*.yaml al estándar] ***
+[0;33mchanged: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Buscar todos los archivos YAML en el backup] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Inicializar listas de configuración] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Cargar y acumular contenido de archivos] ***
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/current_execution_environments.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/current_instance_groups.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/credential_types.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/settings.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/organizations.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/inventories/Automation Controller Inventory/hosts.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/inventories/Automation Controller Inventory/12_Automation Controller Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/86_[JT][WIN DEMO] Deploy Windows Server Update Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/79_[JT][WIN DEMO] Remove Azure Network.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/81_[JT][WIN DEMO] Remove Azure Instance.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/92_[JT][WIN DEMO] Send Windows Updates Report.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/80_[JT][WIN DEMO] Deploy Azure Instance.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/90_[JT][WIN DEMO] Deploy Windows Internet Information Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/84_[JT][WIN DEMO] Deploy Windows Domain Controller.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/83_[JT][WIN DEMO] Deploy Windows Myrtille.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/87_[JT][WIN DEMO] Configure Windows Firewall.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/89_[JT][WIN DEMO] Join Windows Client to a WSUS.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/93_[JT][WIN DEMO] Pull report from WSUS.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/85_[JT][WIN DEMO] Join Windows Client to a Domain.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/78_[JT][WIN DEMO] Create Azure Network.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/88_[JT][WIN DEMO] Create WSUS Group Policy.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/91_[JT][WIN DEMO] Install Windows Updates.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/97_[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/94_[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/95_[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/96_[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/projects/77_Windows Demo Environment Project.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/credentials/37_Windows Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/credentials/34_Red Hat Ansible Automation Platform Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/organizations.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/AWS Inventory/2_AWS Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/AWS Inventory/inventory_sources.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Demo Inventory/1_Demo Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Demo Inventory/hosts.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Azure Win Inventory/inventory_sources.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Azure Win Inventory/11_Azure Win Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/101_[Azure] CVEs Remediation.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/47_[NUC] Customer Demo - Prepare local machines for malware hit.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/112_[AWS] Create ansible user.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/45_[NUC] Customer Demo - Prepare local machines for Insights failure.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/50_[AWS] Notificator.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/61_[Azure] Unregister Machines to Red Hat Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/20_Insights Scan Template.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/55_[Azure] Preparar Máquinas para fallos con Insights.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/111_[Azure] kk.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/66_[NUC] Customer Demo - Unregister Machines from Red Hat Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/46_[NUC] Customer Demo - Registrar máquinas a servicios RH.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/63_[Azure] Deploy Machines.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/48_[AWS] Preparar Máquinas para malware hit.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/14_Unregister AWS Machines from Red Hat Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/105_[AWS] CVEs Remediation.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/74_[Azure] Windows Patching Demo.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/60_[Azure] Register Machines to Red Hat Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/58_[Azure] Destroy Machines.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/108_[Azure] Preparar Máquinas para malware hit.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/22_[AWS] Preparar Máquinas para fallos con Insights.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/11_[AWS] Register Machines to Red Hat Services.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/21_Insights Maintenance Plan.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/12_[AWS] Instalar AC.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/13_[AWS] Destroy Machines.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/24_[AWS] Instalar AH.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/59_[Azure] Notificator.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/10_[AWS] Deploy Machines.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/7_Demo Job Template.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/8_Cloud Machines - GH.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/6_Demo Project.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/17_Insights Remediation.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/19_Insights Scan Project.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/14_AHUB Published Creds.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/33_Red Hat Ansible Automation Platform Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/15_AHUB RH Certified Cred.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/organizations.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Azure RHEL Inventory/18_Azure RHEL Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Azure RHEL Inventory/inventory_sources.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Insights Inventory/inventory_sources.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Insights Inventory/3_Insights Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/current_groups.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/10_NUC Inventory.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/hosts.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/65_[NUC] EDA test.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/106_[EDA] Insights Advisory playbook.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/73_[VMWare] Create machines from template.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/109_[EDA] Insights Malware playbook.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/workflow_job_templates/98_[Azure] Windows Patching Demo.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/projects/72_VMWare Machines.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/projects/64_EDA.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/39_Azure Credentials.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/30_Amaya ghcr.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/29_azureuser credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/36_Azure Resource Group.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/38_ansible user ssh.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/31_VMWare RHPDS.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/71_[NUC] Customer Demo - Notificator.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/67_[NUC] Customer Demo - Rollback demo.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/38_[NUC] Customer Demo - Install and deploy Custom MOTD.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/37_[NUC] Customer Demo - Install and deploy Apache.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/68_[NUC] Customer Demo - Comprobar paquete.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/56_[Azure] Instanciar, preparar y remediar máquinas.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/16_[AWS] Destruir y desregistrar máquinas.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/103_[Azure] Instanciar y preparar máquinas [Approval].yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/15_[AWS] Instanciar y preparar máquinas.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/114_[Azure] Instanciar y preparar máquinas.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/51_[AWS] Instanciar y preparar máquinas [Approval].yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/113_[Azure] Destruir y desregistrar máquinas.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/users/admin.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/projects/36_Customer Demos.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/26_Amaya GH.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/6_ec2 credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/2_Ansible Galaxy.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/20_amaya quay.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/3_Default Execution Environment Registry Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/18_Automation Hub Community Repository.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/19_Automation Hub Container Registry.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/4_amaya-scm.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/17_Automation Hub RH Certified Repository.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/5_AWS Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/21_Insights - Amaya Creds.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/16_Automation Hub Published Repository.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/27_NUC Credential.yaml)[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/load_and_map.yml for localhost => (item=/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/1_Demo Credential.yaml)[0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/current_execution_environments.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/current_instance_groups.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/credential_types.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/settings.yaml] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_facts": {"_file_content": {}}, "ansible_included_var_files": [], "changed": false, "message": "We were unable to read either as JSON nor YAML, these are the errors we got from each:\nJSON: Expecting value: line 1 column 1 (char 0)\n\nSyntax Error while loading YAML.\n  did not find expected key\n\nThe error appears to be in '/home/amaya/amaya-stuff/repos/deploy_machines/backups/settings.yaml': line 112, column 45, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n      AUTOMATION_ANALYTICS_LAST_GATHER: \"2026-03-09T16:38:28.755782Z\"\n      AUTOMATION_ANALYTICS_LAST_ENTRIES: \"{\"config\": \"2025-10-31T18:12:07.909Z\", \"counts\": \"2025-10-31T18:12:07.909Z\", \"cred_type_counts\": \"2025-10-31T18:12:07.909Z\", \"instance_info\": \"2025-10-31T18:12:07.909Z\", \"inventory_counts\": \"2025-10-31T18:12:07.909Z\", \"org_counts\": \"2025-10-31T18:12:07.909Z\", \"projects_by_scm_type\": \"2025-10-31T18:12:07.909Z\", \"query_info\": \"2025-10-31T18:12:07.909Z\", \"events_table\": \"2026-03-09T16:38:28.755Z\", \"unified_job_template_table\": \"2025-10-31T18:12:07.909Z\", \"unified_jobs_table\": \"2026-03-09T16:38:28.755Z\", \"workflow_job_node_table\": \"2026-03-09T16:38:28.755Z\", \"workflow_job_template_node_table\": \"2025-10-31T18:12:07.909Z\", \"host_metric_table\": \"2026-03-04T11:48:38.691Z\", \"host_metric_table_full\": \"2025-10-31T18:12:17.137Z\", \"host_metric_summary_monthly_table\": \"2025-10-31T18:12:07.909Z\"}\"\n                                            ^ here\nWe could be wrong, but this one looks like it might be an issue with\nunbalanced quotes. If starting a value with a quote, make sure the\nline ends with the same set of quotes. For instance this arbitrary\nexample:\n\n    foo: \"bad\" \"wolf\"\n\nCould be written as:\n\n    foo: '\"bad\" \"wolf\"'\n"}[0m
+[0;36m...ignoring[0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/organizations.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/inventories/Automation Controller Inventory/hosts.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/inventories/Automation Controller Inventory/12_Automation Controller Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/86_[JT][WIN DEMO] Deploy Windows Server Update Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/79_[JT][WIN DEMO] Remove Azure Network.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/81_[JT][WIN DEMO] Remove Azure Instance.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/92_[JT][WIN DEMO] Send Windows Updates Report.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/80_[JT][WIN DEMO] Deploy Azure Instance.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/90_[JT][WIN DEMO] Deploy Windows Internet Information Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/84_[JT][WIN DEMO] Deploy Windows Domain Controller.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/83_[JT][WIN DEMO] Deploy Windows Myrtille.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/87_[JT][WIN DEMO] Configure Windows Firewall.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/89_[JT][WIN DEMO] Join Windows Client to a WSUS.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/93_[JT][WIN DEMO] Pull report from WSUS.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/85_[JT][WIN DEMO] Join Windows Client to a Domain.yaml] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_facts": {"_file_content": {}}, "ansible_included_var_files": [], "changed": false, "message": "We were unable to read either as JSON nor YAML, these are the errors we got from each:\nJSON: Expecting value: line 1 column 1 (char 0)\n\nSyntax Error while loading YAML.\n  did not find expected alphabetic or numeric character\n\nThe error appears to be in '/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/85_[JT][WIN DEMO] Join Windows Client to a Domain.yaml': line 37, column 22, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n      pdc_administrator_password: redhat\n      pdc_dns_nics: *\n                     ^ here\n"}[0m
+[0;36m...ignoring[0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/78_[JT][WIN DEMO] Create Azure Network.yaml] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_facts": {"_file_content": {}}, "ansible_included_var_files": [], "changed": false, "message": "We were unable to read either as JSON nor YAML, these are the errors we got from each:\nJSON: Expecting value: line 1 column 1 (char 0)\n\nSyntax Error while loading YAML.\n  did not find expected key\n\nThe error appears to be in '/home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/78_[JT][WIN DEMO] Create Azure Network.yaml': line 53, column 33, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n          question_name: 'AZURE NETWORK NAME'\n          formattedChoices: '[{'\"'\"'id'\"'\"': 0, '\"'\"'choice'\"'\"': '\"'\"''\"'\"', '\"'\"'isDefault'\"'\"': False}]'\n                                ^ here\nWe could be wrong, but this one looks like it might be an issue with\nunbalanced quotes. If starting a value with a quote, make sure the\nline ends with the same set of quotes. For instance this arbitrary\nexample:\n\n    foo: \"bad\" \"wolf\"\n\nCould be written as:\n\n    foo: '\"bad\" \"wolf\"'\n"}[0m
+[0;36m...ignoring[0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/88_[JT][WIN DEMO] Create WSUS Group Policy.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/job_templates/91_[JT][WIN DEMO] Install Windows Updates.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/97_[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/94_[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC + WSUS.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/95_[WF][WIN DEMO] Create Windows Demo Infra - CLIENT + DC.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/workflow_job_templates/96_[WF][WIN DEMO] Remove Windows Demo Infra - CLIENT + DC + WSUS.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/projects/77_Windows Demo Environment Project.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/credentials/37_Windows Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Windows Demo Org/credentials/34_Red Hat Ansible Automation Platform Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/organizations.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/AWS Inventory/2_AWS Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/AWS Inventory/inventory_sources.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Demo Inventory/1_Demo Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Demo Inventory/hosts.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Azure Win Inventory/inventory_sources.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/inventories/Azure Win Inventory/11_Azure Win Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/101_[Azure] CVEs Remediation.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/47_[NUC] Customer Demo - Prepare local machines for malware hit.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/112_[AWS] Create ansible user.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/45_[NUC] Customer Demo - Prepare local machines for Insights failure.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/50_[AWS] Notificator.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/61_[Azure] Unregister Machines to Red Hat Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/20_Insights Scan Template.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/55_[Azure] Preparar Máquinas para fallos con Insights.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/111_[Azure] kk.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/66_[NUC] Customer Demo - Unregister Machines from Red Hat Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/46_[NUC] Customer Demo - Registrar máquinas a servicios RH.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/63_[Azure] Deploy Machines.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/48_[AWS] Preparar Máquinas para malware hit.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/14_Unregister AWS Machines from Red Hat Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/105_[AWS] CVEs Remediation.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/74_[Azure] Windows Patching Demo.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/60_[Azure] Register Machines to Red Hat Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/58_[Azure] Destroy Machines.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/108_[Azure] Preparar Máquinas para malware hit.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/22_[AWS] Preparar Máquinas para fallos con Insights.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/11_[AWS] Register Machines to Red Hat Services.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/21_Insights Maintenance Plan.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/12_[AWS] Instalar AC.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/13_[AWS] Destroy Machines.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/24_[AWS] Instalar AH.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/59_[Azure] Notificator.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/10_[AWS] Deploy Machines.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/job_templates/7_Demo Job Template.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/8_Cloud Machines - GH.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/6_Demo Project.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/17_Insights Remediation.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/projects/19_Insights Scan Project.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/14_AHUB Published Creds.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/33_Red Hat Ansible Automation Platform Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Default/credentials/15_AHUB RH Certified Cred.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/organizations.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Azure RHEL Inventory/18_Azure RHEL Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Azure RHEL Inventory/inventory_sources.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Insights Inventory/inventory_sources.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/Insights Inventory/3_Insights Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/current_groups.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/10_NUC Inventory.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/inventories/NUC Inventory/hosts.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/65_[NUC] EDA test.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/106_[EDA] Insights Advisory playbook.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/73_[VMWare] Create machines from template.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/109_[EDA] Insights Malware playbook.yaml] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_facts": {"_file_content": {}}, "ansible_included_var_files": [], "changed": false, "message": "We were unable to read either as JSON nor YAML, these are the errors we got from each:\nJSON: Expecting value: line 1 column 1 (char 0)\n\nSyntax Error while loading YAML.\n  found character that cannot start any token\n\nThe error appears to be in '/home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/job_templates/109_[EDA] Insights Malware playbook.yaml': line 40, column 22, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n      snow_username: admin\n      snow_password: @EM50%vMhLwg\n                     ^ here\n"}[0m
+[0;36m...ignoring[0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/workflow_job_templates/98_[Azure] Windows Patching Demo.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/projects/72_VMWare Machines.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/projects/64_EDA.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/39_Azure Credentials.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/30_Amaya ghcr.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/29_azureuser credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/36_Azure Resource Group.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/38_ansible user ssh.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/Demo Org/credentials/31_VMWare RHPDS.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/71_[NUC] Customer Demo - Notificator.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/67_[NUC] Customer Demo - Rollback demo.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/38_[NUC] Customer Demo - Install and deploy Custom MOTD.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/37_[NUC] Customer Demo - Install and deploy Apache.yaml] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_facts": {"_file_content": {}}, "ansible_included_var_files": [], "changed": false, "message": "We were unable to read either as JSON nor YAML, these are the errors we got from each:\nJSON: Expecting value: line 1 column 1 (char 0)\n\nSyntax Error while loading YAML.\n  did not find expected key\n\nThe error appears to be in '/home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/37_[NUC] Customer Demo - Install and deploy Apache.yaml': line 82, column 33, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n          question_name: 'Insert the name of the server to deploy Apache in'\n          formattedChoices: '[{'\"'\"'id'\"'\"': 0, '\"'\"'choice'\"'\"': '\"'\"'sporcizia'\"'\"', '\"'\"'isDefault'\"'\"': False}, {'\"'\"'id'\"'\"': 1, '\"'\"'choice'\"'\"': '\"'\"'spazzina'\"'\"', '\"'\"'isDefault'\"'\"': False}, {'\"'\"'id'\"'\"': 2, '\"'\"'choice'\"'\"': '\"'\"'target1'\"'\"', '\"'\"'isDefault'\"'\"': False}]'\n                                ^ here\nWe could be wrong, but this one looks like it might be an issue with\nunbalanced quotes. If starting a value with a quote, make sure the\nline ends with the same set of quotes. For instance this arbitrary\nexample:\n\n    foo: \"bad\" \"wolf\"\n\nCould be written as:\n\n    foo: '\"bad\" \"wolf\"'\n"}[0m
+[0;36m...ignoring[0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/job_templates/68_[NUC] Customer Demo - Comprobar paquete.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/56_[Azure] Instanciar, preparar y remediar máquinas.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/16_[AWS] Destruir y desregistrar máquinas.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/103_[Azure] Instanciar y preparar máquinas [Approval].yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/15_[AWS] Instanciar y preparar máquinas.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/114_[Azure] Instanciar y preparar máquinas.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/51_[AWS] Instanciar y preparar máquinas [Approval].yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/workflow_job_templates/113_[Azure] Destruir y desregistrar máquinas.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/users/admin.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/projects/36_Customer Demos.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/26_Amaya GH.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/6_ec2 credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/2_Ansible Galaxy.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/20_amaya quay.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/3_Default Execution Environment Registry Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/18_Automation Hub Community Repository.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/19_Automation Hub Container Registry.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/4_amaya-scm.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/17_Automation Hub RH Certified Repository.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/5_AWS Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/21_Insights - Amaya Creds.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/16_Automation Hub Published Repository.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/27_NUC Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Cargar archivo /home/amaya/amaya-stuff/repos/deploy_machines/backups/ORGANIZATIONLESS/credentials/1_Demo Credential.yaml] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Acumular datos en las listas globales] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Obtener Token] ****************
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/manage_token.yml for localhost[0m
+
+TASK [roles/role-aap-config-manager : Token: Extraer token del registro del Pre-vuelo] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Token: Validar disponibilidad del token para la inyección] ***
+[0;32mok: [localhost] => {[0m
+[0;32m    "changed": false,[0m
+[0;32m    "msg": "All assertions passed"[0m
+[0;32m}[0m
+
+TASK [roles/role-aap-config-manager : Setup: Perfil de compatibilidad para AAP 2.6+] ***
+[0;32mok: [localhost][0m
+
+TASK [roles/role-aap-config-manager : Inyección: Configurar objetos] ***********
+[0;36mskipping: [localhost] => (item={'role': 'workflow_job_templates', 'var': 'controller_workflows'}) [0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'organizations', 'var': 'controller_organizations'})[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'users', 'var': 'controller_user_accounts'})[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'credentials', 'var': 'controller_credentials'})[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'projects', 'var': 'controller_projects'})[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'inventories', 'var': 'controller_inventories'})[0m
+[0;36mincluded: /home/amaya/amaya-stuff/repos/deploy_machines/roles/role-aap-config-manager/tasks/process_item.yml for localhost => (item={'role': 'job_templates', 'var': 'controller_templates'})[0m
+
+TASK [roles/role-aap-config-manager : Preparar variable para: organizations] ***
+[0;32mok: [localhost][0m
+
+TASK [Llamar al rol infra.controller_configuration.organizations] **************
+
+TASK [infra.controller_configuration.meta_dependency_check : Print dependency check status] ***
+[0;32mok: [localhost] => {[0m
+[0;32m    "msg": "Dependency check is deactivated. Required collections presence will not be verified. This might cause failure in the next tasks."[0m
+[0;32m}[0m
+
+TASK [infra.controller_configuration.meta_dependency_check : Check awx.awx is installed] ***
+[0;36mskipping: [localhost][0m
+
+TASK [infra.controller_configuration.meta_dependency_check : Check ansible.controller is installed] ***
+[0;36mskipping: [localhost][0m
+
+TASK [infra.controller_configuration.meta_dependency_check : Ensure one is installed] ***
+[0;36mskipping: [localhost][0m
+
+TASK [infra.controller_configuration.organizations : Validating arguments against arg spec 'main' - An Ansible Role to create organizations on Ansible Controller.] ***
+[0;32mok: [localhost][0m
+
+TASK [infra.controller_configuration.organizations : Managing Organizations] ***
+[0;32mok: [localhost] => (item=Create/Update organization Windows Demo Org)[0m
+[0;32mok: [localhost] => (item=Create/Update organization Default)[0m
+[0;32mok: [localhost] => (item=Create/Update organization Demo Org)[0m
+
+TASK [infra.controller_configuration.organizations : Flag for errors (check mode only)] ***
+[0;36mskipping: [localhost][0m
+
+TASK [Managing Controller Organizations | Wait for finish the Organizations management] ***
+
+TASK [infra.controller_configuration.collect_async_status : Managing AAP Object | Wait for management to complete] ***
+[0;31mfatal: [localhost]: FAILED! => {"ansible_job_id": "j250523580084.740", "attempts": 1, "changed": false, "finished": 1, "msg": "The requested object could not be found at /api/v2/organizations/.", "results_file": "/home/runner/.ansible_async/j250523580084.740", "started": 1, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}[0m
+[0;36m...ignoring[0m
+
+TASK [infra.controller_configuration.collect_async_status : Handle Async Job Failure] ***
+[0;36mincluded: /home/runner/.ansible/collections/ansible_collections/infra/controller_configuration/roles/collect_async_status/tasks/handle_error.yml for localhost => (item=(censored due to no_log))[0m
+
+TASK [infra.controller_configuration.collect_async_status : handle_error | Show error and stop execution] ***
+[0;31mfatal: [localhost]: FAILED! => {"changed": false, "msg": "error: The requested object could not be found at /api/v2/organizations/."}[0m
+
+TASK [infra.controller_configuration.organizations : Cleanup async results files] ***
+[0;32mok: [localhost] => (item=Cleaning up job results file: /home/runner/.ansible_async/j250523580084.740)[0m
+[0;32mok: [localhost] => (item=Cleaning up job results file: /home/runner/.ansible_async/j298680117416.758)[0m
+[0;32mok: [localhost] => (item=Cleaning up job results file: /home/runner/.ansible_async/j503105663034.775)[0m
+
+PLAY RECAP *********************************************************************
+[0;31mlocalhost[0m                  : [0;32mok=401 [0m [0;33mchanged=1   [0m unreachable=0    [0;31mfailed=1   [0m [0;36mskipped=5   [0m rescued=0    [1;35mignored=6   [0m

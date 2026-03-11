@@ -5,6 +5,10 @@
     path: "{{ backup_local_dir | default('./backups') }}"
   register: _data_stat
 
+- name: "DEBUG: Ver ruta de búsqueda de datos"
+  ansible.builtin.debug:
+    msg: "Buscando datos en: {{ backup_local_dir }}"
+
 - name: "Verificar integridad de la ruta"
   ansible.builtin.assert:
     that:
