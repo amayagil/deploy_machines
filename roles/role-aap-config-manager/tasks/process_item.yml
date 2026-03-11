@@ -1,18 +1,11 @@
 ---
-- name: "AAP 2.6 | Preparar datos de inyección"
+# roles/role-aap-config-manager/tasks/process_item.yml
+
+- name: "AAP 2.6 | Preparar datos de inyección para {{ item.role }}"
   ansible.builtin.set_fact:
-    # 1. Inyectamos los datos del objeto (ej. controller_organizations)
     "{{ item.var }}": "{{ lookup('vars', 'filetree_' ~ item.var, default=[]) }}"
     
-    # 2. FORZAMOS LA CONEXIÓN GLOBAL (Para que los roles hijos la vean)
-    # Al usar set_fact, estas variables tienen prioridad sobre casi todo
-    controller_host: "https://{{ controller_hostname }}"
-    controller_api_base: "/api/controller"
-    controller_oauthtoken: "{{ controller_token }}"
-    controller_validate_certs: false
-
-    # 3. ANIKILACIÓN DEL ASYNC (Para que no intente el 'Wait for finish')
-    # Lo forzamos en el host para que collect_async_status ni siquiera se llame
+    # Apagamos el async a nivel global y específico
     controller_configuration_async: false
     "controller_configuration_{{ item.role }}_async": false
 
@@ -24,10 +17,9 @@
       - "Controller Host: {{ controller_host | default('No definido') }}" 
       - "API Base: {{ controller_api_base | default('No definido') }}" 
       - "Async Global: {{ controller_configuration_async }}" 
-      - "Async Específico: {{ lookup('vars', 'controller_configuration_' ~ item.role ~ '_async', default='No definido') }}" 
+      - "Async Específico: {{ lookup('vars', 'controller_configuration_' ~ item.role ~ '_async', default='No definido') }}"
 
 - name: "Ejecutar rol infra.controller_configuration.{{ item.role }}"
   ansible.builtin.include_role:
     name: "infra.controller_configuration.{{ item.role }}"
-  # Ya no pasamos vars: aquí, porque los set_fact de arriba son globales para el host
   when: "lookup('vars', 'filetree_' ~ item.var, default=[]) | length > 0"

@@ -60,6 +60,14 @@
 - name: "Inyección: Obtener Token"
   ansible.builtin.include_tasks: manage_token.yml
 
+# Fijo variables globales para evitar sobreescritura en roles hijos
+- name: "AAP 2.6 | Fijar conexión global en localhost"
+  ansible.builtin.set_fact:
+    controller_host: "https://{{ controller_hostname }}"
+    controller_api_base: "/api/controller"
+    controller_oauthtoken: "{{ controller_token }}"
+    controller_validate_certs: false
+
 - name: "Inyección: Configurar objetos en Controller"
   ansible.builtin.include_tasks: process_item.yml
   loop:
