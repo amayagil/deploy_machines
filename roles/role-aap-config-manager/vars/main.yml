@@ -1,7 +1,7 @@
 # roles/aap_config_manager/vars/main.yml
 ---
 # Variables de conexión al Controller
-controller_hostname: "controller.com"
+controller_hostname: "ansibol"
 #controller_api_base: "{{ controller_hostname }}/api/controller"
 controller_username: "admin"
 controller_password: "default"
