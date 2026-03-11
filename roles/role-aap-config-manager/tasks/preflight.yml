@@ -17,12 +17,12 @@
 - name: "Calcular URL base final"
   set_fact:
     # Aplicamos el prefijo solo si la versión detectada es 2.6+
-    controller_api_base: "{{ (_current_version is version('2.6', '>=')) | ternary(controller_hostname ~ '/api/controller', controller_hostname) }}"
+    controller_api_base: "{{ (_current_version is version('2.6', '>=')) | ternary(controller_hostname ~ '/api/controller', controller_hostname ~ '/api') }}"
 
 # 1. Validación de Conectividad
 - name: "Pre-vuelo: Intentar conexión con el Controller"
   ansible.builtin.uri:
-    url: "https://{{ controller_api_base }}/api/v2/ping/"
+    url: "https://{{ controller_api_base }}/v2/ping/"
     method: GET
     user: "{{ controller_username | default('admin') }}"
     password: "{{ controller_password }}"
@@ -44,7 +44,7 @@
 # 2. Validación de Autenticación
 - name: "Pre-vuelo: Validar Credenciales"
   ansible.builtin.uri:
-    url: "https://{{ controller_api_base }}/api/v2/me/"
+    url: "https://{{ controller_api_base }}/v2/me/"
     method: GET
     user: "{{ controller_username }}"
     password: "{{ controller_password }}"
