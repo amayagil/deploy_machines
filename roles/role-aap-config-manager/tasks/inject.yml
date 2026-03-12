@@ -6,11 +6,11 @@
     # Mapeamos tus organizaciones al nombre que espera el rol de gateway
     aap_organizations: "{{ controller_organizations | default([]) }}"
     # Definimos la base de la API usando el hostname del gateway
-    aap_gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(aap_gateway_hostname ~ '/api/controller/v2', aap_gateway_hostname ~ '/api/v2') }}"
+    gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(gateway_hostname ~ '/api/controller/v2', gateway_hostname ~ '/api/v2') }}"
     # Replicamos las credenciales como hechos (facts) para asegurar su propagación
-    aap_gateway_hostname: "{{ aap_gateway_hostname }}"
-    aap_gateway_username: "{{ aap_gateway_username }}"
-    aap_gateway_password: "{{ aap_gateway_password }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
 
 - name: "Flujo de Extracción: Pre-flight checks"
   ansible.builtin.include_tasks: preflight.yml

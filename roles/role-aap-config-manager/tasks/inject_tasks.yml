@@ -33,17 +33,17 @@
 - name: "Asegurar persistencia de variables para el estándar de AAP 2.6"
   set_fact:
     aap_organizations: "{{ controller_organizations }}"
-    aap_gateway_hostname: "{{ aap_gateway_hostname }}"
-    aap_gateway_username: "{{ aap_gateway_username }}"
-    aap_gateway_password: "{{ aap_gateway_password }}"
-    aap_gateway_validate_certs: "{{ aap_gateway_validate_certs | default(false) | bool }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
+    gateway_validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
 
 - name: "DEBUG: Resumen de carga"
   ansible.builtin.debug:
     msg:
       - "Organizaciones encontradas: {{ aap_organizations | length }}"
       - "Lista de Orgs: {{ aap_organizations | map(attribute='name') | list }}"
-      - "Gateway Host: {{ aap_gateway_hostname }}"
+      - "Gateway Host: {{ gateway_hostname }}"
 
 # 6. Ejecutamos el Dispatch de la colección
 - name: "Ejecutar Dispatch"

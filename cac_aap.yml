@@ -9,13 +9,13 @@
     aap_action: "inject" 
 
     # --- Connection Settings ---
-    aap_gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-    aap_gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-    aap_gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-    aap_gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
+    gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
 
-    controller_hostname: "{{ aap_gateway_hostname }}/api/controller"
-    controller_oauthtoken_url: "{{ aap_gateway_hostname }}/api/controller/v2/tokens/"
+    controller_hostname: "{{ gateway_hostname }}/api/controller"
+    controller_oauthtoken_url: "{{ gateway_hostname }}/api/controller/v2/tokens/"
 
     aap_configuration_secure_logging: false
     controller_configuration_no_log: false
