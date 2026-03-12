@@ -1,7 +1,5 @@
 ---
-# roles/role-aap-config-manager/tasks/inject_tasks.yml
-
-# 1. Buscamos los archivos
+# 1. Buscamos los archivos de organizaciones en las subcarpetas
 - name: "Buscar archivos de organizaciones"
   ansible.builtin.find:
     paths: "{{ backup_local_dir }}"
@@ -9,18 +7,18 @@
     patterns: "current_organization.yaml,current_organization.yml"
   register: _found_org_files
 
-# 2. Inicializamos
+# 2. Inicializamos la lista global
 - name: "Limpiar lista de organizaciones"
   set_fact:
     controller_organizations: []
 
-# 3. Bucle legal usando include_tasks 🚀
+# 3. Procesamos cada archivo individualmente para evitar que se pisen
 - name: "Procesar archivos de organizaciones uno a uno"
   ansible.builtin.include_tasks: process_orgs.yml
   loop: "{{ _found_org_files.files }}"
   when: _found_org_files.matched > 0
 
-# 4. Resto de la carga (Mantenemos el estándar con aap_)
+# 4. Cargamos el resto de variables del directorio
 - name: "Include resto de variables"
   ansible.builtin.include_vars:
     dir: "{{ backup_local_dir }}"
@@ -31,16 +29,23 @@
       - current_organization.yaml
       - current_organization.yml
 
-- name: "Asegurar variables para el estándar de AAP 2.6"
+# 5. IMPORTANTE: Anclamos las variables como facts para que el proceso asíncrono no use 127.0.0.1
+- name: "Asegurar persistencia de variables para el estándar de AAP 2.6"
   set_fact:
     aap_organizations: "{{ controller_organizations }}"
+    aap_gateway_hostname: "{{ aap_gateway_hostname }}"
+    aap_gateway_username: "{{ aap_gateway_username }}"
+    aap_gateway_password: "{{ aap_gateway_password }}"
+    aap_gateway_validate_certs: "{{ aap_gateway_validate_certs | default(false) | bool }}"
 
 - name: "DEBUG: Resumen de carga"
   ansible.builtin.debug:
     msg:
       - "Organizaciones encontradas: {{ aap_organizations | length }}"
       - "Lista de Orgs: {{ aap_organizations | map(attribute='name') | list }}"
+      - "Gateway Host: {{ aap_gateway_hostname }}"
 
+# 6. Ejecutamos el Dispatch de la colección
 - name: "Ejecutar Dispatch"
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch
