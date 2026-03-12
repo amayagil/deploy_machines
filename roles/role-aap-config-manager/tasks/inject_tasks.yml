@@ -1,23 +1,46 @@
 ---
 # roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-# 1. Carga de variables desde el directorio de backups
-- name: "Include vars from backups directory"
+# 1. Buscamos los archivos
+- name: "Buscar archivos de organizaciones"
+  ansible.builtin.find:
+    paths: "{{ backup_local_dir }}"
+    recurse: yes
+    patterns: "current_organization.yaml,current_organization.yml"
+  register: _found_org_files
+
+# 2. Inicializamos
+- name: "Limpiar lista de organizaciones"
+  set_fact:
+    controller_organizations: []
+
+# 3. Bucle legal usando include_tasks 🚀
+- name: "Procesar archivos de organizaciones uno a uno"
+  ansible.builtin.include_tasks: process_orgs.yml
+  loop: "{{ _found_org_files.files }}"
+  when: _found_org_files.matched > 0
+
+# 4. Resto de la carga (Mantenemos el estándar con aap_)
+- name: "Include resto de variables"
   ansible.builtin.include_vars:
     dir: "{{ backup_local_dir }}"
     extensions: ["yaml", "yml"]
-    ignore_files: [current_settings.yaml, current_settings.yml, current_instance_groups.yaml, current_instance_groups.yml]
+    ignore_files: 
+      - current_settings.yaml
+      - current_instance_groups.yaml
+      - current_organization.yaml
+      - current_organization.yml
 
-# 2. Debug para verificar el estado antes del Dispatch
-- name: "DEBUG: Variables cargadas"
+- name: "Asegurar variables para el estándar de AAP 2.6"
+  set_fact:
+    aap_organizations: "{{ controller_organizations }}"
+
+- name: "DEBUG: Resumen de carga"
   ansible.builtin.debug:
     msg:
-      - "Gateway Host: {{ aap_gateway_hostname }}"
-      - "API Base construida: {{ aap_gateway_api_base }}"
-      - "URL del Token: {{ controller_oauthtoken_url }}"
-      - "Backup Directory: {{ backup_local_dir }}"
+      - "Organizaciones encontradas: {{ aap_organizations | length }}"
+      - "Lista de Orgs: {{ aap_organizations | map(attribute='name') | list }}"
 
-# 3. ORQUESTACIÓN DE CONFIGURACIÓN
-- name: "Ejecutar Dispatch para configurar AAP"
+- name: "Ejecutar Dispatch"
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch

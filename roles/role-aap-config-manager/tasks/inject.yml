@@ -23,3 +23,9 @@
 
 - name: "Inyección: Ejecutar carga de datos (Dispatch)"
   ansible.builtin.include_tasks: inject_tasks.yml
+
+- name: "Flujo de Extracción: Limpieza de tokens"
+  ansible.builtin.include_tasks: cleanup.yml
+
+- name: "Flujo de Extracción: Reporte final"
+  ansible.builtin.include_tasks: summary.yml

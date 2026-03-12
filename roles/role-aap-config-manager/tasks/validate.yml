@@ -25,6 +25,6 @@
 
 - name: "Error si no hay archivos de configuración"
   ansible.builtin.assert:
-    that:
+      that:
       - _found_yaml.matched > 0
-    fail_msg: "ERROR: No se han encontrado archivos .yaml en la ruta especificada."
+      fail_msg: "ERROR: No se han encontrado archivos .yaml en la ruta especificada."

@@ -1,0 +1,12 @@
+---
+# roles/role-aap-config-manager/tasks/process_orgs.yml
+
+- name: "Leer archivo de organización: {{ item.path | basename }}"
+  ansible.builtin.include_vars:
+    file: "{{ item.path }}"
+    name: "_temp_org_data"
+
+- name: "Añadir {{ _temp_org_data.controller_organizations[0].name }} a la lista global"
+  set_fact:
+    controller_organizations: "{{ controller_organizations + _temp_org_data.controller_organizations }}"
+  when: _temp_org_data.controller_organizations is defined
