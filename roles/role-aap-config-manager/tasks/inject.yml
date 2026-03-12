@@ -21,6 +21,9 @@
 - name: "Normalización: Normalizar archivos de origen"
   ansible.builtin.include_tasks: normalize.yml
 
+- name: "Autenticación: Obtener token de conexión"
+  ansible.builtin.include_tasks: manage_token.yml
+
 - name: "Inyección: Ejecutar carga de datos (Dispatch)"
   ansible.builtin.include_tasks: inject_tasks.yml
 

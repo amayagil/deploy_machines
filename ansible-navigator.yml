@@ -11,6 +11,10 @@ ansible-navigator:
         - CONTROLLER_PASSWORD
         - CONTROLLER_VERIFY_SSL
         - CONTROLLER_API_PATH
+        - GATEWAY_HOSTNAME
+        - GATEWAY_USERNAME
+        - GATEWAY_PASSWORD
+        - GATEWAY_VERIFY_SSL
     volume-mounts:
       - src: "/home/amaya/.ansible/collections"
         dest: "/home/runner/.ansible/collections"
