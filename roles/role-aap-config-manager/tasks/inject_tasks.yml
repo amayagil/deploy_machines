@@ -2,32 +2,8 @@
 # roles/role-aap-config-manager/tasks/inject_tasks.yml
 
 # 1. VALIDACIÓN
-- name: "Inyección: Validar directorio de backup"
-  ansible.builtin.stat:
-    path: "{{ backup_local_dir | default('./backups') }}"
-  register: _backup_stat
-
-- name: "Inyección: Fallo si no existe"
-  ansible.builtin.fail:
-    msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe."
-  when: not _backup_stat.stat.exists
 
 # 2. NORMALIZACIÓN (Limpieza de IDs estricta)
-- name: "Normalización: Buscar todos los archivos YAML"
-  ansible.builtin.find:
-    paths: "{{ backup_local_dir }}"
-    patterns: "*.yaml,*.yml"
-    recurse: yes
-  register: _all_yaml_files
-
-- name: "Normalización: Eliminar IDs internos de AAP"
-  ansible.builtin.replace:
-    path: "{{ item.path }}"
-    regexp: '^\s*id: \d+\s*\n'
-    replace: ''
-  loop: "{{ _all_yaml_files.files }}"
-  loop_control:
-    label: "Limpiando {{ item.path | basename }}"
 
 # 3. CARGA DE VARIABLES
 - name: "Include vars from backups directory"

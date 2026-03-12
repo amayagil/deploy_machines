@@ -12,6 +12,9 @@
 - name: "Inyección: Validar archivos de origen"
   ansible.builtin.include_tasks: validate.yml
 
+- name: "Normalización: Normalizar archivos de origen"
+  ansible.builtin.include_tasks: normalize.yml
+
 - name: "Inyección: Ejecutar carga de datos (Dispatch)"
   ansible.builtin.include_tasks: inject_tasks.yml
 

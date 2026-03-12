@@ -14,7 +14,7 @@
     that:
       - _data_stat.stat.exists
       - _data_stat.stat.isdir
-    fail_msg: "ERROR: La ruta de datos no existe o no es un directorio."
+    fail_msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe o no es un directorio."
 
 - name: "Validar presencia de archivos YAML"
   ansible.builtin.find:

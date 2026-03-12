@@ -1,0 +1,49 @@
+---
+- name: "Normalización: Buscar todos los archivos YAML"
+  ansible.builtin.find:
+    paths: "{{ backup_local_dir }}"
+    patterns: "*.yaml,*.yml"
+    recurse: yes
+  register: _all_yaml_files
+
+- name: "Normalización: Eliminar IDs internos de AAP"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    regexp: '^\s*id: \d+\s*\n'
+    replace: ''
+  loop: "{{ _all_yaml_files.files }}"
+  loop_control:
+    label: "Limpiando {{ item.path | basename }}"
+
+- name: "Normalización: Envolver valores problemáticos (@, %, *) entre comillas"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    # 1. Captura el nombre del campo y el espacio: ^(\s*[\w_]+:\s+)
+    # 2. Captura el valor que empieza por @, % o *: ([@%*][^\s"]*)
+    regexp: '^(\s*[\w_]+:\s+)([@%*][^\s"]*)$'
+    # 3. Coloca el grupo 1, y el grupo 2 entre comillas dobles
+    replace: '\1"\2"'
+  loop: "{{ _all_yaml_files.files }}"
+  loop_control:
+    label: "Protegiendo caracteres en {{ item.path | basename }}"
+
+- name: "Normalización: Corregir doble entrecomillado en variables Jinja2"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    # Usamos {{ '{{' }} para decirle a Ansible: "Escribe literalmente dos llaves"
+    regexp: '""{{ "{{" }}\s*([\w_.]+)\s*{{ "}}" }}""'
+    replace: '"{{ "{{" }} \1 {{ "}}" }}"'
+  loop: "{{ _all_yaml_files.files }}"
+  loop_control:
+    label: "Corrigiendo comillas en {{ item.path | basename }}"
+
+- name: "Normalización: Limpiar racimos de comillas en JSON"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    # Buscamos cualquier combinación de comillas simples, dobles o barras
+    # que aparezca 3 o más veces seguidas (el "racimo" de la sopa)
+    regexp: '([''\"\\/]{3,})'
+    replace: '"'
+  loop: "{{ _all_yaml_files.files }}"
+  loop_control:
+    label: "Limpiando racimos en {{ item.path | basename }}"
