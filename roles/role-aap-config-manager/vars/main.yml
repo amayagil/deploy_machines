@@ -2,40 +2,48 @@
 # ==========================================
 # Variables de conexión al Gateway (Estándar SSA)
 # ==========================================
-# Usamos el prefijo aap_gateway_ para que la colección infra.aap_configuration 
-# active la lógica de proxy necesaria para AAP 2.6.
-
+# Estas variables con el prefijo 'aap_gateway_' son las que usan los roles
+# de gateway_ para evitar el error de conexión a 127.0.0.1.
 aap_gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
 aap_gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
 aap_gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-aap_gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
+aap_gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
 
-# Ruta de la API específica para el controlador a través del Gateway
+# Host "híbrido" para que los módulos de controller_ funcionen a través del túnel.
+# Al añadir '/api/controller', los módulos completan automáticamente la ruta con '/v2/'.
+controller_hostname: "{{ aap_gateway_hostname }}/api/controller"
+
+# Ruta específica para la API del controlador a través del Gateway
 controller_api_path: "{{ vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH')) | default('/api/controller/v2') }}"
 
-# Construcción de la URL del token usando la nueva variable de hostname
+# URL del token forzada para evitar errores 404 en procesos asíncronos (async)
 controller_oauthtoken_url: "{{ aap_gateway_hostname }}{{ controller_api_path }}/tokens/"
+
+# ==========================================
+# Mapeo de Objetos para el Rol Dispatch
+# ==========================================
+# Mapeamos los nombres de tus backups al estándar que espera el rol dispatch de SSA.
+aap_organizations: "{{ controller_organizations | default([]) }}"
 
 # ==========================================
 # Configuración de Backup y Acción
 # ==========================================
 aap_action: "extract"
 cleanup_after_export: false
-
-# Directorio raíz y nombre de carpeta
 backup_base_path: "/tmp"
 backup_folder_name: "aap_backup"
-
-# Construcción dinámica de rutas
 backup_local_dir: "{{ backup_base_path }}/{{ backup_folder_name }}"
 backup_output_file: "{{ backup_base_path }}/aap_config_{{ ansible_date_time.date }}.tar.gz"
 
 # ==========================================
-# Control de ejecución y Versiones
+# Depuración y Control (Modo Visible)
 # ==========================================
+# Estas variables desactivan la censura para poder ver por qué fallan las credenciales.
+aap_configuration_secure_logging: false
+controller_configuration_no_log: false
+controller_configuration_async_no_log: false
+
 aap_dry_run: false
 ansible_check_mode_markers: false
-
-# Compatibilidad de versiones
 controller_target_version: "2.6"
 controller_source_version: "2.4"

@@ -12,12 +12,17 @@
 - name: "DEBUG: Variables cargadas"
   ansible.builtin.debug:
     msg:
-      - "Gateway Host: {{ gateway_hostname }}"
+      - "Gateway Host: {{ aap_gateway_hostname }}"
       - "API Base construida: {{ gateway_api_base }}"
+      - "URL del Token: {{ controller_oauthtoken_url }}"
       - "Backup Directory: {{ backup_local_dir }}"
       - "Número de archivos YAML encontrados: {{ _all_yaml_files.matched | default('N/A') }}"
 
-# 4. ORQUESTACIÓN DE CONFIGURACIÓN
+- name: "Mapear variables para el estándar de AAP 2.6"
+  set_fact:
+    aap_organizations: "{{ controller_organizations }}"
+
+# 2. ORQUESTACIÓN DE CONFIGURACIÓN
 - name: "Ejecutar Dispatch para configurar AAP"
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch

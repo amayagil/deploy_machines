@@ -1,9 +1,14 @@
 ---
 # roles/aap_config_manager/tasks/inject_tasks.yml
 
-- name: "Configurar Base para Inyección (Modern)"
+- name: "Configurar Base para Inyección"
   set_fact:
-    gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(gateway_hostname ~ '/api/controller/v2', gateway_hostname ~ '/api/v2') }}"
+    gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(aap_gateway_hostname ~ '/api/controller/v2', aap_gateway_hostname ~ '/api/v2') }}"
+
+- name: "Mapear variables para el estándar de la colección"
+  set_fact:
+    # Aseguramos que los datos de los backups lleguen a los roles de gateway
+    aap_organizations: "{{ controller_organizations | default([]) }}"
 
 - name: "Inyección: Ejecutar Pre-vuelo"
   ansible.builtin.include_tasks: preflight.yml

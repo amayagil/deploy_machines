@@ -5,11 +5,21 @@
   gather_facts: false
 
   vars:
-    # --- Configuración de Conexión Gateway ---
-    gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-    gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-    gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-    gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
+    # --- Conexión Gateway (Para roles gateway_*) ---
+    aap_gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    aap_gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
+
+    # --- Conexión Controller (Para roles controller_* a través del Gateway) ---
+    # Engañamos a los módulos para que usen el path del gateway por defecto
+    controller_hostname: "{{ aap_gateway_hostname }}/api/controller"
+    controller_oauthtoken_url: "{{ aap_gateway_hostname }}/api/controller/v2/tokens/"
+
+    # --- Visibilidad de errores ---
+    aap_configuration_secure_logging: false
+    controller_configuration_no_log: false
+    controller_configuration_async_no_log: false
 
   roles:
     - role: roles/role-aap-config-manager

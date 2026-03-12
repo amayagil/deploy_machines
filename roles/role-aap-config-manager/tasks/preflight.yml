@@ -1,23 +1,19 @@
 ---
-# roles/aap_config_manager/tasks/preflight.yml
-
 - name: "Pre-vuelo: Verificar conexión al Controller"
   ansible.builtin.uri:
-    # Usamos la base dinámica que ya incluye /api/controller/v2 o /api/v2
     url: "{{ gateway_api_base }}/ping/"
-    user: "{{ gateway_username }}"
-    password: "{{ gateway_password }}"
+    user: "{{ aap_gateway_username }}"
+    password: "{{ aap_gateway_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
-    validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
+    validate_certs: "{{ aap_gateway_validate_certs }}"
   register: _preflight_ping
   ignore_errors: true
-  check_mode: false
 
 - name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.assert:
     that:
       - _preflight_ping.status is defined
       - _preflight_ping.status == 200
-    fail_msg: "ERROR: No se pudo conectar o autenticar con el Controller. Código: {{ _preflight_ping.status | default('Desconocido') }}. Revisa env.sh."
+    fail_msg: "ERROR: No se pudo conectar al Gateway en {{ gateway_api_base }}. Revisa las credenciales."

@@ -1,6 +1,7 @@
 ansible-navigator:
   execution-environment:
-    image: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9:latest
+    #image: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9:latest
+    image: quay.io/redhat_emp1/ee-ansible-ssa:latest
     pull:
       policy: missing
     volume-mounts:
