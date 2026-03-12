@@ -5,24 +5,11 @@
   gather_facts: false
 
   vars:
-    # --- CONEXIÓN GLOBAL (Solución al 404) ---
-    # Forzamos los nombres que los módulos buscan internamente
-    controller_hostname: "{{ lookup('env', 'CONTROLLER_HOST') }}"
-    controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
-    controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
-    controller_validate_certs: "{{ lookup('env', 'CONTROLLER_VERIFY_SSL') | default('false') | bool }}"
-    
-    # Esta es la ruta crítica para el Gateway de AAP 2.6
-    controller_api_path: "/api/controller/v2"
-    
-    # Forzamos la URL del token para que el proceso asíncrono no se pierda
-    controller_oauthtoken_url: "{{ lookup('env', 'CONTROLLER_HOST') }}/api/controller/v2/tokens/"
-
-    # Mapeo para compatibilidad con roles estilo SSA
-    gateway_hostname: "{{ controller_hostname }}"
-    gateway_username: "{{ controller_username }}"
-    gateway_password: "{{ controller_password }}"
-    gateway_validate_certs: "{{ controller_validate_certs }}"
+    # --- Configuración de Conexión Gateway ---
+    gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
 
   roles:
     - role: roles/role-aap-config-manager

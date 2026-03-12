@@ -1,11 +1,7 @@
 ---
 # roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-# 1. VALIDACIÓN
-
-# 2. NORMALIZACIÓN (Limpieza de IDs estricta)
-
-# 3. CARGA DE VARIABLES
+# 1. Exclusión de ficheros dependientes de instancia
 - name: "Include vars from backups directory"
   ansible.builtin.include_vars:
     dir: "{{ backup_local_dir }}"
@@ -16,11 +12,10 @@
 - name: "DEBUG: Variables cargadas"
   ansible.builtin.debug:
     msg:
-      - "Controller Host: {{ controller_hostname }}"
-      - "Controller API Path: {{ controller_api_path }}"
+      - "Gateway Host: {{ gateway_hostname }}"
+      - "API Base construida: {{ gateway_api_base }}"
       - "Backup Directory: {{ backup_local_dir }}"
-      - "Número de archivos YAML encontrados: {{ _all_yaml_files.matched }}"
-      - "Token URL: {{ controller_oauthtoken_url }}"
+      - "Número de archivos YAML encontrados: {{ _all_yaml_files.matched | default('N/A') }}"
 
 # 4. ORQUESTACIÓN DE CONFIGURACIÓN
 - name: "Ejecutar Dispatch para configurar AAP"

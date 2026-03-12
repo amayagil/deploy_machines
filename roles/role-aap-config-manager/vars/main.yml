@@ -1,14 +1,24 @@
-# roles/aap_config_manager/vars/main.yml
 ---
-# Variables de conexión al Controller
-controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-controller_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-controller_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
-controller_api_path: "{{ vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH')) }}"
-controller_oauthtoken_url: "{{ controller_hostname }}{{ controller_api_path }}/tokens/"
+# ==========================================
+# Variables de conexión al Gateway (Estándar SSA)
+# ==========================================
+# Usamos el prefijo aap_gateway_ para que la colección infra.aap_configuration 
+# active la lógica de proxy necesaria para AAP 2.6.
 
-# Configuración de backup (Parametrizada)
+aap_gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+aap_gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+aap_gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+aap_gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
+
+# Ruta de la API específica para el controlador a través del Gateway
+controller_api_path: "{{ vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH')) | default('/api/controller/v2') }}"
+
+# Construcción de la URL del token usando la nueva variable de hostname
+controller_oauthtoken_url: "{{ aap_gateway_hostname }}{{ controller_api_path }}/tokens/"
+
+# ==========================================
+# Configuración de Backup y Acción
+# ==========================================
 aap_action: "extract"
 cleanup_after_export: false
 
@@ -20,11 +30,12 @@ backup_folder_name: "aap_backup"
 backup_local_dir: "{{ backup_base_path }}/{{ backup_folder_name }}"
 backup_output_file: "{{ backup_base_path }}/aap_config_{{ ansible_date_time.date }}.tar.gz"
 
-# Control de simulación (Dry Run)
-# Si es true, Ansible no realizará cambios reales
+# ==========================================
+# Control de ejecución y Versiones
+# ==========================================
 aap_dry_run: false
-ansible_check_mode_markers: false # Oculta los tags [CHECK MODE] en la salida del resumen
+ansible_check_mode_markers: false
 
-# Versión del AAP target para compatibilidad
+# Compatibilidad de versiones
 controller_target_version: "2.6"
 controller_source_version: "2.4"

@@ -3,13 +3,14 @@
 
 - name: "Pre-vuelo: Verificar conexión al Controller"
   ansible.builtin.uri:
-    url: "{{ controller_hostname }}/api/controller/v2/ping/"
-    user: "{{ controller_username }}"
-    password: "{{ controller_password }}"
+    # Usamos la base dinámica que ya incluye /api/controller/v2 o /api/v2
+    url: "{{ gateway_api_base }}/ping/"
+    user: "{{ gateway_username }}"
+    password: "{{ gateway_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
-    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
+    validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
   register: _preflight_ping
   ignore_errors: true
   check_mode: false
