@@ -34,6 +34,17 @@
   ansible.builtin.include_vars:
     dir: "{{ backup_local_dir }}"
     extensions: ["yaml", "yml"]
+    ignore_files: [current_settings.yaml, current_settings.yml, current_instance_groups.yaml, current_instance_groups.yml]
+
+### debug
+- name: "DEBUG: Variables cargadas"
+  ansible.builtin.debug:
+    msg:
+      - "Controller Host: {{ controller_hostname }}"
+      - "Controller API Path: {{ controller_api_path }}"
+      - "Backup Directory: {{ backup_local_dir }}"
+      - "Número de archivos YAML encontrados: {{ _all_yaml_files.matched }}"
+      - "Token URL: {{ controller_oauthtoken_url }}"
 
 # 4. ORQUESTACIÓN DE CONFIGURACIÓN
 - name: "Ejecutar Dispatch para configurar AAP"

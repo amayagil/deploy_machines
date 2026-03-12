@@ -1,15 +1,22 @@
 ---
 # roles/aap_config_manager/tasks/preflight.yml
 
-- name: "Pre-vuelo: Validar conexión y autenticación con AAP"
-  ansible.controller.token:
-    description: "Token de validación pre-vuelo"
-    state: present
-  register: _preflight_token
+- name: "Pre-vuelo: Verificar conexión al Controller"
+  ansible.builtin.uri:
+    url: "{{ controller_hostname }}/api/controller/v2/ping/"
+    user: "{{ controller_username }}"
+    password: "{{ controller_password }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
+  register: _preflight_ping
+  ignore_errors: true
   check_mode: false
 
 - name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.assert:
     that:
-      - _preflight_token is not failed
-    fail_msg: "ERROR: No se pudo conectar o autenticar con el Controller. Revisa tus variables de entorno en env.sh."
+      - _preflight_ping.status is defined
+      - _preflight_ping.status == 200
+    fail_msg: "ERROR: No se pudo conectar o autenticar con el Controller. Código: {{ _preflight_ping.status | default('Desconocido') }}. Revisa env.sh."

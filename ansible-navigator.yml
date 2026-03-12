@@ -7,4 +7,6 @@ ansible-navigator:
       - src: "/home/amaya/.ansible/collections"
         dest: "/home/runner/.ansible/collections" # No tocar esto, es la clave
         options: "Z"
+  playbook-artifact: 
+    enable: false
   mode: stdout

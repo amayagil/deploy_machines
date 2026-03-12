@@ -4,17 +4,27 @@
   connection: local
   gather_facts: false
 
-  # Forzamos la búsqueda en la carpeta local que Navigator mapea automáticamente
-  collections:
-    - infra.controller_configuration
+  vars:
+    # --- CONEXIÓN GLOBAL (Solución al 404) ---
+    # Forzamos los nombres que los módulos buscan internamente
+    controller_hostname: "{{ lookup('env', 'CONTROLLER_HOST') }}"
+    controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
+    controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
+    controller_validate_certs: "{{ lookup('env', 'CONTROLLER_VERIFY_SSL') | default('false') | bool }}"
+    
+    # Esta es la ruta crítica para el Gateway de AAP 2.6
+    controller_api_path: "/api/controller/v2"
+    
+    # Forzamos la URL del token para que el proceso asíncrono no se pierda
+    controller_oauthtoken_url: "{{ lookup('env', 'CONTROLLER_HOST') }}/api/controller/v2/tokens/"
 
-  # Cargamos las variables de configuración del rol (donde están tus credenciales y rutas)
-  vars_files:
-    - roles/role-aap-config-manager/vars/main.yml
+    # Mapeo para compatibilidad con roles estilo SSA
+    gateway_hostname: "{{ controller_hostname }}"
+    gateway_username: "{{ controller_username }}"
+    gateway_password: "{{ controller_password }}"
+    gateway_validate_certs: "{{ controller_validate_certs }}"
 
   roles:
     - role: roles/role-aap-config-manager
       vars:
-        # La acción se define por línea de comandos, por defecto extrae.
-        # valores admitidos: extract, inject
         aap_action: "{{ aap_action | default('extract') }}"
