@@ -1,19 +1,22 @@
 ---
 - name: "Pre-vuelo: Verificar conexión al Controller"
   ansible.builtin.uri:
-    url: "{{ gateway_api_base }}/ping/"
+    # Ahora usamos el nombre estándar con el prefijo aap_
+    url: "{{ aap_gateway_api_base }}/ping/"
     user: "{{ aap_gateway_username }}"
     password: "{{ aap_gateway_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
-    validate_certs: "{{ aap_gateway_validate_certs }}"
+    validate_certs: "{{ aap_gateway_validate_certs | default(false) | bool }}"
   register: _preflight_ping
   ignore_errors: true
+  check_mode: false
 
 - name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.assert:
     that:
       - _preflight_ping.status is defined
       - _preflight_ping.status == 200
-    fail_msg: "ERROR: No se pudo conectar al Gateway en {{ gateway_api_base }}. Revisa las credenciales."
+    # También actualizamos el mensaje de error para que sea informativo
+    fail_msg: "ERROR: No se pudo conectar al Gateway en {{ aap_gateway_api_base }}. Revisa las credenciales."

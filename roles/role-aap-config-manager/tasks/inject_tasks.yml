@@ -1,28 +1,23 @@
 ---
 # roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-# 1. Exclusión de ficheros dependientes de instancia
+# 1. Carga de variables desde el directorio de backups
 - name: "Include vars from backups directory"
   ansible.builtin.include_vars:
     dir: "{{ backup_local_dir }}"
     extensions: ["yaml", "yml"]
     ignore_files: [current_settings.yaml, current_settings.yml, current_instance_groups.yaml, current_instance_groups.yml]
 
-### debug
+# 2. Debug para verificar el estado antes del Dispatch
 - name: "DEBUG: Variables cargadas"
   ansible.builtin.debug:
     msg:
       - "Gateway Host: {{ aap_gateway_hostname }}"
-      - "API Base construida: {{ gateway_api_base }}"
+      - "API Base construida: {{ aap_gateway_api_base }}"
       - "URL del Token: {{ controller_oauthtoken_url }}"
       - "Backup Directory: {{ backup_local_dir }}"
-      - "Número de archivos YAML encontrados: {{ _all_yaml_files.matched | default('N/A') }}"
 
-- name: "Mapear variables para el estándar de AAP 2.6"
-  set_fact:
-    aap_organizations: "{{ controller_organizations }}"
-
-# 2. ORQUESTACIÓN DE CONFIGURACIÓN
+# 3. ORQUESTACIÓN DE CONFIGURACIÓN
 - name: "Ejecutar Dispatch para configurar AAP"
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch

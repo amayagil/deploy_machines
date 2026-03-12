@@ -1,16 +1,18 @@
 ---
-# roles/aap_config_manager/tasks/inject_tasks.yml
+# roles/role-aap-config-manager/tasks/inject.yml
 
-- name: "Configurar Base para Inyección"
+- name: "Asegurar variables para el estándar de AAP 2.6"
   set_fact:
-    gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(aap_gateway_hostname ~ '/api/controller/v2', aap_gateway_hostname ~ '/api/v2') }}"
-
-- name: "Mapear variables para el estándar de la colección"
-  set_fact:
-    # Aseguramos que los datos de los backups lleguen a los roles de gateway
+    # Mapeamos tus organizaciones al nombre que espera el rol de gateway
     aap_organizations: "{{ controller_organizations | default([]) }}"
+    # Definimos la base de la API usando el hostname del gateway
+    aap_gateway_api_base: "{{ (controller_target_version is version('2.6', '>=')) | ternary(aap_gateway_hostname ~ '/api/controller/v2', aap_gateway_hostname ~ '/api/v2') }}"
+    # Replicamos las credenciales como hechos (facts) para asegurar su propagación
+    aap_gateway_hostname: "{{ aap_gateway_hostname }}"
+    aap_gateway_username: "{{ aap_gateway_username }}"
+    aap_gateway_password: "{{ aap_gateway_password }}"
 
-- name: "Inyección: Ejecutar Pre-vuelo"
+- name: "Flujo de Extracción: Pre-flight checks"
   ansible.builtin.include_tasks: preflight.yml
 
 - name: "Inyección: Validar archivos de origen"
@@ -21,9 +23,3 @@
 
 - name: "Inyección: Ejecutar carga de datos (Dispatch)"
   ansible.builtin.include_tasks: inject_tasks.yml
-
-- name: "Inyección: Limpieza de sesión"
-  ansible.builtin.include_tasks: cleanup.yml
-
-- name: "Inyección: Resumen de ejecución"
-  ansible.builtin.include_tasks: summary.yml

@@ -4,10 +4,17 @@ ansible-navigator:
     image: quay.io/redhat_emp1/ee-ansible-ssa:latest
     pull:
       policy: missing
+    environment-variables:
+      pass:
+        - CONTROLLER_HOST
+        - CONTROLLER_USERNAME
+        - CONTROLLER_PASSWORD
+        - CONTROLLER_VERIFY_SSL
+        - CONTROLLER_API_PATH
     volume-mounts:
       - src: "/home/amaya/.ansible/collections"
-        dest: "/home/runner/.ansible/collections" # No tocar esto, es la clave
+        dest: "/home/runner/.ansible/collections"
         options: "Z"
-  playbook-artifact: 
+  playbook-artifact:
     enable: false
   mode: stdout
