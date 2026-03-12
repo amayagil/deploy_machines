@@ -29,52 +29,13 @@
   loop_control:
     label: "Limpiando {{ item.path | basename }}"
 
-# 3. CARGA DINÁMICA DE ARCHIVOS EN MEMORIA
-- name: "Inyección: Inicializar listas de configuración"
-  ansible.builtin.set_fact:
-    filetree_controller_organizations: []
-    filetree_controller_user_accounts: []
-    filetree_controller_credentials: []
-    filetree_controller_projects: []
-    filetree_controller_inventories: []
-    filetree_controller_templates: []
-    filetree_controller_workflows: []
+# 3. CARGA DE VARIABLES
+- name: "Include vars from backups directory"
+  ansible.builtin.include_vars:
+    dir: "{{ backup_local_dir }}"
+    extensions: ["yaml", "yml"]
 
-- name: "Inyección: Cargar y acumular contenido de archivos"
-  ansible.builtin.include_tasks: load_and_map.yml
-  loop: "{{ _all_yaml_files.files }}"
-  loop_control:
-    label: "Procesando {{ item.path | basename }}"
-
-- name: "DEBUG: Conteo de objetos listos para inyectar"
-  ansible.builtin.debug:
-    msg: 
-      - "Organizaciones: {{ filetree_controller_organizations | length }}"
-      - "Inventarios: {{ filetree_controller_inventories | length }}"
-      - "Proyectos: {{ filetree_controller_projects | length }}"
-      - "Credenciales: {{ filetree_controller_credentials | length }}"
-      - "Job Templates: {{ filetree_controller_templates | length }}"
-      - "Workflows: {{ filetree_controller_workflows | length }}"
-
-# 4. GESTIÓN DE ACCESO Y EJECUCIÓN
-- name: "Inyección: Obtener Token"
-  ansible.builtin.include_tasks: manage_token.yml
-
-# Fijo variables globales para evitar sobreescritura en roles hijos
-- name: "AAP 2.6 | Fijar conexión global en localhost"
-  ansible.builtin.set_fact:
-    controller_host: "https://{{ controller_hostname }}"
-    controller_api_base: "/api/controller"
-    controller_oauthtoken: "{{ controller_token }}"
-    controller_validate_certs: false
-
-- name: "Inyección: Configurar objetos en Controller"
-  ansible.builtin.include_tasks: process_item.yml
-  loop:
-    - { role: "organizations", var: "controller_organizations" }
-    - { role: "users", var: "controller_user_accounts" }
-    - { role: "credentials", var: "controller_credentials" }
-    - { role: "projects", var: "controller_projects" }
-    - { role: "inventories", var: "controller_inventories" }
-    - { role: "job_templates", var: "controller_templates" }
-    - { role: "workflow_job_templates", var: "controller_workflows" }
+# 4. ORQUESTACIÓN DE CONFIGURACIÓN
+- name: "Ejecutar Dispatch para configurar AAP"
+  ansible.builtin.include_role:
+    name: infra.aap_configuration.dispatch

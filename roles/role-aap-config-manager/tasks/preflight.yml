@@ -1,80 +1,15 @@
 ---
 # roles/aap_config_manager/tasks/preflight.yml
 
-# Obterner fecha para el resumen
-- name: "Obtener la fecha actual para el resumen"
-  ansible.builtin.setup:
-    filter: "ansible_date_time"
-
-# Establecer la base de la API de forma dinámica
-- name: "Establecer la base de la API según acción y versión"
-  set_fact:
-    # Decidimos qué versión mirar según la acción:
-    # Para 'inject' miro la versión target
-    # Para 'extract' miro la versión source
-    _current_version: "{{ (aap_action == 'inject') | ternary(controller_target_version, controller_source_version) }}"
-
-- name: "Calcular URL base final"
-  set_fact:
-    # Aplicamos el prefijo solo si la versión detectada es 2.6+
-    controller_api_base: "{{ (_current_version is version('2.6', '>=')) | ternary(controller_hostname ~ '/api/controller', controller_hostname ~ '/api') }}"
-
-# 1. Validación de Conectividad
-- name: "Pre-vuelo: Intentar conexión con el Controller"
-  ansible.builtin.uri:
-    url: "https://{{ controller_api_base }}/v2/ping/"
-    method: GET
-    user: "{{ controller_username | default('admin') }}"
-    password: "{{ controller_password }}"
-    force_basic_auth: true
-    validate_certs: "{{ controller_validate_certs | default(false) }}"
-    status_code: 200
-  register: _ping_check
-  # IMPORTANTE: check_mode: false permite que la tarea corra en modo simulado
-  check_mode: false
-  ignore_errors: true
-
-- name: "Pre-vuelo: Validar alcance del Host"
-  ansible.builtin.assert:
-    that:
-      - _ping_check.status is defined
-      - _ping_check.status == 200
-    fail_msg: "ERROR: No se puede conectar a {{ controller_hostname }}. Revisa la URL, la VPN o el estado del servicio."
-
-# 2. Validación de Autenticación vía Token
-- name: "Pre-vuelo: Obtener Token de sesión"
-  ansible.builtin.uri:
-    url: "https://{{ controller_api_base }}/v2/tokens/"
-    method: POST
-    user: "{{ controller_username }}"
-    password: "{{ controller_password }}"
-    force_basic_auth: true
-    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
-    status_code: [201, 401] # El login exitoso devuelve 201 Created
-  register: _token_check
+- name: "Pre-vuelo: Validar conexión y autenticación con AAP"
+  ansible.controller.token:
+    description: "Token de validación pre-vuelo"
+    state: present
+  register: _preflight_token
   check_mode: false
 
-- name: "Pre-vuelo: Confirmar Identidad"
+- name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.assert:
     that:
-      - _token_check.status == 201
-    fail_msg: "ERROR: No se pudo generar un token para '{{ controller_username }}'. Revisa credenciales."
-
-# 3. Validación de Privilegios
-- name: "Pre-vuelo: Validar perfil con Token"
-  ansible.builtin.uri:
-    url: "https://{{ controller_api_base }}/v2/me/"
-    method: GET
-    headers:
-      Authorization: "Bearer {{ _token_check.json.token }}"
-      # Usamos la variable para mantener el rol dinámico
-      Host: "{{ controller_hostname }}"
-    validate_certs: "{{ controller_validate_certs | default(false) | bool }}"
-  register: _auth_check
-
-- name: "Pre-vuelo: Verificar permisos de Superusuario"
-  ansible.builtin.assert:
-    that:
-      # Accedemos correctamente a la lista de resultados que vimos en el curl
-      - _auth_check.json.results[0].is_superuser == true
-    fail_msg: "ERROR: El usuario '{{ controller_username }}' no tiene permisos de Superusuario en {{ controller_hostname }}."
+      - _preflight_token is not failed
+    fail_msg: "ERROR: No se pudo conectar o autenticar con el Controller. Revisa tus variables de entorno en env.sh."
