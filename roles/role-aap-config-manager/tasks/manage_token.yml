@@ -27,14 +27,11 @@
     aap_password: ""
     controller_username: ""
     controller_password: ""
-    gateway_username: ""
-    gateway_password: ""
     cacheable: yes
   when: 
     - _token_check is defined
     - _token_check.ansible_facts is defined
     - _token_check.ansible_facts.controller_token is defined
-
 
 - name: "DEBUG: Inspeccionar la salida del nuevo módulo de plataforma"
   ansible.builtin.debug:

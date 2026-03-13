@@ -33,10 +33,10 @@
 - name: "Asegurar persistencia de variables para el estándar de AAP 2.6"
   set_fact:
     aap_organizations: "{{ controller_organizations }}"
-    gateway_hostname: "{{ gateway_hostname }}"
-    gateway_username: "{{ gateway_username }}"
-    gateway_password: "{{ gateway_password }}"
-    gateway_validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
+    aap_hostname: "{{ gateway_hostname }}"
+    aap_username: "{{ gateway_username }}"
+    aap_password: "{{ gateway_password }}"
+    aap_validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
 
 - name: "DEBUG: Resumen de carga"
   ansible.builtin.debug:

@@ -1,8 +1,9 @@
 ---
 - name: "Pre-vuelo: Verificar conexión al Controller"
   ansible.builtin.uri:
-    # Ahora usamos el nombre estándar con el prefijo aap_
+    # Usamos directamente tu variable que ya tiene la URL completa
     url: "{{ gateway_api_base }}/ping/"
+    # Usamos tus credenciales originales
     user: "{{ gateway_username }}"
     password: "{{ gateway_password }}"
     method: GET
@@ -18,5 +19,4 @@
     that:
       - _preflight_ping.status is defined
       - _preflight_ping.status == 200
-    # También actualizamos el mensaje de error para que sea informativo
     fail_msg: "ERROR: No se pudo conectar al Gateway en {{ gateway_api_base }}. Revisa las credenciales."
