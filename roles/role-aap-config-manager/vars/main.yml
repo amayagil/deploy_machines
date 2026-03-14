@@ -4,20 +4,22 @@
 # ==========================================
 # Estas variables con el prefijo 'gateway_' son las que usan los roles
 # de gateway_ para evitar el error de conexión a 127.0.0.1.
-gateway_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-gateway_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-gateway_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-gateway_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) | bool }}"
+aap_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST'), true) }}"
+aap_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME'), true) }}"
+aap_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD'), true) }}"
+aap_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL'), true) | default(false, true) | bool }}"
 
 # Host "híbrido" para que los módulos de controller_ funcionen a través del túnel.
 # Al añadir '/api/controller', los módulos completan automáticamente la ruta con '/v2/'.
-controller_hostname: "{{ gateway_hostname }}/api/controller"
+controller_hostname: >-
+  {{ aap_hostname if (aap_action == 'extract' and controller_source_version == '2.4') else aap_hostname ~ '/api/controller' }}
 
 # Ruta específica para la API del controlador a través del Gateway
-controller_api_path: "{{ vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH')) | default('/api/controller/v2') }}"
+controller_api_path: >-
+  {{ '/api/v2' if (aap_action == 'extract' and controller_source_version == '2.4') else vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH'), true) | default('/api/controller/v2', true) }}
 
 # URL del token forzada para evitar errores 404 en procesos asíncronos (async)
-controller_oauthtoken_url: "{{ gateway_hostname }}{{ controller_api_path }}/tokens/"
+controller_oauthtoken_url: "{{ aap_hostname }}{{ controller_api_path }}/tokens/"
 
 # ==========================================
 # Mapeo de Objetos para el Rol Dispatch

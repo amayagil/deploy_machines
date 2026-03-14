@@ -1,45 +1,26 @@
 ---
 # roles/role-aap-config-manager/tasks/manage_token.yml
 
-- name: Generate Unified Platform Token for AAP 2.6 Gateway
-  ansible.platform.token:
-    # OJO: Los parámetros para este módulo usan el prefijo aap_
-    aap_hostname: "{{ gateway_hostname }}"
-    aap_username: "{{ gateway_username }}"
-    aap_password: "{{ gateway_password }}"
-    validate_certs: false 
-    description: "Temporary token for AAP 2.4 to 2.6 extraction/injection"
-    state: present
-  register: _token_check
-  when: token_state | default('present') == 'present'
+- name: "Pre-vuelo y Autenticación (block)"
+  block:
+    - name: "Obtener el token de autenticación (Controller API)"
+      ansible.builtin.uri:
+        # Apuntamos al Controller, que sí suele aceptar usuario/contraseña
+        url: "{{ aap_hostname }}{{ controller_api_path }}/tokens/"
+        user: "{{ aap_username }}"
+        password: "{{ aap_password }}"
+        method: POST
+        force_basic_auth: true
+        validate_certs: "{{ aap_validate_certs | default(false) | bool }}"
+        status_code: 201
+      register: authtoken_res
 
-- name: "DEBUG: Inspeccionar la salida del nuevo módulo de plataforma"
-  ansible.builtin.debug:
-    var: _token_check
-
-- name: "Token: Extraer token del registro y forzar Bearer Auth"
-  ansible.builtin.set_fact:
-    # Ruta exacta sacada de tu debug
-    aap_token: "{{ _token_check.ansible_facts.controller_token.token }}"
-    
-    # Vaciamos credenciales para matar el Basic Auth
-    aap_username: ""
-    aap_password: ""
-    controller_username: ""
-    controller_password: ""
-    cacheable: yes
-  when: 
-    - _token_check is defined
-    - _token_check.ansible_facts is defined
-    - _token_check.ansible_facts.controller_token is defined
-
-- name: "DEBUG: Inspeccionar la salida del nuevo módulo de plataforma"
-  ansible.builtin.debug:
-    var: aap_token
-
-- name: "Token: Validar disponibilidad del token para la inyección"
-  ansible.builtin.assert:
-    that:
-      - aap_token is defined
-      - aap_token | length > 0
-    fail_msg: "ERROR: No se pudo rescatar el token unificado de plataforma."
+    - name: "Guardar el token para las colecciones oficiales"
+      ansible.builtin.set_fact:
+        # La colección extendida y dispatch usan aap_oauthtoken por defecto
+        aap_oauthtoken: "{{ authtoken_res.json.token }}"
+        # Vaciamos las credenciales para obligar a Ansible a usar Bearer Token
+        aap_username: ""
+        aap_password: ""
+      no_log: false # Pon esto a 'true' cuando termines de depurar
+  when: aap_oauthtoken is not defined

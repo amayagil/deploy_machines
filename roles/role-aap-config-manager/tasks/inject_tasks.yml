@@ -1,51 +1,22 @@
 ---
-# 1. Buscamos los archivos de organizaciones en las subcarpetas
-- name: "Buscar archivos de organizaciones"
-  ansible.builtin.find:
-    paths: "{{ backup_local_dir }}"
-    recurse: yes
-    patterns: "current_organization.yaml,current_organization.yml"
-  register: _found_org_files
+# roles/role-aap-config-manager/tasks/inject_tasks.yml
 
-# 2. Inicializamos la lista global
-- name: "Limpiar lista de organizaciones"
-  set_fact:
-    controller_organizations: []
+- name: "Inyección: Cargar todas las variables desde la estructura exportada"
+  ansible.builtin.include_role:
+    name: infra.aap_configuration_extended.filetree_read
+  vars:
+    # 1. Directorio raíz donde filetree_create dejó los archivos.
+    # Usa la misma variable de la extracción o define la ruta estática.
+    dir_orgs_vars: "{{ controller_configs_dir | default(playbook_dir ~ '/platform_configuration') }}"
+    
+    # 2. Organización objetivo. OBLIGATORIO para filetree_read.
+    # Si la extracción la hiciste a nivel global, filetree_create suele crear la carpeta 'all'.
+    # Si extrajiste una organización concreta (ej. 'Default'), pon su nombre aquí.
+    orgs: "{{ aap_target_org | default('all') }}" 
+    
+    # 3. Entorno del ciclo de vida (por defecto suele ser 'dev')
+    env: "{{ aap_target_env | default('dev') }}"
 
-# 3. Procesamos cada archivo individualmente para evitar que se pisen
-- name: "Procesar archivos de organizaciones uno a uno"
-  ansible.builtin.include_tasks: process_orgs.yml
-  loop: "{{ _found_org_files.files }}"
-  when: _found_org_files.matched > 0
-
-# 4. Cargamos el resto de variables del directorio
-- name: "Include resto de variables"
-  ansible.builtin.include_vars:
-    dir: "{{ backup_local_dir }}"
-    extensions: ["yaml", "yml"]
-    ignore_files: 
-      - current_settings.yaml
-      - current_instance_groups.yaml
-      - current_organization.yaml
-      - current_organization.yml
-
-# 5. IMPORTANTE: Anclamos las variables como facts para que el proceso asíncrono no use 127.0.0.1
-- name: "Asegurar persistencia de variables para el estándar de AAP 2.6"
-  set_fact:
-    aap_organizations: "{{ controller_organizations }}"
-    aap_hostname: "{{ gateway_hostname }}"
-    aap_username: "{{ gateway_username }}"
-    aap_password: "{{ gateway_password }}"
-    aap_validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
-
-- name: "DEBUG: Resumen de carga"
-  ansible.builtin.debug:
-    msg:
-      - "Organizaciones encontradas: {{ aap_organizations | length }}"
-      - "Lista de Orgs: {{ aap_organizations | map(attribute='name') | list }}"
-      - "Gateway Host: {{ gateway_hostname }}"
-
-# 6. Ejecutamos el Dispatch de la colección
-- name: "Ejecutar Dispatch"
+- name: "Inyección: Ejecutar Dispatch para aplicar la configuración al Gateway 2.6"
   ansible.builtin.include_role:
     name: infra.aap_configuration.dispatch

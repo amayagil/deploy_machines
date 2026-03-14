@@ -1,15 +1,23 @@
 ---
+# roles/role-aap-config-manager/tasks/preflight.yml
+
+- name: "DEBUG: ¿Qué está viendo realmente el contenedor?"
+  ansible.builtin.debug:
+    msg:
+      - "1. Variable Vault: '{{ vault_controller_hostname | default('NO_DEFINIDA') }}'"
+      - "2. Variable Entorno: '{{ lookup('env', 'CONTROLLER_HOST') }}'"
+      - "3. Resultado aap_hostname: '{{ aap_hostname }}'"
+      - "4. API Path: '{{ controller_api_path }}'"
+
 - name: "Pre-vuelo: Verificar conexión al Controller"
   ansible.builtin.uri:
-    # Usamos directamente tu variable que ya tiene la URL completa
-    url: "{{ gateway_api_base }}/ping/"
-    # Usamos tus credenciales originales
-    user: "{{ gateway_username }}"
-    password: "{{ gateway_password }}"
+    url: "{{ aap_hostname }}{{ controller_api_path }}/ping/"
+    user: "{{ aap_username }}"
+    password: "{{ aap_password }}"
     method: GET
     force_basic_auth: true
     status_code: 200
-    validate_certs: "{{ gateway_validate_certs | default(false) | bool }}"
+    validate_certs: "{{ aap_validate_certs | default(false) | bool }}"
   register: _preflight_ping
   ignore_errors: true
   check_mode: false
@@ -19,4 +27,5 @@
     that:
       - _preflight_ping.status is defined
       - _preflight_ping.status == 200
-    fail_msg: "ERROR: No se pudo conectar al Gateway en {{ gateway_api_base }}. Revisa las credenciales."
+    # Actualizamos el mensaje de error para que tenga sentido si falla
+    fail_msg: "ERROR: No se pudo conectar al Controller en {{ aap_hostname }}{{ controller_api_path }}. Revisa las credenciales."

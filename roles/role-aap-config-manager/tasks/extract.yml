@@ -8,6 +8,9 @@
 - name: "Flujo de Extracción: Pre-flight checks"
   ansible.builtin.include_tasks: preflight.yml
 
+- name: "Obtener token para la extracción"
+  ansible.builtin.include_tasks: manage_token.yml
+
 - name: "Flujo de Extracción: Exportación base"
   ansible.builtin.include_tasks: extract_tasks.yml
 

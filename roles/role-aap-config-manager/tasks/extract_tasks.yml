@@ -1,39 +1,59 @@
 ---
 # roles/role-aap-config-manager/tasks/extract_tasks.yml
 
-- name: "Obtener token para la extracción"
-  ansible.builtin.include_tasks: manage_token.yml
-  vars:
-    token_state: present
+- name: "Forzar variables globales para dominar al Lookup Plugin"
+  ansible.builtin.set_fact:
+    # Machacamos las variables a nivel de memoria global (Fact).
+    # El plugin ya no podrá ignorarlas ni leer el vars.yml
+    controller_hostname: "{{ aap_hostname }}"
+    controller_host: "{{ aap_hostname }}"
+    # Vaciamos las credenciales para forzar el uso de token y matar los Warnings
+    controller_username: ""
+    controller_password: ""
+
+- name: "DEBUG: Verificar qué hay en la memoria de Ansible vs el Sistema Operativo"
+  ansible.builtin.debug:
+    msg:
+      - "1. Fact controller_hostname: '{{ controller_hostname }}'"
+      - "2. Fact controller_host: '{{ controller_host }}'"
+      - "3. Fact controller_username: '{{ controller_username }}'"
+      - "4. SO ENV CONTROLLER_HOST: '{{ lookup('env', 'CONTROLLER_HOST') }}'"
+      - "5. SO ENV CONTROLLER_USERNAME: '{{ lookup('env', 'CONTROLLER_USERNAME') }}'"
 
 - name: "Generar estructura de archivos desde el Controller (IaC)"
   ansible.builtin.include_role:
     name: infra.controller_configuration.filetree_create
   vars:
-    # 1. PASAMOS EL TOKEN (Esta no es recursiva porque viene de otra variable)
-    controller_oauthtoken: "{{ _aap_token_result.ansible_facts.controller_token }}"
+    # El token lo podemos seguir pasando por aquí sin problema
+    controller_oauthtoken: "{{ aap_oauthtoken }}"
     
-    # 2. DEFINIMOS SOLO LO QUE NO ES ESTÁNDAR O VIENE DE OTROS NOMBRES
-    output_path: "{{ backup_local_dir | default('./backups') }}"
+    # --- Variables de estructura ---
+    dir_orgs_vars: "{{ backup_local_dir | default(playbook_dir ~ '/platform_configuration') }}"
+    orgs: "all"
+    env: "dev"
+    
+    # --- Configuración de extracción ---
     query_controller_api: true
-    valid_tags: ["all", "organizations", "projects", "inventories", "credentials", "job_templates", "workflow_job_templates"]
-
-    # 3. NO mapeamos controller_hostname ni controller_validate_certs aquí. 
-    # El rol los leerá directamente de lo que pasaste en el comando -e.
-
-    # Configuración de exportación
-    controller_configuration_organizations: "all"
-    controller_configuration_projects: "all"
-    controller_configuration_inventories: "all"
-    controller_configuration_credentials: "all"
-    controller_configuration_job_templates: "all"
-    controller_configuration_workflow_job_templates: "all"
+    valid_tags: 
+      - all
+      - organizations
+      - projects
+      - inventories
+      - credentials
+      - credential_types
+      - job_templates
+      - workflow_job_templates
+      - roles
   register: _filetree_output
-  # Importante: Si es dry_run, esto fallará si intenta conectar, así que ignoramos.
   ignore_errors: "{{ aap_dry_run | default(false) | bool }}"
 
 - name: "Revocar token tras la extracción"
-  ansible.builtin.include_tasks: manage_token.yml
-  vars:
-    token_state: absent
-  when: _aap_token_result is defined and not (aap_dry_run | default(false) | bool)
+  ansible.builtin.uri:
+    url: "{{ aap_hostname }}{{ controller_api_path }}/tokens/{{ authtoken_res.json.id }}/"
+    method: DELETE
+    headers:
+      Authorization: "Bearer {{ aap_oauthtoken }}"
+    validate_certs: "{{ aap_validate_certs | default(false) | bool }}"
+    status_code: 204
+  when: aap_oauthtoken is defined and not (aap_dry_run | default(false) | bool)
+  ignore_errors: true
