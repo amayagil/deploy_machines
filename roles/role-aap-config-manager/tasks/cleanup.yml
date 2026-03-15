@@ -9,5 +9,5 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - "{{ backup_local_dir }}"
+    - "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
   when: cleanup_after_export | default(false)

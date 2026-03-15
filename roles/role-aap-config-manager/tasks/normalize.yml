@@ -1,7 +1,7 @@
 ---
 - name: "Normalización: Buscar todos los archivos YAML"
   ansible.builtin.find:
-    paths: "{{ backup_local_dir }}"
+    paths: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
     patterns: "*.yaml,*.yml"
     recurse: yes
   register: _all_yaml_files
@@ -47,3 +47,45 @@
   loop: "{{ _all_yaml_files.files }}"
   loop_control:
     label: "Limpiando racimos en {{ item.path | basename }}"
+
+- name: "Normalización: Crear estructura collection-style para credenciales"
+  ansible.builtin.set_fact:
+    _norm_target: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}/all/env/{{ aap_target_env | default('dev') }}/common/controller_credentials.d"
+
+- name: "Normalización: Crear directorios destino"
+  ansible.builtin.file:
+    path: "{{ _norm_target }}"
+    state: directory
+    mode: '0755'
+
+- name: "Normalización: Buscar todos los archivos de credenciales en el backup"
+  ansible.builtin.find:
+    paths: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
+    patterns: "*.ya?ml"
+    recurse: yes
+  register: _found_all
+- name: "Normalización: Copiar archivos de credenciales al layout esperado"
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ _norm_target }}/{{ item.path | basename }}"
+    remote_src: yes
+    mode: '0644'
+  loop: "{{ _found_all.files }}"
+  when: _found_all.files is defined and _found_all.files | length > 0 and ('/credentials/' in item.path)
+  loop_control:
+    label: "Copiando {{ item.path | basename }}"
+
+- name: "Normalización: Construir lista filtrada de archivos de credenciales"
+  ansible.builtin.set_fact:
+    _cred_files: "{{ _found_all.files | default([]) | selectattr('path','search','/credentials/') | list }}"
+
+- name: "Normalización: Copiar archivos de credenciales al layout esperado"
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ _norm_target }}/{{ item.path | basename }}"
+    remote_src: yes
+    mode: '0644'
+  loop: "{{ _cred_files }}"
+  when: _cred_files is defined and _cred_files | length > 0
+  loop_control:
+    label: "Copiando {{ item.path | basename }}"

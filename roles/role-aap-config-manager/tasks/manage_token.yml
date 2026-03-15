@@ -6,7 +6,8 @@
     - name: "Obtener el token de autenticación (Controller API)"
       ansible.builtin.uri:
         # Apuntamos al Controller, que sí suele aceptar usuario/contraseña
-        url: "{{ aap_hostname }}{{ controller_api_path }}/tokens/"
+        url: >-
+          {{ controller_api_path if controller_api_path is match('^https?://') else (aap_hostname | regex_replace('/$','')) + controller_api_path }}/tokens/
         user: "{{ aap_username }}"
         password: "{{ aap_password }}"
         method: POST

@@ -1,7 +1,7 @@
 ---
 - name: "Crear archivo comprimido (tar.gz)"
   ansible.builtin.archive:
-    path: "{{ backup_local_dir }}/*.yaml"
+    path: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}/*.yaml"
     dest: "{{ backup_output_file }}"
     format: gz
   register: _archive_info

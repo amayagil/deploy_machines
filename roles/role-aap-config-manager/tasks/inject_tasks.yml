@@ -7,7 +7,8 @@
   vars:
     # 1. Directorio raíz donde filetree_create dejó los archivos.
     # Usa la misma variable de la extracción o define la ruta estática.
-    dir_orgs_vars: "{{ controller_configs_dir | default(playbook_dir ~ '/platform_configuration') }}"
+    # Preferir `base_dir` (playbook input) con fallback razonable.
+    dir_orgs_vars: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
     
     # 2. Organización objetivo. OBLIGATORIO para filetree_read.
     # Si la extracción la hiciste a nivel global, filetree_create suele crear la carpeta 'all'.

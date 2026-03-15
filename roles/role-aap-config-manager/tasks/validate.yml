@@ -1,24 +1,24 @@
 ---
 - name: "Validar existencia de datos para la acción: {{ aap_action }}"
   ansible.builtin.stat:
-    # Usamos backup_local_dir para ambas acciones o aseguramos un fallback
-    path: "{{ backup_local_dir | default('./backups') }}"
+    # Preferir `base_dir` (entrada del playbook). Fallback a carpeta por defecto.
+    path: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
   register: _data_stat
 
 - name: "DEBUG: Ver ruta de búsqueda de datos"
   ansible.builtin.debug:
-    msg: "Buscando datos en: {{ backup_local_dir }}"
+    msg: "Buscando datos en: {{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
 
 - name: "Verificar integridad de la ruta"
   ansible.builtin.assert:
     that:
       - _data_stat.stat.exists
       - _data_stat.stat.isdir
-    fail_msg: "ERROR: El directorio '{{ backup_local_dir }}' no existe o no es un directorio."
+    fail_msg: "ERROR: El directorio '{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}' no existe o no es un directorio."
 
 - name: "Validar presencia de archivos YAML"
   ansible.builtin.find:
-    paths: "{{ backup_local_dir | default('./backups') }}"
+    paths: "{{ base_dir | default(playbook_dir ~ '/platform_configuration') }}"
     patterns: "*.yaml"
     recurse: yes
   register: _found_yaml

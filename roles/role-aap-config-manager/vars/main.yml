@@ -16,10 +16,10 @@ controller_hostname: >-
 
 # Ruta específica para la API del controlador a través del Gateway
 controller_api_path: >-
-  {{ '/api/v2' if (aap_action == 'extract' and controller_source_version == '2.4') else vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH'), true) | default('/api/controller/v2', true) }}
+  {% set api_path = ('/api/v2' if (aap_action == 'extract' and controller_source_version == '2.4') else (vault_controller_api_path | default(lookup('env', 'CONTROLLER_API_PATH'), true) | default('/api/controller/v2', true))) %}{{ api_path if api_path is match('^https?://') else (aap_hostname | regex_replace('/$','')) + api_path }}
 
 # URL del token forzada para evitar errores 404 en procesos asíncronos (async)
-controller_oauthtoken_url: "{{ aap_hostname }}{{ controller_api_path }}/tokens/"
+controller_oauthtoken_url: "{{ (controller_api_path | regex_replace('/$','')) + '/tokens/' }}"
 
 # ==========================================
 # Mapeo de Objetos para el Rol Dispatch
@@ -34,7 +34,6 @@ aap_action: "extract"
 cleanup_after_export: false
 backup_base_path: "/tmp"
 backup_folder_name: "aap_backup"
-backup_local_dir: "{{ backup_base_path }}/{{ backup_folder_name }}"
 backup_output_file: "{{ backup_base_path }}/aap_config_{{ ansible_date_time.date }}.tar.gz"
 
 # ==========================================

@@ -2,7 +2,7 @@
 - name: "AAP Configuration as Code (CaC) - Entry Point"
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: true
 
   vars:
     # Set the default here to avoid the recursion loop in the role call

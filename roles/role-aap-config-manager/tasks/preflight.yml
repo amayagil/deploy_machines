@@ -9,9 +9,20 @@
       - "3. Resultado aap_hostname: '{{ aap_hostname }}'"
       - "4. API Path: '{{ controller_api_path }}'"
 
-- name: "Pre-vuelo: Verificar conexión al Controller"
+- name: "Pre-vuelo: Validar que 'aap_hostname' esté definido y contenga esquema (http/https)"
+  ansible.builtin.assert:
+    that:
+      - aap_hostname is defined
+      - aap_hostname | length > 0
+      - "'://' in aap_hostname"
+    fail_msg: "ERROR: 'aap_hostname' no está definido o no contiene esquema (ej. 'https://host'). Definir 'vault_controller_hostname' o la variable de entorno CONTROLLER_HOST con la URL completa."
+
+# - name: "Pre-vuelo: Verificar conexión al Controller"
+#  ansible.builtin.uri:
+- name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.uri:
-    url: "{{ aap_hostname }}{{ controller_api_path }}/ping/"
+    url: >-
+      {{ controller_api_path if controller_api_path is match('^https?://') else (aap_hostname | regex_replace('/$','')) + controller_api_path }}/ping/
     user: "{{ aap_username }}"
     password: "{{ aap_password }}"
     method: GET
@@ -22,10 +33,34 @@
   ignore_errors: true
   check_mode: false
 
+- name: "Pre-vuelo: Intentar ping alternativo en /api/v2/ping/ si falla el primero"
+  ansible.builtin.uri:
+    url: >-
+      {{ (aap_hostname | regex_replace('/$','')) + '/api/v2' }}/ping/
+    user: "{{ aap_username }}"
+    password: "{{ aap_password }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+    validate_certs: "{{ aap_validate_certs | default(false) | bool }}"
+  register: _preflight_ping_alt
+  ignore_errors: true
+  check_mode: false
+  when: _preflight_ping.status is not defined or _preflight_ping.status != 200
+
+- name: "Pre-vuelo: Seleccionar ruta API efectiva"
+  ansible.builtin.set_fact:
+    controller_api_path_resolved: >-
+      {% if (_preflight_ping is defined and _preflight_ping.status == 200) %}
+        {{ controller_api_path if controller_api_path is match('^https?://') else (aap_hostname | regex_replace('/$','')) + controller_api_path }}
+      {% elif (_preflight_ping_alt is defined and _preflight_ping_alt.status == 200) %}
+        {{ (aap_hostname | regex_replace('/$','')) + '/api/v2' }}
+      {% else %}
+        {{ controller_api_path if controller_api_path is match('^https?://') else (aap_hostname | regex_replace('/$','')) + controller_api_path }}
+      {% endif %}
+
 - name: "Pre-vuelo: Confirmar éxito"
   ansible.builtin.assert:
     that:
-      - _preflight_ping.status is defined
-      - _preflight_ping.status == 200
-    # Actualizamos el mensaje de error para que tenga sentido si falla
-    fail_msg: "ERROR: No se pudo conectar al Controller en {{ aap_hostname }}{{ controller_api_path }}. Revisa las credenciales."
+      - (_preflight_ping is defined and _preflight_ping.status == 200) or (_preflight_ping_alt is defined and _preflight_ping_alt.status == 200)
+    fail_msg: "ERROR: No se pudo conectar al Controller en {{ controller_api_path_resolved }}. Revisa las credenciales."
